@@ -1,0 +1,13 @@
+node_modules/
+.next/
+dist/
+build/
+target/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+eval/corpus/generated/
+eval/.cache/
+coverage/
