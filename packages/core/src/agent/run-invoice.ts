@@ -70,6 +70,25 @@ export interface RunResult {
 const core: AuditActor = { kind: "core", version: CORE_VERSION };
 
 /**
+ * Validator rules whose violation means a fact is simply not on the document, mapped to the
+ * model field the user can supply. Used to turn an unresolved rejection into a precise question.
+ */
+export const RULE_FIELDS: Readonly<Record<string, string>> = {
+  "BR-DE-1": "payment.iban",
+  "BR-DE-15": "buyerReference",
+  "BR-DE-3": "seller.address.city",
+  "BR-DE-4": "seller.address.postcode",
+  "BR-DE-6": "seller.contact.phone",
+  "BR-DE-7": "seller.contact.email",
+  "BR-DE-8": "buyer.address.city",
+  "BR-DE-9": "buyer.address.postcode",
+  "BR-62": "seller.electronicAddress.value",
+  "BR-63": "buyer.electronicAddress.value",
+  "BR-CO-26": "seller.vatId",
+  "BR-S-02": "seller.vatId",
+};
+
+/**
  * The agent loop (docs/SRS.md §4) for a document with a text layer:
  * EXTRACT → EVIDENCE_CHECK/NORMALIZE → DERIVE → CONSISTENCY_CHECK → BUILD_CII → VALIDATE,
  * with up to 3 REPAIR_PLAN/PATCH_GUARD rounds, ending in OUTPUT or NEEDS_INPUT.
@@ -116,8 +135,14 @@ export async function runInvoice(opts: RunOptions): Promise<RunResult> {
   const provenance = new Map(assembled.provenance);
   let partial: unknown = assembled.partial;
   for (const input of opts.userInputs ?? []) {
-    partial = setPath(partial, input.path, input.value);
+    const value = input.path === "payment.iban" ? input.value.replace(/\s/g, "").toUpperCase() : input.value;
+    partial = setPath(partial, input.path, value);
     provenance.set(input.path, { kind: "user", enteredAt: (opts.now ?? (() => new Date()))().toISOString() });
+    if (input.path === "payment.iban") {
+      // An IBAN means payment by SEPA credit transfer, the only means in the MVP.
+      partial = setPath(partial, "payment.meansCode", "58");
+      provenance.set("payment.meansCode", { kind: "derived", rule: "credit-transfer-from-iban", inputs: ["payment.iban"] });
+    }
   }
   if (opts.userInputs?.length) {
     audit.append({ type: "USER_INPUT", actor: { kind: "user" }, data: { fields: opts.userInputs.map((u) => btOf(u.path)) } });
@@ -228,7 +253,15 @@ export async function runInvoice(opts: RunOptions): Promise<RunResult> {
     return true;
   }
 
-  function needsInput(missing: MissingFact[], issues: RepairIssue[]): RunResult {
+  function needsInput(missingIn: MissingFact[], issues: RepairIssue[]): RunResult {
+    // Validator rejections that only mean "fact not printed" become precise questions too.
+    const missing = [...missingIn];
+    for (const issue of issues) {
+      const path = RULE_FIELDS[issue.id];
+      if (path && !missing.some((m) => m.path === path)) {
+        missing.push({ path, bt: btOf(path), reason: `required by ${issue.id} but not on the document` });
+      }
+    }
     audit.append({
       type: "NEEDS_INPUT",
       actor: core,
