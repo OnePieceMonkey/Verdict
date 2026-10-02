@@ -36,3 +36,4 @@ export * from "./repair/patch-guard.ts";
 export * from "./repair/repair.ts";
 export * from "./audit/audit-log.ts";
 export * from "./agent/run-invoice.ts";
+export { extractPageTexts } from "./pdf/extract-text.ts";

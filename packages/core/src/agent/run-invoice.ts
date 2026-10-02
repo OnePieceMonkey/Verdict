@@ -1,10 +1,10 @@
 import { Decimal } from "decimal.js";
-import { AuditLog, sha256, type AuditActor } from "../audit/audit-log.ts";
+import { AuditLog, sha256, type AuditActor, type AuditEvent } from "../audit/audit-log.ts";
 import { buildCii } from "../cii/build.ts";
 import { deriveAmounts } from "../derive/derive.ts";
-import { assembleInvoice, btOf, type MissingFact, type Provenance } from "../extract/assemble.ts";
+import { assembleInvoice, btOf, type Assembled, type MissingFact, type Provenance, type RejectedFact } from "../extract/assemble.ts";
 import { extractRaw, pagesToPrompt } from "../extract/extract.ts";
-import { EXTRACTION_SYSTEM_PROMPT } from "../extract/schema.ts";
+import { EXTRACTION_SYSTEM_PROMPT, type RawExtraction } from "../extract/schema.ts";
 import type { ChatResult, TokenFactoryClient } from "../llm/token-factory-client.ts";
 import { InvoiceInput, type InvoiceInput as InvoiceInputT } from "../model/invoice.ts";
 import { applyPatches, guardPatches, type AcceptedPatch, type RejectedPatch } from "../repair/patch-guard.ts";
@@ -38,6 +38,10 @@ export interface RunOptions {
   readonly userInputs?: readonly UserInput[];
   readonly now?: () => Date;
   readonly onStep?: (step: string, detail: Record<string, unknown>) => void;
+  /** Every audit event as it is appended (drives the live run sheet in the UI). */
+  readonly onAudit?: (event: AuditEvent) => void;
+  /** Resume with a previous extraction (e.g. after user input) instead of calling the model again. */
+  readonly extraction?: RawExtraction;
 }
 
 export interface RunResult {
@@ -54,6 +58,11 @@ export interface RunResult {
   readonly patchesRejected: readonly RejectedPatch[];
   readonly provenance: ReadonlyMap<string, Provenance>;
   readonly fieldsWithoutProvenance: readonly string[];
+  /** Facts the guards refused (evidence, shape, role, normalization), with the printed value. */
+  readonly rejectedFacts: readonly RejectedFact[];
+  /** The raw extraction, so a NEEDS_INPUT run can resume without another model call. */
+  readonly extraction: RawExtraction;
+  readonly documentTotals: Assembled["documentTotals"];
   readonly audit: AuditLog;
   readonly costUsd: string;
 }
@@ -66,7 +75,7 @@ const core: AuditActor = { kind: "core", version: CORE_VERSION };
  * with up to 3 REPAIR_PLAN/PATCH_GUARD rounds, ending in OUTPUT or NEEDS_INPUT.
  */
 export async function runInvoice(opts: RunOptions): Promise<RunResult> {
-  const audit = new AuditLog(opts.now);
+  const audit = new AuditLog(opts.now, opts.onAudit);
   const maxIterations = opts.maxIterations ?? 3;
   const step = (name: string, detail: Record<string, unknown>) => opts.onStep?.(name, detail);
   let cost = new Decimal(0);
@@ -89,8 +98,11 @@ export async function runInvoice(opts: RunOptions): Promise<RunResult> {
   audit.append({ type: "INGEST", actor: core, inputHash: opts.uploadHash, data: { pages: opts.pages.length } });
   step("INGEST", { pages: opts.pages.length });
 
-  const extraction = await extractRaw(opts.client, opts.models.extract, opts.pages);
+  const extraction = opts.extraction
+    ? { raw: opts.extraction, calls: [] as ChatResult[] }
+    : await extractRaw(opts.client, opts.models.extract, opts.pages);
   for (const call of extraction.calls) modelEvent("EXTRACT", call, EXTRACTION_SYSTEM_PROMPT + pagesToPrompt(opts.pages));
+  if (opts.extraction) audit.append({ type: "EXTRACT", actor: core, data: { reused: true } });
   step("EXTRACT", { calls: extraction.calls.length });
 
   const assembled = assembleInvoice(extraction.raw, opts.pages);
@@ -244,6 +256,9 @@ export async function runInvoice(opts: RunOptions): Promise<RunResult> {
       patchesRejected: rejectedPatches,
       provenance,
       fieldsWithoutProvenance: r.withoutProvenance,
+      rejectedFacts: assembled.rejected,
+      extraction: extraction.raw,
+      documentTotals: assembled.documentTotals,
       audit,
       costUsd: cost.toFixed(6),
     };

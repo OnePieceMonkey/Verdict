@@ -2,7 +2,7 @@
 // deleted fields leave no label behind.
 import { deriveAmounts, type InvoiceInput } from "@verdict/core";
 import { describe, expect, it } from "vitest";
-import { extractPageTexts } from "./extract-text.ts";
+import { extractPageTexts } from "@verdict/core";
 import {
   formatAmount,
   labelsFor,

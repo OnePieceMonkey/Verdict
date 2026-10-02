@@ -53,9 +53,11 @@ function eventHash(event: Omit<AuditEvent, "hash">): string {
 export class AuditLog {
   readonly #events: AuditEvent[] = [];
   readonly #now: () => Date;
+  readonly #onAppend: ((event: AuditEvent) => void) | undefined;
 
-  constructor(now: () => Date = () => new Date()) {
+  constructor(now: () => Date = () => new Date(), onAppend?: (event: AuditEvent) => void) {
     this.#now = now;
+    this.#onAppend = onAppend;
   }
 
   append(entry: {
@@ -78,6 +80,7 @@ export class AuditLog {
     };
     const event: AuditEvent = { ...base, hash: eventHash(base) };
     this.#events.push(event);
+    this.#onAppend?.(event);
     return event;
   }
 
