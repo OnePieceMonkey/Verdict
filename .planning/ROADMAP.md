@@ -93,6 +93,13 @@ Fünf Phasen vom 17.09. bis 28.10.2026, ~50 h Gesamtaufwand. Die riskantesten Te
 **Plans**: TBD
 **Skill**: `frontend-design` für UI-Arbeit nutzen
 
+**Stand 02.10.2026 (UI fertig, Finish-Review „ship")**
+- Gestaltet mit `impeccable` (Operate-Modus, code-first). Richtung per Auslosung + Patricks Wahl: „Laufzettel & Prüfstempel" (Seed b067d9c4). Vertrag: `apps/web/.impeccable/surfaces/app-page-tsx.md`, System: `apps/web/DESIGN.md`, Produkt: `apps/web/PRODUCT.md`.
+- Next.js 16: `POST /api/run` (SSE, Limits, Rate-Limit, Tagesbudget, nichts gespeichert), `GET /api/budget`. Galerie: 7 aufgezeichnete echte Läufe (`pnpm --filter @verdict/web gallery:build`), funktioniert ohne Budget.
+- Unabhängiger Finish-Reviewer: Runde 1 „fix" (8 Punkte), Runde 2 „fix" (3 Regressionen), Runde 3 „ship". Dabei gefunden und im Kern behoben: Zitate mit wörtlichem `\n` wurden fälschlich abgelehnt; KoSIT-Ablehnungen wie BR-DE-1 werden jetzt zur gezielten Rückfrage.
+- Produktions-Build und `next start` mit echter PDF geprüft.
+- Offen: Koyeb-Deployment (OPS-05), Galerie-Lauf mit echter Ablehnung fürs Video (Reviewer N2), ZUGFeRD (VER-06/CORE-05, nach Kill-Gate erlaubt), README/Video (Phase 5).
+
 ### Phase 5: Einreichung
 **Goal**: Vollständige, regelkonforme Einreichung mit belastbaren Zahlen, zwei Tage vor Deadline.
 **Depends on**: Phase 4
@@ -111,5 +118,5 @@ Fünf Phasen vom 17.09. bis 28.10.2026, ~50 h Gesamtaufwand. Die riskantesten Te
 | 1. Fundament & Verifier | — | In Progress (02.10.) | ? / 10 | - |
 | 2. Korpus & Ground Truth | — | Complete | ? / 9 | 02.10. |
 | 3. Kernschleife | — | Kill-Gate erfüllt, Rest offen | ? / 14 | - |
-| 4. Produkt | 0/TBD | Not started | 0 / 11 | - |
+| 4. Produkt | — | UI fertig (02.10.), Deployment + ZUGFeRD offen | ? / 11 | - |
 | 5. Einreichung | 0/TBD | Not started | 0 / 6 | - |

@@ -39,7 +39,7 @@
 - [x] **CORE-01**: Deterministische Ableitung von BT-131, BG-23 und BG-22 mit Decimal-Arithmetik; Unit-Tests gegen alle validen Testsuite-Dateien im Scope
 - [x] **CORE-02**: CII-Builder erzeugt aus Ground-Truth-Modellen XML, das VER-01 als valide meldet (Roundtrip-Test ohne LLM)
 - [x] **CORE-03**: Konsistenzprüfung meldet Abweichung zwischen gedruckten und berechneten Summen als Warnung
-- [ ] **CORE-04**: Ausgabe XRechnung-CII als Download
+- [x] **CORE-04**: Ausgabe XRechnung-CII als Download
 - [ ] **CORE-05** *(Phase 4, nur nach bestandenem Kill-Gate)*: Ausgabe ZUGFeRD PDF/A-3 (Profil EN16931) als Download
 
 ### Reparatur (REP)
@@ -58,13 +58,13 @@
 - [ ] **EXP-02**: Fehlt ein Eintrag, erzeugt Nano/Super eine Erklärung; bei Bedarf Tavily-Aufruf mit angezeigter Quelle; Cache pro Regel-ID
 
 ### Web-UI (UI)
-- [ ] **UI-01**: Upload mit Limits laut NFR-04 und klaren Fehlermeldungen
-- [ ] **UI-02**: Live-Stream der Zustände per SSE mit Dauer je Schritt
-- [ ] **UI-03**: Ergebnisansicht: Validator-Status, Regelverletzungen mit Erklärung, angewandte Patches mit Beleg, Konsistenzwarnungen
-- [ ] **UI-04**: Formular für NEEDS_INPUT
-- [ ] **UI-05**: Downloads: XRechnung-XML, ZUGFeRD-PDF, Audit-Log
-- [ ] **UI-06**: Beispielgalerie mit mindestens 6 vorberechneten Läufen (clean, noisy, mutated), funktioniert auch bei erschöpftem Budget
-- [ ] **UI-07**: Rate-Limit pro IP, Tagesbudget-Anzeige, Fallback auf Galerie
+- [x] **UI-01**: Upload mit Limits laut NFR-04 und klaren Fehlermeldungen
+- [x] **UI-02**: Live-Stream der Zustände per SSE mit Dauer je Schritt
+- [x] **UI-03**: Ergebnisansicht: Validator-Status, Regelverletzungen mit Erklärung, angewandte Patches mit Beleg, Konsistenzwarnungen
+- [x] **UI-04**: Formular für NEEDS_INPUT
+- [x] **UI-05** *(XML + Audit-Log; ZUGFeRD-PDF folgt mit CORE-05)*: Downloads: XRechnung-XML, ZUGFeRD-PDF, Audit-Log
+- [x] **UI-06**: Beispielgalerie mit mindestens 6 vorberechneten Läufen (clean, noisy, mutated), funktioniert auch bei erschöpftem Budget
+- [x] **UI-07**: Rate-Limit pro IP, Tagesbudget-Anzeige, Fallback auf Galerie
 
 ### Einreichung (SUB)
 - [ ] **SUB-01**: README (EN) mit Setup, Architektur, Nemotron-/Token-Factory-Nutzung, Benchmark-Zahlen inkl. Holdout
