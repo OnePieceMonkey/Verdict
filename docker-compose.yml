@@ -1,0 +1,8 @@
+services:
+  verifier:
+    build: ./services/verifier
+    environment:
+      VERIFIER_SECRET: ${VERIFIER_SECRET:?set VERIFIER_SECRET in .env}
+    ports:
+      # Local only. The verifier is never exposed publicly.
+      - "127.0.0.1:8081:8081"
