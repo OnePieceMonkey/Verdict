@@ -9,14 +9,14 @@ Fünf Phasen vom 17.09. bis 28.10.2026, ~50 h Gesamtaufwand. Die riskantesten Te
 - [ ] **Phase 1: Fundament & Verifier** — Repo, Credits, Java-Verifier, ZUGFeRD-Spike (17.–23.09., ~10 h)
 - [ ] **Phase 2: Korpus & Ground Truth** — Testdaten, deterministischer Kern ohne LLM, Eval-Harness (24.–30.09., ~9 h)
 - [ ] **Phase 3: Kernschleife** — Extraktion, Reparatur, Rückfrage, Audit-Log (01.–10.10., ~14 h)
-- [ ] **Phase 4: Produkt** — Web-UI, ZUGFeRD-Ausgabe, Erklärungen, Galerie, Deployment (11.–21.10., ~11 h)
+- [ ] **Phase 4: Produkt** — Web-UI, Erklärungen, Galerie, Deployment, danach ZUGFeRD-Ausgabe (11.–21.10., ~11 h + ZUGFeRD-Timebox 5 h)
 - [ ] **Phase 5: Einreichung** — Holdout-Benchmark, README, Video, Devpost (22.–28.10., ~6 h)
 
 ## Gates
 
 | Gate | Datum | Kriterium | Wenn nicht erfüllt |
 |---|---|---|---|
-| Cut-Gate ZUGFeRD | Mi 23.09. | VER-04 erfüllt | ZUGFeRD streichen (CORE-05 entfällt), Scope XRechnung-only, Roadmap anpassen |
+| Cut-Gate ZUGFeRD | Mi 23.09. | VER-04 erfüllt | ~~ZUGFeRD streichen~~ → 02.10.: nach Phase 4 verschoben (VER-06 + CORE-05) |
 | Kill-Gate Kern | Sa 10.10. | ≥ 16 von 20 PDFs aus Set clean (ohne Holdout) ergeben valide XRechnung mit korrekten BT-112/BT-115 und 0 Feldern ohne Herkunft | Projekt abbrechen, nichts einreichen |
 | Stunden-Check | jeden Sonntag | Ist-Stunden ≤ Plan + 20 % | Scope der nächsten Phase kürzen, nicht Zeit verlängern |
 
@@ -33,6 +33,14 @@ Fünf Phasen vom 17.09. bis 28.10.2026, ~50 h Gesamtaufwand. Die riskantesten Te
   4. Verifier läuft auf Koyeb, RAM-Bedarf gemessen und notiert
 **Plans**: TBD
 **Vorab zu klären**: Token-Factory-Base-URL und Modell-IDs, Koyeb-Private-Networking, Testsuite-Lizenz
+
+**Stand 02.10.2026**
+- Token Factory: Base-URL `https://api.tokenfactory.nebius.com/v1`. Die verfügbaren NVIDIA-Modelle sind **nur Text**: Nemotron-3-Nano-30B-A3B, Nemotron-3_5-Lightning, nemotron-3-super-120b-a12b, Nemotron-3-Ultra-550b-a55b. **Nano Omni (Vision) gibt es dort nicht.** Bildfähig sind nur Fremdmodelle (Qwen3.8-27B, GLM-5.3-Flash, Kimi, MiniCPM-V, DeepSeek-V4.1-Flash). Auch die Regionen us-central1 und eu-north1 sowie die IDs `nvidia/nemotron-3-nano-omni` und Nemotron-Nano-2-VL-Varianten liefern „does not exist“ (Nano 2 VL war laut Nebius-Blog früher in AI Studio). **Entscheidung 02.10. (Patrick): vorerst Textlayer + Nemotron-Textmodelle, kein Fremd-Vision-Modell.** Bildpfad bleibt hinter einer Extractor-Schnittstelle austauschbar. Offen: bei Nebius (Discord #token-factory-support) nach Nemotron-Vision fragen; Alternative Nebius AI Cloud mit selbst gehostetem Nemotron Parse / Nano VL.
+- Smoke-Test (`pnpm smoke:llm`): Super extrahiert per JSON-Schema (Constrained Decoding), 5/5 Zitate wörtlich im Text; Ultra liefert einen Patch mit Zitat. Kosten 0,0006 USD. `enable_thinking: false` halbiert die Latenz.
+- Verifier: KoSIT 1.6.3 + Konfiguration 2026-08-31 in Docker, ohne lokales Java. `pnpm verifier:check`: 41/41 CII-Instanzen der Testsuite valide, 4/4 Mutationen mit erwarteter Regel-ID abgelehnt. JDK-`HttpServer` statt Javalin (keine Klassenkonflikte mit dem KoSIT-Fat-Jar).
+- Befund: 2 Testsuite-Instanzen (04.05a, 02.01a-cvd) sind ACCEPTABLE trotz Codelisten-Meldungen der Stufe `error`. „Valid“ folgt deshalb ausschließlich der `acceptRecommendation`, nie der Fehlerzählung.
+- Cut-Gate ZUGFeRD: ohne Spike verstrichen → ZUGFeRD aus Phase 1 genommen, in Phase 4 verankert (VER-06 + CORE-05, nach Kill-Gate).
+- Offen in Phase 1: Koyeb-Deployment (OPS-05), erster CI-Lauf auf GitHub (OPS-01/02).
 
 ### Phase 2: Korpus & Ground Truth
 **Goal**: Es gibt einen reproduzierbaren, gemessenen Maßstab, bevor irgendein Modell Rechnungen verarbeitet.
@@ -61,7 +69,8 @@ Fünf Phasen vom 17.09. bis 28.10.2026, ~50 h Gesamtaufwand. Die riskantesten Te
 ### Phase 4: Produkt
 **Goal**: Eine Jurorin kann ohne Anleitung eine Beispielrechnung umwandeln, Fehler verstehen und alle Ergebnisse herunterladen.
 **Depends on**: Phase 3
-**Requirements**: CORE-05, EXP-01, EXP-02, UI-01, UI-02, UI-03, UI-04, UI-05, UI-06, UI-07
+**Requirements**: EXP-01, EXP-02, UI-01, UI-02, UI-03, UI-04, UI-05, UI-06, UI-07, danach VER-06 + CORE-05 (ZUGFeRD)
+**ZUGFeRD-Regel (02.10.)**: Start nur nach bestandenem Kill-Gate und erst, wenn UI-Kernfluss und Deployment stehen. Timebox 5 h. Läuft Phase 4 über Plan, fällt ZUGFeRD als Erstes. Kein Umbau im Kern nötig: ZUGFeRD EN16931 nutzt dieselbe CII-XML.
 **Success Criteria** (what must be TRUE):
   1. Galerie-Lauf und eigener Upload funktionieren auf der öffentlichen URL in unter 60 s (Median, ≤ 3 Seiten)
   2. Heruntergeladene Dateien bestehen eine unabhängige Prüfung (Verifier lokal bzw. Mustang-CLI)
@@ -85,7 +94,7 @@ Fünf Phasen vom 17.09. bis 28.10.2026, ~50 h Gesamtaufwand. Die riskantesten Te
 
 | Phase | Plans Complete | Status | Ist-Stunden | Completed |
 |---|---|---|---|---|
-| 1. Fundament & Verifier | 0/TBD | Not started | 0 / 10 | - |
+| 1. Fundament & Verifier | — | In Progress (02.10.) | ? / 10 | - |
 | 2. Korpus & Ground Truth | 0/TBD | Not started | 0 / 9 | - |
 | 3. Kernschleife | 0/TBD | Not started | 0 / 14 | - |
 | 4. Produkt | 0/TBD | Not started | 0 / 11 | - |

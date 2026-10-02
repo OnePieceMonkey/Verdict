@@ -47,7 +47,17 @@ docs/               PRD, SRS (German)
 
 ## Getting started
 
-_TBD — will be filled in Phase 1._
+Requirements: Node 22+, pnpm, Docker. No local Java needed; the verifier builds in Docker.
+
+```bash
+cp .env.example .env          # add NEBIUS_API_KEY and a random VERIFIER_SECRET
+pnpm install
+docker compose up -d --build verifier
+pnpm testsuite:fetch          # pinned KoSIT XRechnung test suite, checksum-verified
+pnpm verifier:check           # all CII suite instances valid, mutations rejected with rule IDs
+pnpm smoke:llm                # one extraction and one repair call via Token Factory, with cost
+pnpm typecheck && pnpm test
+```
 
 ## Test data
 
