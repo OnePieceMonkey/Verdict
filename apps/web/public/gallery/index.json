@@ -1,0 +1,48 @@
+{
+  "generatedAt": "2026-10-02",
+  "cases": [
+    {
+      "id": "clean",
+      "title": "A clean invoice",
+      "story": "Every field quoted from the page, totals computed, KoSIT accepts it.",
+      "state": "OUTPUT"
+    },
+    {
+      "id": "seven-lines",
+      "title": "Seven line items",
+      "story": "Seven line items, each quoted from its row; net, VAT and total are computed from the lines.",
+      "state": "OUTPUT"
+    },
+    {
+      "id": "noisy-layout",
+      "title": "Unusual layout",
+      "story": "Plain number format, ISO dates and shuffled blocks still end in a valid e-invoice.",
+      "state": "OUTPUT"
+    },
+    {
+      "id": "unit-word",
+      "title": "Units printed as words",
+      "story": "\"Stück\" is not a unit code. KoSIT reports it as an error yet still accepts the invoice; Verdict normalizes it to H87.",
+      "state": "OUTPUT"
+    },
+    {
+      "id": "total-off",
+      "title": "Printed total is wrong",
+      "story": "The document adds up to 1.00 less than it claims. Verdict trusts the lines, computes the total and flags the difference.",
+      "state": "OUTPUT"
+    },
+    {
+      "id": "missing-leitweg",
+      "title": "Leitweg-ID missing",
+      "story": "The buyer reference is not printed. Verdict asks for it instead of inventing one.",
+      "state": "NEEDS_INPUT",
+      "followUpState": "OUTPUT"
+    },
+    {
+      "id": "missing-iban",
+      "title": "Bank details missing",
+      "story": "Payment by transfer, but no IBAN on the page. Verdict stops and asks.",
+      "state": "NEEDS_INPUT"
+    }
+  ]
+}
