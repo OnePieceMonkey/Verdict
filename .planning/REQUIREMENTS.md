@@ -9,7 +9,7 @@
 - [ ] **OPS-01** *(02.10.: lokal grün, CI-Lauf auf GitHub steht aus)*: pnpm-Monorepo mit `apps/web`, `packages/core`, `services/verifier`, `eval`; TypeScript strict; `pnpm typecheck` und `pnpm test` laufen grün in CI
 - [ ] **OPS-02** *(02.10.: Hook + CI-Job angelegt, GitHub-Lauf und Lizenz-Erkennung stehen aus)*: gitleaks in CI und pre-commit; Apache-2.0-LICENSE im Repo-Root, auf GitHub im About-Bereich erkannt
 - [x] **OPS-03**: Credits eingelöst (Event-Code, Builder Program, Tavily); Smoke-Test ruft je ein Modell für Extraktion und Reparatur über Token Factory auf
-- [ ] **OPS-04**: Zentraler LLM-Client zählt Tokens und Kosten je Aufruf und bricht bei Überschreitung von `DAILY_BUDGET_USD` ab
+- [x] **OPS-04**: Zentraler LLM-Client zählt Tokens und Kosten je Aufruf und bricht bei Überschreitung von `DAILY_BUDGET_USD` ab
 - [ ] **OPS-05** *(02.10.: `docker compose up verifier` läuft lokal; Koyeb offen, Verifier braucht ~570 MB RAM)*: Deployment `web` (öffentlich) und `verifier` (intern oder Secret-geschützt) auf Koyeb; `docker compose up` startet den Verifier lokal
 
 ### Verifier (VER)
@@ -21,37 +21,37 @@
 - [ ] **VER-06** *(Phase 4, nur nach bestandenem Kill-Gate, Timebox 5 h)*: `POST /v1/zugferd/combine` (PDF/A + CII → ZUGFeRD PDF/A-3 via Mustang) und `POST /v1/zugferd/validate` (Mustang, gleiches Fehlerformat wie VER-01); die erzeugte Datei besteht die unabhängige Mustang-CLI-Prüfung
 
 ### Korpus & Evaluation (EVAL)
-- [ ] **EVAL-01**: `pnpm corpus:build` lädt die Testsuite in gepinnter Version und erzeugt reproduzierbar PDFs in den Sets clean, noisy, mutated mit Ground-Truth-Zuordnung
-- [ ] **EVAL-02**: Mindestens 3 eigene HTML-Layouts plus KoSIT-Visualisierung im Set clean
-- [ ] **EVAL-03**: Mindestens 10 Mutationstypen (u. a. fehlendes Pflichtfeld, falscher Einheitencode, inkonsistente Summe, falsche USt-Kategorie, fehlende Käuferreferenz)
-- [ ] **EVAL-04**: `pnpm eval --set <name>` erzeugt JSON- und Markdown-Report mit Validierungsquote, Feldgenauigkeit pro BT, Iterationen, Felder ohne Herkunft, Kosten, Laufzeit
-- [ ] **EVAL-05**: Holdout-Split (~20 %) wird bis Phase 5 nicht ausgewertet
-- [ ] **EVAL-06**: Lizenz der Testsuite geprüft; generierte Dateien nur committed, wenn zulässig
+- [x] **EVAL-01**: `pnpm corpus:build` lädt die Testsuite in gepinnter Version und erzeugt reproduzierbar PDFs in den Sets clean, noisy, mutated mit Ground-Truth-Zuordnung
+- [ ] **EVAL-02** *(02.10.: 3 eigene Layouts per pdfkit statt HTML/Playwright, damit Rebuilds byte-gleich sind; KoSIT-Visualisierung kommt mit dem Render-Endpunkt in Phase 4)*: Mindestens 3 eigene HTML-Layouts plus KoSIT-Visualisierung im Set clean
+- [x] **EVAL-03**: Mindestens 10 Mutationstypen (u. a. fehlendes Pflichtfeld, falscher Einheitencode, inkonsistente Summe, falsche USt-Kategorie, fehlende Käuferreferenz)
+- [x] **EVAL-04**: `pnpm eval --set <name>` erzeugt JSON- und Markdown-Report mit Validierungsquote, Feldgenauigkeit pro BT, Iterationen, Felder ohne Herkunft, Kosten, Laufzeit
+- [x] **EVAL-05**: Holdout-Split (~20 %) wird bis Phase 5 nicht ausgewertet
+- [x] **EVAL-06**: Lizenz der Testsuite geprüft; generierte Dateien nur committed, wenn zulässig
 
 ### Extraktion (EXT)
-- [ ] **EXT-01**: zod-Schema für MVP-BTs laut SRS §3 mit Provenance pro Feld
-- [ ] **EXT-02** *(02.10.: Nano Omni ist in Token Factory nicht verfügbar. Entscheidung 02.10.: vorerst Textlayer + Nemotron-Text, siehe ROADMAP Phase 1 Stand)*: Nano Omni liefert schemakonformes JSON aus Seitenbildern; ungültiges JSON führt zu genau einem Retry, danach Fehlerzustand
-- [ ] **EXT-03**: Evidence-Check verwirft Felder, deren Zitat bei vorhandenem Textlayer nicht im Seitentext steht
-- [ ] **EXT-04**: Normalisierung gegen Codelisten (Einheiten, Länder, USt-Kategorien, Zahlungsarten); unbekannte Werte werden `missing`
-- [ ] **EXT-05**: Gedruckte Summen werden separat extrahiert und nur für den Konsistenzabgleich genutzt
+- [x] **EXT-01**: zod-Schema für MVP-BTs laut SRS §3 mit Provenance pro Feld
+- [x] **EXT-02** *(02.10.: umgesetzt mit Textlayer + Nemotron Super statt Nano Omni, das in Token Factory fehlt)*: Nano Omni liefert schemakonformes JSON aus Seitenbildern; ungültiges JSON führt zu genau einem Retry, danach Fehlerzustand
+- [x] **EXT-03**: Evidence-Check verwirft Felder, deren Zitat bei vorhandenem Textlayer nicht im Seitentext steht
+- [x] **EXT-04**: Normalisierung gegen Codelisten (Einheiten, Länder, USt-Kategorien, Zahlungsarten); unbekannte Werte werden `missing`
+- [x] **EXT-05**: Gedruckte Summen werden separat extrahiert und nur für den Konsistenzabgleich genutzt
 
 ### Kern & Ausgabe (CORE)
-- [ ] **CORE-01**: Deterministische Ableitung von BT-131, BG-23 und BG-22 mit Decimal-Arithmetik; Unit-Tests gegen alle validen Testsuite-Dateien im Scope
-- [ ] **CORE-02**: CII-Builder erzeugt aus Ground-Truth-Modellen XML, das VER-01 als valide meldet (Roundtrip-Test ohne LLM)
-- [ ] **CORE-03**: Konsistenzprüfung meldet Abweichung zwischen gedruckten und berechneten Summen als Warnung
+- [x] **CORE-01**: Deterministische Ableitung von BT-131, BG-23 und BG-22 mit Decimal-Arithmetik; Unit-Tests gegen alle validen Testsuite-Dateien im Scope
+- [x] **CORE-02**: CII-Builder erzeugt aus Ground-Truth-Modellen XML, das VER-01 als valide meldet (Roundtrip-Test ohne LLM)
+- [x] **CORE-03**: Konsistenzprüfung meldet Abweichung zwischen gedruckten und berechneten Summen als Warnung
 - [ ] **CORE-04**: Ausgabe XRechnung-CII als Download
 - [ ] **CORE-05** *(Phase 4, nur nach bestandenem Kill-Gate)*: Ausgabe ZUGFeRD PDF/A-3 (Profil EN16931) als Download
 
 ### Reparatur (REP)
-- [ ] **REP-01**: Ultra erhält Regelverletzungen, aktuelles Modell und Seitenbilder und liefert RFC-6902-Patches mit Provenance oder die Kennzeichnung "nicht aus Dokument lösbar"
-- [ ] **REP-02**: Patch-Guard verwirft Patches auf derived-Felder, ohne Provenance oder mit nicht nachweisbarem Zitat; jede Verwerfung im Audit-Log
-- [ ] **REP-03**: Maximal 3 Iterationen; Abbruch, wenn die Fehlerzahl nicht sinkt
-- [ ] **REP-04**: NEEDS_INPUT listet nur tatsächlich fehlende Felder mit Erklärung; Nutzereingabe erhält Provenance `user` und löst neue Validierung aus
+- [x] **REP-01** *(Textlayer statt Seitenbilder)*: Ultra erhält Regelverletzungen, aktuelles Modell und Seitenbilder und liefert RFC-6902-Patches mit Provenance oder die Kennzeichnung "nicht aus Dokument lösbar"
+- [x] **REP-02**: Patch-Guard verwirft Patches auf derived-Felder, ohne Provenance oder mit nicht nachweisbarem Zitat; jede Verwerfung im Audit-Log
+- [x] **REP-03**: Maximal 3 Iterationen; Abbruch, wenn die Fehlerzahl nicht sinkt
+- [x] **REP-04**: NEEDS_INPUT listet nur tatsächlich fehlende Felder mit Erklärung; Nutzereingabe erhält Provenance `user` und löst neue Validierung aus
 
 ### Audit (AUD)
-- [ ] **AUD-01**: JSONL-Hash-Kette nach SRS §6 (JCS, SHA-256, prevHash) für jeden Zustandsübergang
-- [ ] **AUD-02**: Modell-Events enthalten Modell-ID, Prompt-Hash, Tokens, Kosten, keine Rechnungsinhalte
-- [ ] **AUD-03**: `pnpm audit:verify` erkennt jede Manipulation an Events oder Ausgabedateien (Tests mit manipulierten Logs)
+- [x] **AUD-01**: JSONL-Hash-Kette nach SRS §6 (JCS, SHA-256, prevHash) für jeden Zustandsübergang
+- [x] **AUD-02**: Modell-Events enthalten Modell-ID, Prompt-Hash, Tokens, Kosten, keine Rechnungsinhalte
+- [x] **AUD-03**: `pnpm audit:verify` erkennt jede Manipulation an Events oder Ausgabedateien (Tests mit manipulierten Logs)
 
 ### Erklärung (EXP)
 - [ ] **EXP-01**: Lokale Erklärungstabelle für die im Korpus auftretenden Regel-IDs (EN/DE)
