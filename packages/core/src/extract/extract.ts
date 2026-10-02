@@ -34,7 +34,7 @@ export async function extractRaw(
   for (let attempt = 0; attempt < 2; attempt++) {
     const res = await client.chat({
       model,
-      maxTokens: 6000,
+      maxTokens: 12000,
       jsonSchema: { name: "invoice_extraction", schema: EXTRACTION_SCHEMA },
       messages: [
         { role: "system", content: EXTRACTION_SYSTEM_PROMPT },

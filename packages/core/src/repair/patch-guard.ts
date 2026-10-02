@@ -8,7 +8,8 @@ import {
   normalizeVatCategory,
   type Normalized,
 } from "../normalize/normalize.ts";
-import { PATH_BT } from "../extract/assemble.ts";
+import { PATH_BT, type Provenance } from "../extract/assemble.ts";
+import { cityFollowsPostcode, EvidenceRoles, shapeProblem } from "../plausibility/shape.ts";
 
 /** One proposed change from the repair model (RFC 6902 subset: add / replace). */
 export interface ProposedPatch {
@@ -78,9 +79,16 @@ export function guardPatches(
   patches: readonly ProposedPatch[],
   pages: readonly string[],
   numberFormat: "de" | "plain",
+  /** Evidence already backing model fields: path -> provenance, plus the current values. */
+  existing?: { readonly provenance: ReadonlyMap<string, Provenance>; readonly valueOf: (path: string) => string | undefined },
 ): { accepted: AcceptedPatch[]; rejected: RejectedPatch[] } {
   const accepted: AcceptedPatch[] = [];
   const rejected: RejectedPatch[] = [];
+  const roles = new EvidenceRoles();
+  for (const [path, prov] of existing?.provenance ?? []) {
+    const value = existing?.valueOf(path);
+    if (prov.kind === "evidence" && value !== undefined && !path.startsWith("lines.")) roles.claim(path, value, prov.quote);
+  }
   for (const patch of patches) {
     const reject = (reason: string) => rejected.push({ patch, reason });
     if (patch.op !== "add" && patch.op !== "replace") {
@@ -109,6 +117,25 @@ export function guardPatches(
     if (!n.ok) {
       reject(`normalization: ${n.reason}`);
       continue;
+    }
+    const modelPath = pointerToPath(patch.path);
+    const shape = shapeProblem(modelPath, n.value);
+    if (shape) {
+      reject(`shape: ${shape}`);
+      continue;
+    }
+    const cityOf = /^(seller|buyer)\.address\.city$/.exec(modelPath);
+    const postcode = cityOf ? existing?.valueOf(`${cityOf[1]}.address.postcode`) : undefined;
+    if (cityOf && postcode && !cityFollowsPostcode(pages, postcode, n.value)) {
+      reject("city is not printed next to the postcode");
+      continue;
+    }
+    if (!modelPath.startsWith("lines.")) {
+      const owner = roles.claim(modelPath, patch.value, patch.quote);
+      if (owner) {
+        reject(`same evidence already used for ${owner}`);
+        continue;
+      }
     }
     accepted.push({ ...patch, normalized: n.value });
   }

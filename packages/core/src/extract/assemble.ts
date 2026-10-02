@@ -1,4 +1,5 @@
 import { checkEvidence } from "../evidence/evidence-check.ts";
+import { cityFollowsPostcode, EvidenceRoles, shapeProblem } from "../plausibility/shape.ts";
 import { InvoiceInput, type InvoiceInput as InvoiceInputT } from "../model/invoice.ts";
 import {
   normalizeCountry,
@@ -36,7 +37,13 @@ export interface Assembled {
   readonly provenance: ReadonlyMap<string, Provenance>;
   readonly missing: readonly MissingFact[];
   readonly rejected: readonly RejectedFact[];
-  readonly documentTotals: { lineTotal?: string | undefined; taxTotal?: string | undefined; grandTotal?: string | undefined };
+  readonly documentTotals: {
+    lineTotal?: string | undefined;
+    taxTotal?: string | undefined;
+    grandTotal?: string | undefined;
+    /** Printed line totals by line index (undefined where not printed or not evidenced). */
+    lines?: readonly (string | undefined)[] | undefined;
+  };
   readonly numberFormat: "de" | "plain";
 }
 
@@ -78,6 +85,7 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
   const numberFormat = detectNumberFormat(pages);
   const provenance = new Map<string, Provenance>();
   const rejected: RejectedFact[] = [];
+  const roles = new EvidenceRoles();
 
   /** Evidence-checked raw value, or undefined. */
   const take = (path: string, ev: Ev): EvValue | undefined => {
@@ -95,7 +103,20 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
   };
   const text = (path: string, ev: Ev): string | undefined => {
     const e = take(path, ev);
-    return e ? accept(path, e, e.value.trim()) : undefined;
+    if (!e) return undefined;
+    const value = e.value.trim();
+    const shape = shapeProblem(path, value);
+    if (shape) {
+      rejected.push({ path, value, reason: shape });
+      return undefined;
+    }
+    // Line rows share one quote by design; only header/party facts are role-checked.
+    const owner = path.startsWith("lines.") ? undefined : roles.claim(path, value, e.quote);
+    if (owner) {
+      rejected.push({ path, value, reason: `same evidence already used for ${btOf(owner)}` });
+      return undefined;
+    }
+    return accept(path, e, value);
   };
   const norm = (path: string, ev: Ev, fn: (v: string) => Normalized): string | undefined => {
     const e = take(path, ev);
@@ -128,20 +149,30 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
   };
 
   const { header: h, seller: s, buyer: b } = raw;
-  const address = (prefix: string, p: RawExtraction["buyer"]) => ({
-    line1: text(`${prefix}.address.line1`, p.street),
-    line2: text(`${prefix}.address.line2`, p.addressLine2),
-    city: text(`${prefix}.address.city`, p.city),
-    postcode: text(`${prefix}.address.postcode`, p.postcode),
-    countryCode: norm(`${prefix}.address.countryCode`, p.country, normalizeCountry),
-  });
+  const address = (prefix: string, p: RawExtraction["buyer"]) => {
+    const a = {
+      line1: text(`${prefix}.address.line1`, p.street),
+      line2: text(`${prefix}.address.line2`, p.addressLine2),
+      city: text(`${prefix}.address.city`, p.city),
+      postcode: text(`${prefix}.address.postcode`, p.postcode),
+      countryCode: norm(`${prefix}.address.countryCode`, p.country, normalizeCountry),
+    };
+    if (a.city && a.postcode && (a.countryCode ?? "DE") === "DE" && !cityFollowsPostcode(pages, a.postcode, a.city)) {
+      rejected.push({ path: `${prefix}.address.city`, value: a.city, reason: "city is not printed next to the postcode" });
+      provenance.delete(`${prefix}.address.city`);
+      a.city = undefined;
+    }
+    return a;
+  };
 
   const lines = raw.lines.map((l, i) => {
     const p = `lines.${i}`;
-    const vatRate = norm(`${p}.vatRate`, l.vatRate, rate);
-    const categoryEv = take(`${p}.vatCategory`, l.vatCategory);
+    // Each line value is evidenced by the row quote of its line.
+    const rowEv = (v: string | null): Ev => (v === null ? null : { value: v, quote: l.rowQuote, page: l.page });
+    const vatRate = norm(`${p}.vatRate`, rowEv(l.vatRate), rate);
+    const categoryEv = take(`${p}.vatCategory`, rowEv(l.vatCategory));
     let vatCategory: string | undefined;
-    const cat = normalizeVatCategory(categoryEv?.value, vatRate);
+    const cat = normalizeVatCategory(categoryEv?.value.replace(/[()]/g, ""), vatRate);
     if (cat.ok) {
       vatCategory = cat.value;
       if (categoryEv) provenance.set(`${p}.vatCategory`, { kind: "evidence", page: categoryEv.page, quote: categoryEv.quote });
@@ -150,18 +181,24 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
       rejected.push({ path: `${p}.vatCategory`, value: categoryEv?.value ?? "", reason: cat.reason });
     }
     return {
-      id: text(`${p}.id`, l.lineId),
-      name: text(`${p}.name`, l.name),
-      quantity: norm(`${p}.quantity`, l.quantity, dec),
-      unitCode: norm(`${p}.unitCode`, l.unit, normalizeUnit),
-      netPrice: norm(`${p}.netPrice`, l.netPrice, dec),
-      priceBaseQuantity: norm(`${p}.priceBaseQuantity`, l.priceBaseQuantity, dec),
+      id: text(`${p}.id`, rowEv(l.lineId)),
+      name: text(`${p}.name`, rowEv(l.name))?.replace(/\\n|\n/g, " ").replace(/\s+/g, " "),
+      quantity: norm(`${p}.quantity`, rowEv(l.quantity), dec),
+      unitCode: norm(`${p}.unitCode`, rowEv(l.unit), normalizeUnit),
+      netPrice: norm(`${p}.netPrice`, rowEv(l.netPrice), dec),
+      priceBaseQuantity: norm(`${p}.priceBaseQuantity`, rowEv(l.priceBaseQuantity), dec),
       vatCategory,
       // Category O carries no rate (BR-O-05).
       vatRate: vatCategory === "O" ? undefined : vatRate,
     };
   });
 
+  // Claim evidence for the primary fields first, so a value printed as a name or an
+  // electronic address cannot be taken over by a secondary field (reference, account holder).
+  const sellerName = text("seller.name", s.name);
+  const buyerName = text("buyer.name", b.name);
+  const sellerEa = electronic("seller.electronicAddress.value", s.electronicAddress, false);
+  const buyerEa = electronic("buyer.electronicAddress.value", b.electronicAddress, true);
   const ibanValue = norm("payment.iban", raw.payment.iban, iban);
   const partial = {
     number: text("number", h.invoiceNumber),
@@ -174,11 +211,11 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
     paymentTerms: text("paymentTerms", h.paymentTerms)?.replace(/\\n/g, "\n"),
     seller: {
       id: text("seller.id", s.sellerId),
-      name: text("seller.name", s.name),
+      name: sellerName,
       legalRegistrationId: text("seller.legalRegistrationId", s.legalRegistrationId),
       vatId: text("seller.vatId", s.vatId),
       taxNumber: text("seller.taxNumber", s.taxNumber),
-      electronicAddress: electronic("seller.electronicAddress.value", s.electronicAddress, false),
+      electronicAddress: sellerEa,
       address: address("seller", s),
       contact: {
         name: text("seller.contact.name", s.contactName),
@@ -187,8 +224,8 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
       },
     },
     buyer: {
-      name: text("buyer.name", b.name),
-      electronicAddress: electronic("buyer.electronicAddress.value", b.electronicAddress, true),
+      name: buyerName,
+      electronicAddress: buyerEa,
       address: address("buyer", b),
     },
     payment: ibanValue
@@ -197,14 +234,15 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
     vatExemptions: raw.vatExemptions.flatMap((e, i) => {
       const category = norm(`vatExemptions.${i}.category`, e.category, (v) => normalizeVatCategory(v));
       const reason = text(`vatExemptions.${i}.reason`, e.reason);
-      if (!reason) return [];
+      const reasonCode = text(`vatExemptions.${i}.reasonCode`, e.reasonCode)?.replace(/[()]/g, "");
+      if (!reason && !reasonCode) return [];
       const fromLines = lines.find((l) => l.vatCategory && l.vatCategory !== "S")?.vatCategory;
       const cat = category ?? fromLines;
       if (!cat) return [];
       if (!category) {
         provenance.set(`vatExemptions.${i}.category`, { kind: "derived", rule: "exemption-category-from-lines", inputs: ["lines"] });
       }
-      return [{ category: cat, reason }];
+      return [{ category: cat, ...(reason ? { reason } : {}), ...(reasonCode ? { reasonCode } : {}) }];
     }),
     lines,
   };
@@ -225,6 +263,9 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
     lineTotal: norm("documentTotals.lineTotal", totals.lineTotal, dec),
     taxTotal: norm("documentTotals.taxTotal", totals.taxTotal, dec),
     grandTotal: norm("documentTotals.grandTotal", totals.grandTotal, dec),
+    lines: raw.lines.map((l, i) =>
+      norm(`documentTotals.lines.${i}`, l.lineAmount === null ? null : { value: l.lineAmount, quote: l.rowQuote, page: l.page }, dec),
+    ),
   });
 
   return {

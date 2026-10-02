@@ -129,8 +129,28 @@ export async function runInvoice(opts: RunOptions): Promise<RunResult> {
       const amounts = deriveAmounts(invoice);
       audit.append({ type: "DERIVE", actor: core, data: { lines: amounts.lines.length, vatGroups: amounts.vatBreakdown.length } });
       const consistency = checkConsistency(assembled.documentTotals, amounts);
+      const lineMismatches = checkLineConsistency(assembled.documentTotals.lines ?? [], amounts.lines.map((l) => l.netAmount));
+      audit.append({
+        type: "CONSISTENCY_CHECK",
+        actor: core,
+        data: { totalWarnings: consistency.length, lineMismatches: lineMismatches.length },
+      });
+      if (lineMismatches.length > 0) {
+        // A line whose quantity × price differs from its printed amount means an extraction
+        // error (or a broken document). Never output it as valid; repair or ask instead.
+        const issues = lineMismatches.map((m) => ({
+          id: "LINE-MISMATCH",
+          message: `line ${m.index + 1}: quantity × price / base quantity = ${m.computed}, but the printed line amount is ${m.printed}. Check quantity, unit price and base quantity of this line.`,
+          location: `/lines/${m.index}`,
+        }));
+        if (iterations >= maxIterations || issues.length >= lastIssueCount) return needsInput([], issues);
+        lastIssueCount = issues.length;
+        iterations++;
+        const ok = await repairRound(issues);
+        if (!ok) return needsInput([], issues);
+        continue;
+      }
       warnings.push(...consistency);
-      audit.append({ type: "CONSISTENCY_CHECK", actor: core, data: { warnings: consistency.length } });
       xml = buildCii(invoice, amounts);
       audit.append({ type: "BUILD_CII", actor: core, outputHash: sha256(xml), data: {} });
       verifier = await opts.validate(xml);
@@ -165,9 +185,17 @@ export async function runInvoice(opts: RunOptions): Promise<RunResult> {
     lastIssueCount = issues.length;
     iterations++;
 
+    if (!(await repairRound(issues))) return needsInput(missing, issues);
+  }
+
+  /** One REPAIR_PLAN + PATCH_GUARD round; false when nothing could be applied. */
+  async function repairRound(issues: RepairIssue[]): Promise<boolean> {
     const plan = await planRepair(opts.client, opts.models.repair, issues, partial, opts.pages);
     modelEvent("REPAIR_PLAN", plan.call, REPAIR_SYSTEM_PROMPT);
-    const guarded = guardPatches(plan.patches, opts.pages, assembled.numberFormat);
+    const guarded = guardPatches(plan.patches, opts.pages, assembled.numberFormat, {
+      provenance,
+      valueOf: (path) => valueAt(partial, path),
+    });
     audit.append({
       type: "PATCH_GUARD",
       actor: core,
@@ -180,11 +208,12 @@ export async function runInvoice(opts: RunOptions): Promise<RunResult> {
     step("REPAIR", { iteration: iterations, accepted: guarded.accepted.length, rejected: guarded.rejected.length });
     applied.push(...guarded.accepted);
     rejectedPatches.push(...guarded.rejected);
-    if (guarded.accepted.length === 0) return needsInput(missing, issues);
+    if (guarded.accepted.length === 0) return false;
     partial = applyPatches(partial, guarded.accepted);
     for (const p of guarded.accepted) {
       provenance.set(p.path.replace(/^\//, "").replaceAll("/", "."), { kind: "evidence", page: p.page, quote: p.quote });
     }
+    return true;
   }
 
   function needsInput(missing: MissingFact[], issues: RepairIssue[]): RunResult {
@@ -236,12 +265,32 @@ export function checkConsistency(
   return out;
 }
 
+/** Per-line check: computed BT-131 against the printed line amount (EXT-05). */
+export function checkLineConsistency(
+  printed: readonly (string | undefined)[],
+  computed: readonly string[],
+): { index: number; printed: string; computed: string }[] {
+  return computed.flatMap((c, index) => {
+    const p = printed[index];
+    return p !== undefined && !new Decimal(p).equals(c) ? [{ index, printed: p, computed: c }] : [];
+  });
+}
+
 function leafPaths(value: unknown, prefix = ""): string[] {
   if (Array.isArray(value)) return value.flatMap((v, i) => leafPaths(v, prefix ? `${prefix}.${i}` : String(i)));
   if (value && typeof value === "object") {
     return Object.entries(value).flatMap(([k, v]) => leafPaths(v, prefix ? `${prefix}.${k}` : k));
   }
   return value === undefined ? [] : [prefix];
+}
+
+function valueAt(model: unknown, path: string): string | undefined {
+  let node: unknown = model;
+  for (const k of path.split(".")) {
+    if (node === null || typeof node !== "object") return undefined;
+    node = (node as Record<string, unknown>)[k];
+  }
+  return typeof node === "string" ? node : undefined;
 }
 
 function setPath(model: unknown, path: string, value: string): unknown {

@@ -16,6 +16,7 @@ describe("normalizeUnit", () => {
     expect(value(normalizeUnit("H87"))).toBe("H87");
     expect(value(normalizeUnit("XPP"))).toBe("XPP");
     expect(value(normalizeUnit("hur"))).toBe("HUR");
+    expect(value(normalizeUnit("Stk. (XPP)"))).toBe("XPP");
   });
   it("maps German unit words", () => {
     expect(value(normalizeUnit("Stück"))).toBe("H87");

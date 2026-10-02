@@ -30,6 +30,9 @@ const UNIT_WORDS: Readonly<Record<string, string>> = {
 };
 
 export function normalizeUnit(raw: string): Normalized {
+  // "Stk. (XPP)": a valid code in parentheses wins over the human label.
+  const inParens = /\(([A-Za-z0-9]{2,3})\)\s*$/.exec(raw.trim());
+  if (inParens && UNIT_CODES.has(inParens[1]!.toUpperCase())) return ok(inParens[1]!.toUpperCase());
   const t = raw.trim();
   if (UNIT_CODES.has(t)) return ok(t);
   if (UNIT_CODES.has(t.toUpperCase())) return ok(t.toUpperCase());
