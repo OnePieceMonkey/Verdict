@@ -11,7 +11,11 @@
     "smoke:llm": "pnpm --filter @verdict/core smoke:llm",
     "testsuite:fetch": "pnpm --filter @verdict/eval testsuite:fetch",
     "verifier:check": "pnpm --filter @verdict/eval verifier:check",
-    "prepare": "git config core.hooksPath .githooks"
+    "prepare": "git config core.hooksPath .githooks",
+    "roundtrip:check": "pnpm --filter @verdict/eval roundtrip:check",
+    "audit:verify": "pnpm --filter @verdict/core audit:verify",
+    "corpus:build": "pnpm --filter @verdict/eval corpus:build",
+    "eval": "pnpm --filter @verdict/eval eval"
   },
   "devDependencies": {
     "@types/node": "^26.6.4",
