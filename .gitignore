@@ -12,3 +12,9 @@ eval/corpus/generated/
 eval/.cache/
 coverage/
 eval/results/
+apps/web/public/pdf.worker.min.mjs
+apps/web/.next/
+apps/web/.env.local
+apps/web/.impeccable/review/
+apps/web/.impeccable/live/
+apps/web/.impeccable/questions/
