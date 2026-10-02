@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read  # gitleaks-action lists PR commits
 
 jobs:
   secrets:
@@ -45,6 +46,11 @@ jobs:
       - name: Start verifier
         run: |
           echo "VERIFIER_SECRET=$(openssl rand -hex 24)" >> "$GITHUB_ENV"
-      - run: docker compose up -d --build --wait verifier
+      - run: docker compose up -d --build verifier
+      - name: Wait for verifier
+        # The server only listens after the KoSIT configuration is loaded.
+        run: |
+          for i in $(seq 1 60); do curl -sf localhost:8081/health && exit 0; sleep 2; done
+          docker compose logs verifier; exit 1
       - run: pnpm testsuite:fetch
       - run: pnpm verifier:check
