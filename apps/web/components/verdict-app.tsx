@@ -56,6 +56,7 @@ export function VerdictApp() {
   const printedTotal = result?.documentTotals.grandTotal;
   const totalDiffers = Boolean(result?.amounts && printedTotal && printedTotal !== result.amounts.grandTotal);
   const runCost = state.priorCostUsd + Number(result?.costUsd ?? 0);
+  const runIterations = state.priorIterations + (result?.iterations ?? 0);
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -80,7 +81,7 @@ export function VerdictApp() {
         </div>
       </header>
       <div className="border-b border-office-2 bg-office px-4 pb-2.5 text-sm text-office-ink md:hidden">
-        PDF invoice to XRechnung. NVIDIA Nemotron on Nebius Token Factory proposes, the official KoSIT validator decides.
+        NVIDIA Nemotron on Nebius Token Factory proposes. KoSIT decides.
       </div>
 
       {/* Mobile: one work area at a time. Desktop: all three side by side. */}
@@ -104,7 +105,12 @@ export function VerdictApp() {
       <main className="mx-auto grid w-full max-w-[1600px] flex-1 gap-6 px-4 py-6 md:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)_minmax(16rem,0.75fr)] lg:gap-8">
         <div className={`${!idle && tab !== "document" ? "hidden lg:block" : ""} min-w-0`}>
           {idle ? (
-            <Intake onFile={runUpload} onGallery={(id) => void runGallery(id)} live={budget?.live ?? false} />
+            <>
+              <Intake onFile={runUpload} onGallery={(id) => void runGallery(id)} live={budget?.live ?? false} />
+              <div className="mt-8 lg:hidden">
+                <Principles />
+              </div>
+            </>
           ) : (
             <div className="lg:sticky lg:top-6">
               <div className="mb-2 flex items-center justify-between gap-3">
@@ -176,7 +182,7 @@ export function VerdictApp() {
                           : "The validator rejected the result."}
                     </p>
                     <p className="text-sm text-ink-3">
-                      {result.iterations} repair round{result.iterations === 1 ? "" : "s"} · model cost{" "}
+                      {runIterations} repair round{runIterations === 1 ? "" : "s"} · model cost{" "}
                       <span className="font-mono text-2xs">${runCost.toFixed(4)}</span>
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -204,7 +210,7 @@ export function VerdictApp() {
               {result?.state === "NEEDS_INPUT" && (
                 <NeedsInput result={result} prefill={galleryAnswer()} onSubmit={answer} />
               )}
-              {result && <VoidedList result={result} />}
+              {result && <VoidedList result={result} pages={state.pages} />}
               {result?.verifier && !result.verifier.valid && (
                 <ul className="border-t border-void/40 text-sm">
                   {result.verifier.errors
@@ -245,11 +251,23 @@ function Explainer() {
       <h1 className="text-[2rem] leading-[1.05] font-semibold tracking-[-0.025em] text-ink sm:text-[2.5rem]">
         An e-invoice is only valid when the official validator says so.
       </h1>
-      <p className="max-w-[58ch] text-base text-ink-2">
+      <p className="max-w-[58ch] text-base text-ink-2 sm:hidden">
+        Drop a PDF: Nemotron quotes every field from the page, the KoSIT validator decides, and missing facts are asked for.
+      </p>
+      <p className="hidden max-w-[58ch] text-base text-ink-2 sm:block">
         Verdict turns a PDF invoice into an XRechnung. NVIDIA Nemotron reads the page and proposes every field with a
         verbatim quote. Amounts are computed, never written by the model. The KoSIT reference validator has the last word,
         and facts that are not on the document are asked for, never invented.
       </p>
+      <div className="hidden lg:block">
+        <Principles />
+      </div>
+    </div>
+  );
+}
+
+function Principles() {
+  return (
       <dl className="grid max-w-[58ch] grid-cols-[auto_1fr] gap-x-4 gap-y-2 border-t border-rule-strong pt-4 text-sm">
         <dt className="font-stamp text-sm font-semibold tracking-[0.08em] text-ink uppercase">Quoted</dt>
         <dd className="text-ink-2">Every value is pinned to its place on the page. Hover a fact to see it.</dd>
@@ -260,7 +278,6 @@ function Explainer() {
         <dt className="font-stamp text-sm font-semibold tracking-[0.08em] text-ink uppercase">Signed</dt>
         <dd className="text-ink-2">Every station signs the routing slip into a hash chain you can verify yourself.</dd>
       </dl>
-    </div>
   );
 }
 

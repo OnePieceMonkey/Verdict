@@ -10,7 +10,7 @@
     {
       "id": "seven-lines",
       "title": "Seven line items",
-      "story": "Seven line items, each quoted from its row; net, VAT and total are computed from the lines.",
+      "story": "Seven line items. Nemotron Ultra repairs three fields behind the patch guard; every amount is computed from the lines.",
       "state": "OUTPUT"
     },
     {
@@ -42,7 +42,8 @@
       "id": "missing-iban",
       "title": "Bank details missing",
       "story": "Payment by transfer, but no IBAN on the page. Verdict stops and asks.",
-      "state": "NEEDS_INPUT"
+      "state": "NEEDS_INPUT",
+      "followUpState": "OUTPUT"
     }
   ]
 }

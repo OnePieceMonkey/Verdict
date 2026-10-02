@@ -22,7 +22,7 @@ interface GalleryCase {
 
 const CASES: readonly GalleryCase[] = [
   { id: "clean", corpus: "clean/01.01a-classic", title: "A clean invoice", story: "Every field quoted from the page, totals computed, KoSIT accepts it." },
-  { id: "seven-lines", corpus: "clean/01.06a-classic", title: "Seven line items", story: "Seven line items, each quoted from its row; net, VAT and total are computed from the lines." },
+  { id: "seven-lines", corpus: "clean/01.06a-classic", title: "Seven line items", story: "Seven line items. Nemotron Ultra repairs three fields behind the patch guard; every amount is computed from the lines." },
   { id: "noisy-layout", corpus: "noisy/01.12a-noisy-a", title: "Unusual layout", story: "Plain number format, ISO dates and shuffled blocks still end in a valid e-invoice." },
   { id: "unit-word", corpus: "mutated/01.05a-unit-as-german-word", title: "Units printed as words", story: "\"Stück\" is not a unit code. KoSIT reports it as an error yet still accepts the invoice; Verdict normalizes it to H87." },
   { id: "total-off", corpus: "mutated/03.06a-grand-total-off", title: "Printed total is wrong", story: "The document adds up to 1.00 less than it claims. Verdict trusts the lines, computes the total and flags the difference." },
@@ -33,7 +33,14 @@ const CASES: readonly GalleryCase[] = [
     story: "The buyer reference is not printed. Verdict asks for it instead of inventing one.",
     answer: [{ path: "buyerReference", value: "04011000-12345-03" }],
   },
-  { id: "missing-iban", corpus: "mutated/01.08a-missing-iban", title: "Bank details missing", story: "Payment by transfer, but no IBAN on the page. Verdict stops and asks." },
+  {
+    id: "missing-iban",
+    corpus: "mutated/01.08a-missing-iban",
+    title: "Bank details missing",
+    story: "Payment by transfer, but no IBAN on the page. Verdict stops and asks.",
+    // Public test IBAN, not a real account.
+    answer: [{ path: "payment.iban", value: "DE02 1203 0000 0000 2020 51" }],
+  },
 ];
 
 const validate = async (xml: string) => {

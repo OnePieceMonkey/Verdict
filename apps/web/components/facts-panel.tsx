@@ -1,7 +1,7 @@
 "use client";
 import type { Provenance } from "@verdict/core";
 import type { RunResultView } from "@/lib/run-protocol.ts";
-import { FIELD_GROUPS, valueAt } from "@/lib/field-groups.ts";
+import { FIELD_GROUPS, labelFor, valueAt } from "@/lib/field-groups.ts";
 import { VoidMark } from "./verdict-stamp.tsx";
 
 export interface FocusTarget {
@@ -156,11 +156,61 @@ export function FactsPanel({
   );
 }
 
-/** Refused facts and voided patches stay on record, struck through and stamped. */
-export function VoidedList({ result }: { result: RunResultView }) {
+const canonWord = (w: string) => w.normalize("NFKC").toLowerCase().replace(/[.,;:()"„“]/g, "");
+
+/** Plain-language reasons for the guards' machine codes. */
+function reasonText(code: string): string {
+  if (code === "quote-not-on-page") return "Its quote is not on the page word for word";
+  if (code === "value-not-in-quote") return "The value is not inside its own quote";
+  if (code === "page-out-of-range") return "Cites a page that does not exist";
+  if (code === "empty-quote") return "No quote from the page";
+  if (code.startsWith("same evidence already used for ")) return `Already used as ${code.slice("same evidence already used for ".length)}`;
+  if (code.startsWith("evidence: ")) return reasonText(code.slice(10));
+  if (code === "city without letters") return "A city needs letters; this looks like a postcode";
+  return code.charAt(0).toUpperCase() + code.slice(1);
+}
+
+function fieldName(path: string): { label: string; bt: string } {
+  const line = /^lines\.(\d+)\.(\w+)/.exec(path);
+  if (line) return { label: `Line ${Number(line[1]) + 1}: ${line[2]}`, bt: "" };
+  const known = labelFor(path);
+  return known.bt ? known : { label: path, bt: "" };
+}
+
+/**
+ * Refused facts and voided patches stay on record. Only the words that are not on the page are
+ * struck and marked, so a one-word misreading does not look like a refused paragraph.
+ */
+/**
+ * Word-by-word comparison with the page: finds where the value's word sequence best lines up
+ * with the page and returns the first value word that differs, plus the page's word there.
+ */
+function divergence(words: readonly string[], pageWords: readonly string[]): { at: number; page?: string } | null {
+  const v = words.map(canonWord);
+  let best: { at: number; page?: string } | null = null;
+  let bestLen = -1;
+  pageWords.forEach((pw, k) => {
+    if (pw !== v[0]) return;
+    let n = 0;
+    while (n < v.length && pageWords[k + n] === v[n]) n++;
+    if (n > bestLen) {
+      bestLen = n;
+      const pageWord = pageWords[k + n];
+      best = n >= v.length ? null : { at: n, ...(pageWord !== undefined ? { page: pageWord } : {}) };
+    }
+  });
+  return bestLen < 0 ? { at: 0 } : best;
+}
+
+export function VoidedList({ result, pages }: { result: RunResultView; pages: readonly string[] }) {
+  const pageWords = pages.join(" ").split(/\s+/).map(canonWord).filter(Boolean);
   const rows = [
-    ...result.rejectedFacts.map((r) => ({ what: r.path, value: r.value, why: r.reason, by: "guard" })),
-    ...result.patchesRejected.map((r) => ({ what: r.patch.path.replace(/^\//, "").replaceAll("/", "."), value: r.patch.value, why: r.reason, by: "repair" })),
+    ...result.rejectedFacts.map((r) => ({ path: r.path, value: r.value, why: r.reason })),
+    ...result.patchesRejected.map((r) => ({
+      path: r.patch.path.replace(/^\//, "").replaceAll("/", "."),
+      value: r.patch.value,
+      why: r.reason,
+    })),
   ];
   if (rows.length === 0) return null;
   return (
@@ -169,16 +219,43 @@ export function VoidedList({ result }: { result: RunResultView }) {
         Refused, not hidden
       </h3>
       <ul className="border-t border-void/40">
-        {rows.map((r, i) => (
-          <li key={i} className="grid grid-cols-[1fr_auto] items-baseline gap-3 border-b border-void/20 py-1.5 text-sm">
-            <div className="min-w-0">
-              <span className="text-ink-3 line-through decoration-void decoration-[1.5px]">{r.value || "(empty)"}</span>
-              <span className="ml-2 font-mono text-2xs text-ink-3">{r.what}</span>
-              <p className="text-2xs text-void">{r.why}</p>
-            </div>
-            <VoidMark />
-          </li>
-        ))}
+        {rows.map((r, i) => {
+          const { label, bt } = fieldName(r.path);
+          const words = (r.value || "").split(/\s+/).filter(Boolean);
+          const notOnPage = r.why === "quote-not-on-page" || r.why === "evidence: quote-not-on-page";
+          const diff = notOnPage || r.why === "value-not-in-quote" ? divergence(words, pageWords) : null;
+          const at = diff ? diff.at : -1;
+          return (
+            <li key={i} className="grid grid-cols-[1fr_auto] items-start gap-3 border-b border-void/20 py-2 text-sm">
+              <div className="min-w-0">
+                <div className="flex items-baseline gap-2">
+                  <span className="font-medium text-ink">{label}</span>
+                  {bt && <span className="font-mono text-2xs text-ink-3">{bt}</span>}
+                  <span className="text-ink-2">· {reasonText(r.why)}</span>
+                </div>
+                <p className="mt-0.5 text-ink-3">
+                  {at >= 0 ? (
+                    <>
+                      {at > 4 && "… "}
+                      {words.slice(Math.max(0, at - 4), at).join(" ")}{" "}
+                      <mark className="bg-void-wash px-0.5 font-medium text-void line-through decoration-void decoration-[1.5px]">
+                        {words[at]}
+                      </mark>{" "}
+                      {words.slice(at + 1, at + 4).join(" ")}
+                      {at + 4 < words.length && " …"}
+                      <span className="ml-2 text-2xs text-ink-3">
+                        {diff?.page ? `the page prints “${diff.page}”` : "not on the page"}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="line-clamp-2 line-through decoration-void decoration-[1.5px]">{r.value || "(empty)"}</span>
+                  )}
+                </p>
+              </div>
+              <VoidMark />
+            </li>
+          );
+        })}
       </ul>
     </section>
   );

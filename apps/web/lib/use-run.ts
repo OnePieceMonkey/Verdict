@@ -17,6 +17,7 @@ export interface RunState {
   readonly startedAt: number | null;
   /** Model cost of earlier passes of this document (a resumed run adds to it). */
   readonly priorCostUsd: number;
+  readonly priorIterations: number;
 }
 
 const EMPTY: RunState = {
@@ -29,6 +30,7 @@ const EMPTY: RunState = {
   error: null,
   startedAt: null,
   priorCostUsd: 0,
+  priorIterations: 0,
 };
 
 export interface GalleryRecording {
@@ -162,6 +164,7 @@ export function useRun() {
         result: null,
         error: null,
         priorCostUsd: s.priorCostUsd + Number(result.costUsd),
+        priorIterations: s.priorIterations + result.iterations,
       }));
       const rec = recordingRef.current;
       if (rec?.followUp) {
