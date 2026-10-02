@@ -18,3 +18,5 @@ export {
 } from "./derive/derive.ts";
 export { readCii, type ReadResult } from "./cii/read.ts";
 export { buildCii } from "./cii/build.ts";
+export * from "./normalize/normalize.ts";
+export * from "./evidence/evidence-check.ts";
