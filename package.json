@@ -1,0 +1,27 @@
+{
+  "name": "verdict",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "smoke:llm": "pnpm --filter @verdict/core smoke:llm",
+    "testsuite:fetch": "pnpm --filter @verdict/eval testsuite:fetch",
+    "verifier:check": "pnpm --filter @verdict/eval verifier:check",
+    "prepare": "git config core.hooksPath .githooks"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

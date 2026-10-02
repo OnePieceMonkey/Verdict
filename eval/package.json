@@ -1,0 +1,11 @@
+{
+  "name": "@verdict/eval",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "testsuite:fetch": "tsx scripts/fetch-testsuite.ts",
+    "verifier:check": "tsx --env-file-if-exists=../.env scripts/verifier-check.ts"
+  }
+}
