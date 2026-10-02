@@ -16,6 +16,10 @@ describe("checkEvidence", () => {
     expect(checkEvidence(pages, { page: 2, quote: "IBAN: DE7900000000123456789 0" }).ok).toBe(true);
   });
 
+  it("treats a literal \\n in a quote as a line break", () => {
+    expect(checkEvidence(pages, { page: 1, quote: "Rechnung Nr. R-2026-0042\\nDatum: 01.10.2026" }).ok).toBe(true);
+  });
+
   it("rejects quotes from the wrong page", () => {
     expect(checkEvidence(pages, { page: 1, quote: "Gesamtbetrag 1.190,00 EUR" })).toEqual({ ok: false, reason: "quote-not-on-page" });
   });

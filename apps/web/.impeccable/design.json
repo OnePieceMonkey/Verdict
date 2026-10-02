@@ -1,0 +1,636 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-02T21:30:48+00:00",
+  "title": "Design System: Verdict",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Recycled Paper",
+        "canonical": "#f2f3ee",
+        "oklch": "oklch(96.2% 0.007 115.7)",
+        "tonalRamp": [
+          "oklch(15% 0.007 115.7)",
+          "oklch(25% 0.007 115.7)",
+          "oklch(35% 0.007 115.7)",
+          "oklch(45% 0.007 115.7)",
+          "oklch(58% 0.007 115.7)",
+          "oklch(70% 0.007 115.7)",
+          "oklch(82% 0.007 115.7)",
+          "oklch(95% 0.007 115.7)"
+        ]
+      },
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Form Sheet",
+        "canonical": "#fbfbf8",
+        "oklch": "oklch(98.7% 0.004 106.5)",
+        "tonalRamp": [
+          "oklch(15% 0.004 106.5)",
+          "oklch(25% 0.004 106.5)",
+          "oklch(35% 0.004 106.5)",
+          "oklch(45% 0.004 106.5)",
+          "oklch(58% 0.004 106.5)",
+          "oklch(70% 0.004 106.5)",
+          "oklch(82% 0.004 106.5)",
+          "oklch(95% 0.004 106.5)"
+        ]
+      },
+      "page-white": {
+        "role": "neutral",
+        "displayName": "Page White",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(25% 0.000 89.9)",
+          "oklch(35% 0.000 89.9)",
+          "oklch(45% 0.000 89.9)",
+          "oklch(58% 0.000 89.9)",
+          "oklch(70% 0.000 89.9)",
+          "oklch(82% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#d5d7cf",
+        "oklch": "oklch(87.5% 0.011 118.0)",
+        "tonalRamp": [
+          "oklch(15% 0.011 118.0)",
+          "oklch(25% 0.011 118.0)",
+          "oklch(35% 0.011 118.0)",
+          "oklch(45% 0.011 118.0)",
+          "oklch(58% 0.011 118.0)",
+          "oklch(70% 0.011 118.0)",
+          "oklch(82% 0.011 118.0)",
+          "oklch(95% 0.011 118.0)"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Strong Hairline",
+        "canonical": "#b6b9ae",
+        "oklch": "oklch(78.0% 0.016 119.2)",
+        "tonalRamp": [
+          "oklch(15% 0.016 119.2)",
+          "oklch(25% 0.016 119.2)",
+          "oklch(35% 0.016 119.2)",
+          "oklch(45% 0.016 119.2)",
+          "oklch(58% 0.016 119.2)",
+          "oklch(70% 0.016 119.2)",
+          "oklch(82% 0.016 119.2)",
+          "oklch(95% 0.016 119.2)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1c1f22",
+        "oklch": "oklch(23.7% 0.007 248.1)",
+        "tonalRamp": [
+          "oklch(15% 0.007 248.1)",
+          "oklch(25% 0.007 248.1)",
+          "oklch(35% 0.007 248.1)",
+          "oklch(45% 0.007 248.1)",
+          "oklch(58% 0.007 248.1)",
+          "oklch(70% 0.007 248.1)",
+          "oklch(82% 0.007 248.1)",
+          "oklch(95% 0.007 248.1)"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink 2",
+        "canonical": "#4a4f54",
+        "oklch": "oklch(42.5% 0.011 248.1)",
+        "tonalRamp": [
+          "oklch(15% 0.011 248.1)",
+          "oklch(25% 0.011 248.1)",
+          "oklch(35% 0.011 248.1)",
+          "oklch(45% 0.011 248.1)",
+          "oklch(58% 0.011 248.1)",
+          "oklch(70% 0.011 248.1)",
+          "oklch(82% 0.011 248.1)",
+          "oklch(95% 0.011 248.1)"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink 3",
+        "canonical": "#62676d",
+        "oklch": "oklch(54.3% 0.011 252.9)",
+        "tonalRamp": [
+          "oklch(15% 0.011 252.9)",
+          "oklch(25% 0.011 252.9)",
+          "oklch(35% 0.011 252.9)",
+          "oklch(45% 0.011 252.9)",
+          "oklch(58% 0.011 252.9)",
+          "oklch(70% 0.011 252.9)",
+          "oklch(82% 0.011 252.9)",
+          "oklch(95% 0.011 252.9)"
+        ]
+      },
+      "office": {
+        "role": "tertiary",
+        "displayName": "Office Green",
+        "canonical": "#2f5d4a",
+        "oklch": "oklch(43.9% 0.060 165.0)",
+        "tonalRamp": [
+          "oklch(15% 0.060 165.0)",
+          "oklch(25% 0.060 165.0)",
+          "oklch(35% 0.060 165.0)",
+          "oklch(45% 0.060 165.0)",
+          "oklch(58% 0.060 165.0)",
+          "oklch(70% 0.060 165.0)",
+          "oklch(82% 0.060 165.0)",
+          "oklch(95% 0.060 165.0)"
+        ]
+      },
+      "office-2": {
+        "role": "tertiary",
+        "displayName": "Office Green Light",
+        "canonical": "#3c6f59",
+        "oklch": "oklch(49.9% 0.066 164.3)",
+        "tonalRamp": [
+          "oklch(15% 0.066 164.3)",
+          "oklch(25% 0.066 164.3)",
+          "oklch(35% 0.066 164.3)",
+          "oklch(45% 0.066 164.3)",
+          "oklch(58% 0.066 164.3)",
+          "oklch(70% 0.066 164.3)",
+          "oklch(82% 0.066 164.3)",
+          "oklch(95% 0.066 164.3)"
+        ]
+      },
+      "office-ink": {
+        "role": "tertiary",
+        "displayName": "Office Ink",
+        "canonical": "#e8efe9",
+        "oklch": "oklch(94.5% 0.011 149.9)",
+        "tonalRamp": [
+          "oklch(15% 0.011 149.9)",
+          "oklch(25% 0.011 149.9)",
+          "oklch(35% 0.011 149.9)",
+          "oklch(45% 0.011 149.9)",
+          "oklch(58% 0.011 149.9)",
+          "oklch(70% 0.011 149.9)",
+          "oklch(82% 0.011 149.9)",
+          "oklch(95% 0.011 149.9)"
+        ]
+      },
+      "stamp": {
+        "role": "primary",
+        "displayName": "Stamp Violet",
+        "canonical": "#4536a8",
+        "oklch": "oklch(42.3% 0.174 282.0)",
+        "tonalRamp": [
+          "oklch(15% 0.160 282.0)",
+          "oklch(25% 0.160 282.0)",
+          "oklch(35% 0.174 282.0)",
+          "oklch(45% 0.174 282.0)",
+          "oklch(58% 0.174 282.0)",
+          "oklch(70% 0.174 282.0)",
+          "oklch(82% 0.174 282.0)",
+          "oklch(95% 0.160 282.0)"
+        ]
+      },
+      "stamp-wash": {
+        "role": "primary",
+        "displayName": "Stamp Wash",
+        "canonical": "#e7e4f6",
+        "oklch": "oklch(92.7% 0.024 293.6)",
+        "tonalRamp": [
+          "oklch(15% 0.024 293.6)",
+          "oklch(25% 0.024 293.6)",
+          "oklch(35% 0.024 293.6)",
+          "oklch(45% 0.024 293.6)",
+          "oklch(58% 0.024 293.6)",
+          "oklch(70% 0.024 293.6)",
+          "oklch(82% 0.024 293.6)",
+          "oklch(95% 0.024 293.6)"
+        ]
+      },
+      "void": {
+        "role": "secondary",
+        "displayName": "Void Red",
+        "canonical": "#c2382b",
+        "oklch": "oklch(54.6% 0.177 29.4)",
+        "tonalRamp": [
+          "oklch(15% 0.160 29.4)",
+          "oklch(25% 0.160 29.4)",
+          "oklch(35% 0.177 29.4)",
+          "oklch(45% 0.177 29.4)",
+          "oklch(58% 0.177 29.4)",
+          "oklch(70% 0.177 29.4)",
+          "oklch(82% 0.177 29.4)",
+          "oklch(95% 0.160 29.4)"
+        ]
+      },
+      "void-wash": {
+        "role": "secondary",
+        "displayName": "Void Wash",
+        "canonical": "#f6e3df",
+        "oklch": "oklch(93.0% 0.022 31.8)",
+        "tonalRamp": [
+          "oklch(15% 0.022 31.8)",
+          "oklch(25% 0.022 31.8)",
+          "oklch(35% 0.022 31.8)",
+          "oklch(45% 0.022 31.8)",
+          "oklch(58% 0.022 31.8)",
+          "oklch(70% 0.022 31.8)",
+          "oklch(82% 0.022 31.8)",
+          "oklch(95% 0.022 31.8)"
+        ]
+      },
+      "tab": {
+        "role": "tertiary",
+        "displayName": "Folder-Tab Yellow",
+        "canonical": "#e7c43f",
+        "oklch": "oklch(82.8% 0.150 93.8)",
+        "tonalRamp": [
+          "oklch(15% 0.150 93.8)",
+          "oklch(25% 0.150 93.8)",
+          "oklch(35% 0.150 93.8)",
+          "oklch(45% 0.150 93.8)",
+          "oklch(58% 0.150 93.8)",
+          "oklch(70% 0.150 93.8)",
+          "oklch(82% 0.150 93.8)",
+          "oklch(95% 0.150 93.8)"
+        ]
+      },
+      "tab-wash": {
+        "role": "tertiary",
+        "displayName": "Tab Wash",
+        "canonical": "#f7eec4",
+        "oklch": "oklch(94.6% 0.055 97.3)",
+        "tonalRamp": [
+          "oklch(15% 0.055 97.3)",
+          "oklch(25% 0.055 97.3)",
+          "oklch(35% 0.055 97.3)",
+          "oklch(45% 0.055 97.3)",
+          "oklch(58% 0.055 97.3)",
+          "oklch(70% 0.055 97.3)",
+          "oklch(82% 0.055 97.3)",
+          "oklch(95% 0.055 97.3)"
+        ]
+      },
+      "tab-ink": {
+        "role": "tertiary",
+        "displayName": "Tab Ink",
+        "canonical": "#5a4708",
+        "oklch": "oklch(40.7% 0.079 90.1)",
+        "tonalRamp": [
+          "oklch(15% 0.079 90.1)",
+          "oklch(25% 0.079 90.1)",
+          "oklch(35% 0.079 90.1)",
+          "oklch(45% 0.079 90.1)",
+          "oklch(58% 0.079 90.1)",
+          "oklch(70% 0.079 90.1)",
+          "oklch(82% 0.079 90.1)",
+          "oklch(95% 0.079 90.1)"
+        ]
+      },
+      "quote": {
+        "role": "neutral",
+        "displayName": "Quote Highlighter",
+        "canonical": "#f3e7a0",
+        "oklch": "oklch(92.1% 0.091 99.8)",
+        "tonalRamp": [
+          "oklch(15% 0.091 99.8)",
+          "oklch(25% 0.091 99.8)",
+          "oklch(35% 0.091 99.8)",
+          "oklch(45% 0.091 99.8)",
+          "oklch(58% 0.091 99.8)",
+          "oklch(70% 0.091 99.8)",
+          "oklch(82% 0.091 99.8)",
+          "oklch(95% 0.091 99.8)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "stamp-title": {
+        "displayName": "Stamp Title",
+        "purpose": "VERIFIED / REJECTED / RETURNED inside the verdict stamp; 2.25rem below 640px, uppercase."
+      },
+      "display": {
+        "displayName": "Display",
+        "purpose": "The single idle-state headline; 2rem below 640px."
+      },
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "The computed BT-112 total beside the stamp; one per result."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "VERDICT in the top bar, uppercase."
+      },
+      "title-caps": {
+        "displayName": "Title Caps",
+        "purpose": "Fact group headings, Recorded runs, Refused not hidden, Principles terms; uppercase. Routing slip heading at 1rem/700."
+      },
+      "body-lg": {
+        "displayName": "Body Large",
+        "purpose": "Idle explainer paragraph and drop-zone prompt."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Fact labels and values, station names (500), explanations at 44-58ch."
+      },
+      "label-caps": {
+        "displayName": "Label Caps",
+        "purpose": "Slip column headers, stamp sub-lines (0.14em), initials, VOID marks and tags (700, 0.12em); uppercase."
+      },
+      "note": {
+        "displayName": "Note",
+        "purpose": "Station notes, validator wording, recorded-run stories."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "BT codes, hashes, durations, tokens, costs, unit codes, provenance chips; 0.875rem for totals ledger and needs-input field."
+      }
+    },
+    "shadows": [
+      {
+        "name": "invoice-page",
+        "value": "0 1px 2px rgba(28,31,34,0.08), 0 8px 24px -12px rgba(28,31,34,0.18)",
+        "purpose": "The rendered invoice page lifted off the desk; the only shadow in the system."
+      }
+    ],
+    "blendModes": [
+      {
+        "name": "ink-into-paper",
+        "value": "mix-blend-mode: multiply",
+        "purpose": "Verdict stamp and the quote highlights on the PDF page sit in the paper."
+      }
+    ],
+    "ruleWeights": [
+      {
+        "name": "hairline",
+        "value": "1px solid #d5d7cf",
+        "purpose": "Row dividers in lists and tables."
+      },
+      {
+        "name": "hairline-strong",
+        "value": "1px solid #b6b9ae",
+        "purpose": "Group top rules, column-header rules, result-head closing rule."
+      },
+      {
+        "name": "structural",
+        "value": "2px solid #1c1f22",
+        "purpose": "Routing-slip head and totals ledger."
+      },
+      {
+        "name": "pending-dashed",
+        "value": "1px dashed #b6b9ae / 2px dashed (drop zone)",
+        "purpose": "Not yet filled in: pending initials, idle drop zone."
+      },
+      {
+        "name": "second-pass-dashed",
+        "value": "2px dashed rgba(90,71,8,0.5)",
+        "purpose": "Divider where a resumed run continues on the same slip."
+      },
+      {
+        "name": "stamp-double",
+        "value": "3px outer + 3px gap + 1.5px inner",
+        "purpose": "Verdict stamp frame."
+      },
+      {
+        "name": "stamp-small",
+        "value": "1.5px",
+        "purpose": "Initials, VOID marks, outcome tags; void strike-through decoration thickness."
+      }
+    ],
+    "rotations": [
+      {
+        "name": "stamp-verified",
+        "value": "-4deg"
+      },
+      {
+        "name": "stamp-rejected",
+        "value": "3deg"
+      },
+      {
+        "name": "stamp-returned",
+        "value": "-3deg"
+      },
+      {
+        "name": "void-mark",
+        "value": "-3deg"
+      },
+      {
+        "name": "slip-initials",
+        "value": "-2deg"
+      }
+    ],
+    "motion": [
+      {
+        "name": "stamp-press",
+        "value": "420ms cubic-bezier(0.16, 1, 0.3, 1) both; 0%: opacity 0, scale 1.35, blur 2px; 60%: opacity 1, scale 0.97, blur 0; 100%: scale 1 (rotation held via --stamp-rot)",
+        "purpose": "The verdict stamp being pressed onto the sheet."
+      },
+      {
+        "name": "slip-in",
+        "value": "220ms cubic-bezier(0.16, 1, 0.3, 1) both; translateY(-4px) and opacity 0 to rest",
+        "purpose": "Each new routing-slip row as a station signs."
+      },
+      {
+        "name": "quote-focus",
+        "value": "background-color 200ms",
+        "purpose": "Focus box on the PDF page following the hovered fact."
+      },
+      {
+        "name": "color-swap",
+        "value": "150ms cubic-bezier(0.4, 0, 0.2, 1) (Tailwind transition-colors)",
+        "purpose": "Button, drop-zone and row hover/focus."
+      },
+      {
+        "name": "pending-pulse",
+        "value": "Tailwind animate-pulse, 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "purpose": "Facts skeleton, pending slip row, loading page."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "@media (prefers-reduced-motion: reduce) { .stamp-press, .slip-in { animation: none } }",
+        "purpose": "Stamp and slip entrances switch off; the stamp keeps its rotation."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "purpose": "Three-column desk layout; below it, work-area tabs."
+      },
+      {
+        "name": "container",
+        "value": "1600px max width"
+      }
+    ],
+    "grid": {
+      "desktop": "minmax(0,1fr) minmax(0,1.15fr) minmax(16rem,0.75fr)",
+      "slipRow": "1fr 3.75rem 4.25rem",
+      "factRow": "4.25rem minmax(0,9rem) 1fr 2.25rem",
+      "factRowMobile": "3.5rem 1fr 2rem"
+    }
+  },
+  "components": [
+    {
+      "name": "Verdict Stamp (verified)",
+      "kind": "custom",
+      "refersTo": "verdict-stamp-verified",
+      "description": "Signature move: the result pressed onto the sheet as a double-ruled inspection stamp with validator version, date and report hash; rejected uses void red at +3deg, returned uses tab-ink at -3deg.",
+      "html": "<div class=\"ds-stamp\" role=\"status\" style=\"--stamp-rot:-4deg\"><div class=\"ds-stamp-inner\"><div class=\"ds-stamp-title\">Verified</div><div class=\"ds-stamp-line\">KoSIT 1.6.3 · XRechnung 3.0.2</div><div class=\"ds-stamp-line\">2026-10-02</div><div class=\"ds-stamp-hash\">report 30aec56f4f</div></div></div>",
+      "css": ".ds-stamp { display:inline-block; border:3px solid var(--color-stamp, #4536a8); padding:3px; color:var(--color-stamp, #4536a8); mix-blend-mode:multiply; transform:rotate(var(--stamp-rot)); animation:ds-stamp-press 420ms cubic-bezier(0.16, 1, 0.3, 1) both; } .ds-stamp-inner { border:1.5px solid var(--color-stamp, #4536a8); padding:10px 20px; text-align:center; } .ds-stamp-title { font-family:var(--font-stamp, \"Barlow Condensed\", \"Barlow\", ui-sans-serif, sans-serif); font-size:2.75rem; line-height:1; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; } .ds-stamp-line { margin-top:4px; font-family:var(--font-stamp, \"Barlow Condensed\", \"Barlow\", ui-sans-serif, sans-serif); font-size:0.75rem; line-height:1rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; } .ds-stamp-hash { margin-top:4px; font-family:var(--font-mono, \"JetBrains Mono\", ui-monospace, \"SF Mono\", monospace); font-size:0.75rem; line-height:1rem; } @keyframes ds-stamp-press { 0% { opacity:0; transform:rotate(var(--stamp-rot)) scale(1.35); filter:blur(2px); } 60% { opacity:1; transform:rotate(var(--stamp-rot)) scale(0.97); filter:blur(0); } 100% { opacity:1; transform:rotate(var(--stamp-rot)) scale(1); } } @media (prefers-reduced-motion: reduce) { .ds-stamp { animation:none; } }"
+    },
+    {
+      "name": "Void Mark with struck value",
+      "kind": "custom",
+      "refersTo": "void-mark",
+      "description": "Nothing disappears, it cancels: the refused value stays on record, struck through in void red, with a small rotated VOID stamp.",
+      "html": "<div class=\"ds-void-row\"><span class=\"ds-void-struck\">1.005,00 €</span> <span class=\"ds-void-mark\">Not used</span></div>",
+      "css": ".ds-void-row { display:flex; align-items:center; gap:8px; font-family:var(--font-sans, \"Barlow\", ui-sans-serif, system-ui, sans-serif); font-size:0.875rem; color:var(--color-ink-2, #4a4f54); } .ds-void-struck { color:var(--color-ink-3, #62676d); text-decoration:line-through; text-decoration-color:var(--color-void, #c2382b); text-decoration-thickness:1.5px; } .ds-void-mark { display:inline-block; transform:rotate(-3deg); border:1.5px solid var(--color-void, #c2382b); padding:0 6px; font-family:var(--font-stamp, \"Barlow Condensed\", \"Barlow\", ui-sans-serif, sans-serif); font-size:0.75rem; line-height:1rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--color-void, #c2382b); }"
+    },
+    {
+      "name": "Routing Slip Row",
+      "kind": "custom",
+      "refersTo": "slip-row",
+      "description": "One station on the Laufzettel: name, audit note, a duration bar whose length is real time, rotated sign-off initials coloured by actor, and the duration in mono.",
+      "html": "<div class=\"ds-slip\"><div class=\"ds-slip-head\"><span>Station</span><span style=\"text-align:center\">Signed</span><span style=\"text-align:right\">Took</span></div><div class=\"ds-slip-row\"><div><div class=\"ds-slip-name\">Read by Nemotron Super</div><p class=\"ds-slip-note\">1515 → 2119 tokens · $0.00236</p><div class=\"ds-slip-bar\" style=\"width:100%\"></div></div><span class=\"ds-slip-sign ds-tone-office\">NEM·S</span><span class=\"ds-slip-took\">8.27 s</span></div><div class=\"ds-slip-row\"><div><div class=\"ds-slip-name\">Official KoSIT validator</div><p class=\"ds-slip-note\">accepted · report 30aec56f4f</p><div class=\"ds-slip-bar ds-bar-stamp\" style=\"width:1.5%\"></div></div><span class=\"ds-slip-sign ds-tone-stamp\">KoSIT</span><span class=\"ds-slip-took\">85 ms</span></div><div class=\"ds-slip-row\"><div><div class=\"ds-slip-name\">Returned for your input</div><p class=\"ds-slip-note\">1 fact not on the document</p></div><span class=\"ds-slip-sign ds-tone-tab\">RTN</span><span class=\"ds-slip-took\">–</span></div></div>",
+      "css": ".ds-slip { font-family:var(--font-sans, \"Barlow\", ui-sans-serif, system-ui, sans-serif); max-width:360px; } .ds-slip-head, .ds-slip-row { display:grid; grid-template-columns:1fr 3.75rem 4.25rem; column-gap:12px; } .ds-slip-head { border-top:2px solid var(--color-ink, #1c1f22); border-bottom:1px solid var(--color-rule-strong, #b6b9ae); padding:6px 0; font-family:var(--font-stamp, \"Barlow Condensed\", \"Barlow\", ui-sans-serif, sans-serif); font-size:0.75rem; line-height:1rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--color-ink-3, #62676d); } .ds-slip-row { align-items:start; border-bottom:1px solid var(--color-rule, #d5d7cf); padding:10px 0; animation:ds-slip-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both; } .ds-slip-name { font-size:0.875rem; line-height:1.25rem; font-weight:500; color:var(--color-ink, #1c1f22); } .ds-slip-note { margin:2px 0 0; font-size:0.75rem; line-height:1rem; color:var(--color-ink-2, #4a4f54); } .ds-slip-bar { margin-top:6px; height:4px; background:var(--color-office, #2f5d4a); } .ds-bar-stamp { background:var(--color-stamp, #4536a8); } .ds-slip-sign { margin-top:2px; display:inline-flex; height:24px; align-items:center; justify-content:center; transform:rotate(-2deg); border:1.5px solid; font-family:var(--font-stamp, \"Barlow Condensed\", \"Barlow\", ui-sans-serif, sans-serif); font-size:0.75rem; font-weight:700; letter-spacing:0.05em; } .ds-tone-office { border-color:var(--color-office, #2f5d4a); color:var(--color-office, #2f5d4a); } .ds-tone-stamp { border-color:var(--color-stamp, #4536a8); color:var(--color-stamp, #4536a8); } .ds-tone-tab { border-color:var(--color-tab-ink, #5a4708); background:var(--color-tab, #e7c43f); color:var(--color-tab-ink, #5a4708); } .ds-slip-took { margin-top:2px; text-align:right; font-family:var(--font-mono, \"JetBrains Mono\", ui-monospace, \"SF Mono\", monospace); font-size:0.75rem; line-height:1rem; color:var(--color-ink-2, #4a4f54); } @keyframes ds-slip-in { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } } @media (prefers-reduced-motion: reduce) { .ds-slip-row { animation:none; } }"
+    },
+    {
+      "name": "Fact Row with provenance",
+      "kind": "custom",
+      "refersTo": "fact-row",
+      "description": "A quoted fact: BT code, label, value, provenance chip. Hover/focus paints stamp wash and highlights the quote on the page; a missing fact sits on tab wash.",
+      "html": "<dl class=\"ds-facts\"><div class=\"ds-fact\" tabindex=\"0\"><span class=\"ds-fact-bt\">BT-1</span><span class=\"ds-fact-label\">Invoice number</span><span class=\"ds-fact-value\">R123456789</span><span class=\"ds-chip\">p.1</span></div><div class=\"ds-fact\"><span class=\"ds-fact-bt\">BT-112</span><span class=\"ds-fact-label\">Total</span><span class=\"ds-fact-value\">21.701,70 €</span><span class=\"ds-chip ds-chip-calc\">calc</span></div><div class=\"ds-fact ds-fact-missing\"><span class=\"ds-fact-bt\">BT-84</span><span class=\"ds-fact-label\">IBAN</span><span class=\"ds-fact-value\">Not on the document</span><span></span></div></dl>",
+      "css": ".ds-facts { margin:0; border-top:1px solid var(--color-rule-strong, #b6b9ae); font-family:var(--font-sans, \"Barlow\", ui-sans-serif, system-ui, sans-serif); font-size:0.875rem; line-height:1.25rem; } .ds-fact { display:grid; grid-template-columns:4.25rem minmax(0,9rem) 1fr 2.25rem; column-gap:12px; align-items:baseline; border-bottom:1px solid var(--color-rule, #d5d7cf); padding:6px 0; outline:none; } .ds-fact[tabindex]:hover, .ds-fact[tabindex]:focus-visible { background:var(--color-stamp-wash, #e7e4f6); } .ds-fact-bt { font-family:var(--font-mono, \"JetBrains Mono\", ui-monospace, \"SF Mono\", monospace); font-size:0.75rem; color:var(--color-ink-3, #62676d); } .ds-fact-label { color:var(--color-ink-2, #4a4f54); } .ds-fact-value { color:var(--color-ink, #1c1f22); } .ds-chip { text-align:right; font-family:var(--font-mono, \"JetBrains Mono\", ui-monospace, \"SF Mono\", monospace); font-size:0.75rem; color:var(--color-ink-2, #4a4f54); } .ds-chip-calc { color:var(--color-office, #2f5d4a); } .ds-fact-missing { background:var(--color-tab-wash, #f7eec4); } .ds-fact-missing .ds-fact-value { color:var(--color-tab-ink, #5a4708); font-weight:500; }"
+    },
+    {
+      "name": "Stamp Button (primary)",
+      "kind": "button",
+      "refersTo": "button-stamp",
+      "description": "The result download that exists only when the validator accepted; violet fill, turns ink on hover.",
+      "html": "<button class=\"ds-btn-stamp\" type=\"button\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 15V3\"/><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><path d=\"m7 10 5 5 5-5\"/></svg> XRechnung</button>",
+      "css": ".ds-btn-stamp { display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 12px; border:0; border-radius:0; background:var(--color-stamp, #4536a8); color:#fff; font-family:var(--font-sans, \"Barlow\", ui-sans-serif, system-ui, sans-serif); font-size:0.875rem; font-weight:600; cursor:pointer; transition:background-color 150ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-stamp:hover, .ds-btn-stamp:focus-visible { background:var(--color-ink, #1c1f22); } .ds-btn-stamp:focus-visible { outline:2px solid var(--color-stamp, #4536a8); outline-offset:2px; }"
+    },
+    {
+      "name": "Outline Button (secondary)",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary result action (Audit log); 1px ink border, inverts to ink on hover and focus.",
+      "html": "<button class=\"ds-btn-outline\" type=\"button\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 15V3\"/><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><path d=\"m7 10 5 5 5-5\"/></svg> Audit log</button>",
+      "css": ".ds-btn-outline { display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 12px; border:1px solid var(--color-ink, #1c1f22); border-radius:0; background:transparent; color:var(--color-ink, #1c1f22); font-family:var(--font-sans, \"Barlow\", ui-sans-serif, system-ui, sans-serif); font-size:0.875rem; font-weight:600; cursor:pointer; } .ds-btn-outline:hover, .ds-btn-outline:focus-visible { background:var(--color-ink, #1c1f22); color:var(--color-sheet, #fbfbf8); } .ds-btn-outline:focus-visible { outline:2px solid var(--color-stamp, #4536a8); outline-offset:2px; }"
+    },
+    {
+      "name": "Ink Button (form action)",
+      "kind": "button",
+      "refersTo": "button-ink",
+      "description": "Form actions such as Choose a file and Validate again; ink fill, turns violet on hover, ink-3 when disabled.",
+      "html": "<button class=\"ds-btn-ink\" type=\"button\">Validate again</button> <button class=\"ds-btn-ink\" type=\"button\" disabled>Choose a file</button>",
+      "css": ".ds-btn-ink { height:40px; padding:0 16px; border:0; border-radius:0; background:var(--color-ink, #1c1f22); color:var(--color-sheet, #fbfbf8); font-family:var(--font-sans, \"Barlow\", ui-sans-serif, system-ui, sans-serif); font-size:0.875rem; font-weight:600; cursor:pointer; transition:background-color 150ms cubic-bezier(0.4,0,0.2,1); } .ds-btn-ink:hover, .ds-btn-ink:focus-visible { background:var(--color-stamp, #4536a8); } .ds-btn-ink:focus-visible { outline:2px solid var(--color-stamp, #4536a8); outline-offset:2px; } .ds-btn-ink:disabled { background:var(--color-ink-3, #62676d); cursor:not-allowed; }"
+    },
+    {
+      "name": "Needs-Input Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "The short, specific question: tab-wash panel, labelled mono field with BT code, violet focus ring.",
+      "html": "<form class=\"ds-ask\"><p class=\"ds-ask-copy\">One fact is required for an XRechnung but not printed on the document. Verdict will not invent it.</p><label class=\"ds-ask-label\"><span>Payment: IBAN <span class=\"ds-ask-bt\">BT-84</span></span><input class=\"ds-ask-input\" value=\"DE02 1203 0000 0000 2020 51\"></label></form>",
+      "css": ".ds-ask { background:var(--color-tab-wash, #f7eec4); padding:16px; font-family:var(--font-sans, \"Barlow\", ui-sans-serif, system-ui, sans-serif); } .ds-ask-copy { margin:0; font-size:0.875rem; line-height:1.25rem; color:var(--color-tab-ink, #5a4708); } .ds-ask-label { margin-top:12px; display:flex; flex-direction:column; gap:4px; font-size:0.875rem; font-weight:500; color:var(--color-ink, #1c1f22); } .ds-ask-bt { font-family:var(--font-mono, \"JetBrains Mono\", ui-monospace, \"SF Mono\", monospace); font-size:0.75rem; font-weight:400; color:var(--color-ink-3, #62676d); } .ds-ask-input { height:40px; padding:0 12px; border:1px solid rgba(90,71,8,0.4); border-radius:0; background:var(--color-sheet, #fbfbf8); color:var(--color-ink, #1c1f22); font-family:var(--font-mono, \"JetBrains Mono\", ui-monospace, \"SF Mono\", monospace); font-size:0.875rem; outline:none; caret-color:var(--color-stamp, #4536a8); } .ds-ask-input:focus { border-color:var(--color-stamp, #4536a8); box-shadow:0 0 0 2px rgba(69,54,168,0.25); }"
+    },
+    {
+      "name": "Work-Area Tabs",
+      "kind": "nav",
+      "refersTo": "work-area-tab",
+      "description": "Below 1024px: one desk at a time; active tab in ink with a 2px violet underline.",
+      "html": "<nav class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">Document</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">Facts</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">Routing slip</button></nav>",
+      "css": ".ds-tabs { display:flex; background:var(--color-sheet, #fbfbf8); border-bottom:1px solid var(--color-rule, #d5d7cf); } .ds-tab { flex:1; padding:10px 0; border:0; border-bottom:2px solid transparent; background:transparent; font-family:var(--font-sans, \"Barlow\", ui-sans-serif, system-ui, sans-serif); font-size:0.875rem; font-weight:500; color:var(--color-ink-2, #4a4f54); cursor:pointer; } .ds-tab[aria-selected=\"true\"] { border-bottom-color:var(--color-stamp, #4536a8); color:var(--color-ink, #1c1f22); } .ds-tab:hover { color:var(--color-ink, #1c1f22); } .ds-tab:focus-visible { outline:2px solid var(--color-stamp, #4536a8); outline-offset:2px; }"
+    },
+    {
+      "name": "Outcome Tags",
+      "kind": "chip",
+      "refersTo": "outcome-tag-asks",
+      "description": "Small square stamps on recorded runs: verified (violet), rejected (red), asks (yellow fill, tab-ink text).",
+      "html": "<span class=\"ds-tag ds-tag-verified\">verified</span> <span class=\"ds-tag ds-tag-asks\">asks · verified</span> <span class=\"ds-tag ds-tag-rejected\">rejected</span>",
+      "css": ".ds-tag { display:inline-block; border:1.5px solid; padding:0 6px; font-family:var(--font-stamp, \"Barlow Condensed\", \"Barlow\", ui-sans-serif, sans-serif); font-size:0.75rem; line-height:1rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; } .ds-tag-verified { border-color:var(--color-stamp, #4536a8); color:var(--color-stamp, #4536a8); } .ds-tag-rejected { border-color:var(--color-void, #c2382b); color:var(--color-void, #c2382b); } .ds-tag-asks { border-color:var(--color-tab-ink, #5a4708); background:var(--color-tab, #e7c43f); color:var(--color-tab-ink, #5a4708); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Routing Slip and the Inspection Stamp",
+    "overview": "Verdict is a German office form (Behörden-Laufzettel) put on screen. An invoice travels from desk to desk; every station signs a ruled slip with its initials and the time it took, and the outcome is pressed onto the sheet as an inspection stamp carrying the validator version, the date and the report hash. The interface is a working surface, not a dashboard: recycled-paper grey ground, near-black ink, hairline rules, square corners, and a small set of stamp inks that each mean one thing.\n\nDensity is that of a filled-in form. Most text runs at 14px in a DIN-like grotesk (Barlow); machine readouts (BT codes, hashes, milliseconds, cents) run at 12px in JetBrains Mono; and exactly one large figure per result, the computed total, sits next to the stamp. Colour is flat and committed. The one physical object on the desk, the printed invoice page, is the only thing lifted with a shadow; it stays registered in place across every state while marks appear on it.\n\nThe system refuses the category default of \"PDF left, field list right, green ticks\". Validity is never a check icon; it is a stamp. Refused values are never hidden; they are struck through and cancelled with a VOID mark.",
+    "keyCharacteristics": [
+      "Recycled-paper ground, near-black ink, flat colour, no gradients, no glass.",
+      "Square corners everywhere; hierarchy comes from rule weight, not boxes.",
+      "Four inks with fixed meanings: stamp violet, void red, folder-tab yellow, office green.",
+      "Condensed caps for anything a rubber stamp or a printed form label would carry.",
+      "Monospace for every machine readout; one large proportional figure per result.",
+      "Bar length on the routing slip equals real duration.",
+      "Motion is a press and a slide, never a bounce; both switch off under reduced motion."
+    ],
+    "rules": [
+      {
+        "name": "The One Ink, One Meaning Rule",
+        "body": "Violet means accepted or in focus, red means refused, yellow means waiting for you, green means the shell and the model, ink-grey means deterministic core. A colour never changes meaning between components.",
+        "section": "colors"
+      },
+      {
+        "name": "The Wash Is Not Ink Rule",
+        "body": "Washes (`stamp-wash`, `void-wash`, `tab-wash`) are backgrounds only. Text on a wash uses the matching full ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The Rubber Stamp Rule",
+        "body": "Condensed uppercase with open tracking is reserved for text a stamp or a printed form label would carry: the verdict stamp, VOID marks, station initials, group and column headings, the wordmark. Sentences are never set in it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Machine Readout Rule",
+        "body": "Anything a machine produced or a standard defines (BT-xx, sha256 fragments, ms, $ cost, unit codes, p.N) is mono at 12px. Prose and the large total are never mono.",
+        "section": "typography"
+      },
+      {
+        "name": "The Registered Page Rule",
+        "body": "The rendered invoice page never moves or reflows between states. Only marks change on it: quote highlights for every quoted fact, a violet outlined box for the fact in focus.",
+        "section": "layout"
+      },
+      {
+        "name": "The One Lifted Sheet Rule",
+        "body": "Only the invoice page casts a shadow. Panels, buttons, stamps and tags stay flat.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Square Corner Rule",
+        "body": "Radius is 0 everywhere. Softness, where needed, comes from washes, not curves.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "**Do** keep every corner square (0px) and draw structure with the three rule weights: 1px `rule`, 1px `rule-strong`, 2px `ink`.",
+      "**Do** show validity only as the VERIFIED stamp, and only with the validator version, date and `report <hash>` line on it.",
+      "**Do** cancel instead of removing: strike the value with a 1.5px `void` line and set a VOID mark beside it.",
+      "**Do** set BT codes, hashes, durations, token counts and costs in JetBrains Mono at 12px.",
+      "**Do** size routing-slip bars by real duration relative to the longest station.",
+      "**Do** keep the invoice page registered; express state only through marks on it.",
+      "**Do** colour by actor and outcome per the One Ink, One Meaning Rule.",
+      "**Do** wrap every entrance animation in the `prefers-reduced-motion: reduce` switch."
+    ],
+    "donts": [
+      "**Don't** use gradients, glass, blur effects or backdrop filters on surfaces.",
+      "**Don't** round corners.",
+      "**Don't** use green check marks, tick icons or \"success green\" for validity; green belongs to the shell and the model.",
+      "**Don't** hide refused values or collapse them out of view.",
+      "**Don't** set yellow (`tab`) as text; use `tab-ink`.",
+      "**Don't** cast shadows on anything but the invoice page.",
+      "**Don't** set sentences in condensed caps or prose in mono."
+    ]
+  }
+}

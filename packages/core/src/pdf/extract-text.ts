@@ -1,13 +1,31 @@
 // Text-layer extraction via pdf.js (legacy Node build). Items are emitted in content-stream
 // order; items on the same baseline are joined with a space, a new baseline starts a new line.
 
+import { existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join, sep } from "node:path";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
-const require = createRequire(import.meta.url);
-// In Node, pdf.js reads this with fs.readFile, so it must be a plain path with a trailing separator.
-const STANDARD_FONTS = join(dirname(require.resolve("pdfjs-dist/package.json")), "standard_fonts") + sep;
+/**
+ * pdf.js reads its standard font data with fs.readFile, so it needs a plain path with a trailing
+ * separator. Inside a bundled server (Next.js) require.resolve returns a module id instead of a
+ * path, so resolve lazily and fall back to node_modules under the working directory.
+ */
+let standardFonts: string | null | undefined;
+function standardFontsPath(): string | undefined {
+  if (standardFonts !== undefined) return standardFonts ?? undefined;
+  const candidates: string[] = [];
+  try {
+    const resolved: unknown = createRequire(import.meta.url).resolve("pdfjs-dist/package.json");
+    if (typeof resolved === "string") candidates.push(join(dirname(resolved), "standard_fonts"));
+  } catch {
+    // fall through to the cwd-based candidates
+  }
+  candidates.push(join(process.cwd(), "node_modules", "pdfjs-dist", "standard_fonts"));
+  const found = candidates.find((c) => existsSync(c));
+  standardFonts = found ? found + sep : null;
+  return standardFonts ?? undefined;
+}
 
 interface Item {
   readonly str: string;
@@ -21,7 +39,7 @@ const isItem = (x: unknown): x is Item =>
 export async function extractPageTexts(pdf: Buffer): Promise<string[]> {
   const task = getDocument({
     data: new Uint8Array(pdf),
-    standardFontDataUrl: STANDARD_FONTS,
+    ...(standardFontsPath() ? { standardFontDataUrl: standardFontsPath() } : {}),
     verbosity: 0,
   });
   const doc = await task.promise;

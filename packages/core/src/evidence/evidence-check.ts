@@ -16,6 +16,9 @@ export type EvidenceVerdict =
 
 export function canonical(s: string): string {
   return s
+    // The extraction prompt asks for line breaks as the two characters "\n"; treat them as
+    // whitespace, like a real line break.
+    .replace(/\\n/g, " ")
     .normalize("NFKC")
     .replace(/[‐-―−]/g, "-")
     .replace(/[   ]/g, " ")

@@ -5,13 +5,13 @@ import {
   assembleInvoice,
   buildCii,
   deriveAmounts,
+  extractPageTexts,
   extractRaw,
   InvoiceInput,
   runInvoice,
   TokenFactoryClient,
   type InvoiceInput as InvoiceInputT,
 } from "@verdict/core";
-import { extractPageTexts } from "./render/extract-text.ts";
 import { CORPUS_DIR, type ManifestEntry } from "./corpus/manifest.ts";
 import { validateXRechnung, type VerifierResult } from "./verifier-client.ts";
 

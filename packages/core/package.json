@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./rule-fields": "./src/agent/rule-fields.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
@@ -15,6 +16,7 @@
     "@xmldom/xmldom": "^0.9.12",
     "canonicalize": "^5.1.0",
     "decimal.js": "^10.6.0",
+    "pdfjs-dist": "^6.3.289",
     "xpath": "^0.0.34",
     "zod": "^4.6.5"
   }
