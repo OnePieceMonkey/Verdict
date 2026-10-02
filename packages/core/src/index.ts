@@ -8,3 +8,13 @@ export {
   type ChatResult,
   type TokenFactoryClientOptions,
 } from "./llm/token-factory-client.ts";
+export * from "./model/invoice.ts";
+export {
+  DERIVATION_RULES,
+  deriveAmounts,
+  type DerivedAmounts,
+  type DerivedLine,
+  type VatBreakdown,
+} from "./derive/derive.ts";
+export { readCii, type ReadResult } from "./cii/read.ts";
+export { buildCii } from "./cii/build.ts";

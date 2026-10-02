@@ -6,6 +6,11 @@
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run --passWithNoTests",
     "testsuite:fetch": "tsx scripts/fetch-testsuite.ts",
-    "verifier:check": "tsx --env-file-if-exists=../.env scripts/verifier-check.ts"
+    "verifier:check": "tsx --env-file-if-exists=../.env scripts/verifier-check.ts",
+    "roundtrip:check": "tsx --env-file-if-exists=../.env scripts/roundtrip-check.ts"
+  },
+  "dependencies": {
+    "@verdict/core": "workspace:*",
+    "decimal.js": "^10.6.0"
   }
 }
