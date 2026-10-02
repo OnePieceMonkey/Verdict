@@ -31,6 +31,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
+      - run: pnpm testsuite:fetch
       - run: pnpm test
 
   verifier:
@@ -54,3 +55,8 @@ jobs:
           docker compose logs verifier; exit 1
       - run: pnpm testsuite:fetch
       - run: pnpm verifier:check
+      - run: pnpm roundtrip:check
+      - run: pnpm corpus:build
+      - name: Rebuild corpus and compare hashes (EVAL-01 reproducibility)
+        run: pnpm corpus:build --no-verify | tee rebuild.log && grep -q 'all hashes identical' rebuild.log
+      - run: pnpm eval --set clean

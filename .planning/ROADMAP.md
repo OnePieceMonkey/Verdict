@@ -7,7 +7,7 @@ Fünf Phasen vom 17.09. bis 28.10.2026, ~50 h Gesamtaufwand. Die riskantesten Te
 ## Phases
 
 - [ ] **Phase 1: Fundament & Verifier** — Repo, Credits, Java-Verifier, ZUGFeRD-Spike (17.–23.09., ~10 h)
-- [ ] **Phase 2: Korpus & Ground Truth** — Testdaten, deterministischer Kern ohne LLM, Eval-Harness (24.–30.09., ~9 h)
+- [x] **Phase 2: Korpus & Ground Truth** (02.10.) — Testdaten, deterministischer Kern ohne LLM, Eval-Harness (24.–30.09., ~9 h)
 - [ ] **Phase 3: Kernschleife** — Extraktion, Reparatur, Rückfrage, Audit-Log (01.–10.10., ~14 h)
 - [ ] **Phase 4: Produkt** — Web-UI, Erklärungen, Galerie, Deployment, danach ZUGFeRD-Ausgabe (11.–21.10., ~11 h + ZUGFeRD-Timebox 5 h)
 - [ ] **Phase 5: Einreichung** — Holdout-Benchmark, README, Video, Devpost (22.–28.10., ~6 h)
@@ -52,7 +52,14 @@ Fünf Phasen vom 17.09. bis 28.10.2026, ~50 h Gesamtaufwand. Die riskantesten Te
   3. Roundtrip Ground Truth → CII-Builder → Verifier ist für alle Korpusrechnungen im Scope valide
   4. Eval-Report läuft durch (mit Dummy-Extraktor), Holdout ist abgetrennt
 **Plans**: TBD
-**Hinweis**: Builders & Brews Berlin am Di 29.09. optional (Credits, Kontakte). Keine Voraussetzung für den City Award.
+**Hinweis**: ~~Builders & Brews Berlin keine Voraussetzung für den City Award~~ — laut Devpost-Mail ist der City Award nur für Teilnehmende eines Treffens. Siehe BACKLOG.
+
+**Stand 02.10.2026 (Phase 2 abgeschlossen)**
+- Scope: 19 Testsuite-Rechnungen (380, EUR, ohne Nachlässe/Zuschläge/Vorauszahlung/Rundung, Zahlung per Überweisung 58 oder ohne). Liste in `eval/src/scope.ts`.
+- CORE-01: abgeleitete Summen = gedruckte Summen für 19/19 (USt ±0,01 nach BR-CO-17; 01.06_minimal druckt 757,41 statt 757,40). CORE-02: Rundtest 19/19 ACCEPTABLE.
+- Korpus: clean 45 (3 Layouts), noisy 30 (2 Varianten), mutated 26 (13 Typen, jeder gegen den Verifier geprüft), Holdout 20 (01.03a, 01.09a, 01.10a, 01.14a per Hash). Rebuild byte-identisch.
+- Befunde Verifier: `BR-CL-23` (Einheit „Stück") wird gemeldet, aber ACCEPTABLE. `BR-CO-25` (weder Fälligkeit noch Zahlungsbedingungen) greift nicht.
+- Testdaten-Hygiene nach den ersten Messungen: Platzhalter („[Seller name]", „nicht vorhanden", „-", Rechnungsnummer „Rechnungsnummer") durch erfundene Werte ersetzt; Positions-IDs > 4 Zeichen werden zur Positionsnummer (das MVP-Modell hat keine Artikelnummer-Spalte). Weil das nach Sicht auf Ergebnisse geschah, zählt für den Benchmark nur der Holdout.
 
 ### Phase 3: Kernschleife
 **Goal**: Aus einem PDF entsteht über Extraktion, Validierung und Reparatur eine valide XRechnung mit lückenloser Herkunft und Audit-Log.
@@ -65,6 +72,13 @@ Fünf Phasen vom 17.09. bis 28.10.2026, ~50 h Gesamtaufwand. Die riskantesten Te
   4. Kosten pro Rechnung und Laufzeit sind im Eval-Report sichtbar
 **Plans**: TBD
 **Arbeitsweise**: CLI zuerst (`pnpm run:invoice <pdf>`), UI erst in Phase 4
+
+**Stand 02.10.2026 (Kill-Gate erfüllt, 8 Tage vor Termin)**
+- Pipeline `pnpm eval --set <set> --pipeline agent`: Textlayer → Nemotron Super (JSON-Schema) → Zitat-Check → Normalisierung → Form-/Rollen-Regeln → Ableitung → Zeilen-Gegencheck → CII → KoSIT, bis 3 Reparaturrunden mit Nemotron Ultra hinter dem Patch-Guard, Audit-Kette.
+- Messung (letzter Lauf): clean 41/45 = 91 % gültig mit korrekten BT-112/BT-115 und voller Herkunft (Kill-Gate ≥ 80 %), Feldgenauigkeit 98,4 %, 0,26 ct/Rechnung, Median 7,4 s. noisy 23/30 = 77 %, 98,8 %. mutated 25/26 = 96 % wie erwartet.
+- Seit dem Zeilen-Gegencheck keine einzige valide Ausgabe mit falschem Betrag; Unsicheres endet in NEEDS_INPUT.
+- Restfehler noisy: alle NEEDS_INPUT (Telefon/Land/Stadt bei Variante b: kleine Schrift, Seitenumbruch). Restfehler mutated: Verkäufer-Stadt aus gleichlautender Käuferadresse (gleiche PLZ 12345 in der Testsuite).
+- Offen in Phase 3: OPS-04 ✓, CORE-04 (Download) mit UI; `pnpm run:invoice <pdf>`-CLI.
 
 ### Phase 4: Produkt
 **Goal**: Eine Jurorin kann ohne Anleitung eine Beispielrechnung umwandeln, Fehler verstehen und alle Ergebnisse herunterladen.
@@ -95,7 +109,7 @@ Fünf Phasen vom 17.09. bis 28.10.2026, ~50 h Gesamtaufwand. Die riskantesten Te
 | Phase | Plans Complete | Status | Ist-Stunden | Completed |
 |---|---|---|---|---|
 | 1. Fundament & Verifier | — | In Progress (02.10.) | ? / 10 | - |
-| 2. Korpus & Ground Truth | 0/TBD | Not started | 0 / 9 | - |
-| 3. Kernschleife | 0/TBD | Not started | 0 / 14 | - |
+| 2. Korpus & Ground Truth | — | Complete | ? / 9 | 02.10. |
+| 3. Kernschleife | — | Kill-Gate erfüllt, Rest offen | ? / 14 | - |
 | 4. Produkt | 0/TBD | Not started | 0 / 11 | - |
 | 5. Einreichung | 0/TBD | Not started | 0 / 6 | - |
