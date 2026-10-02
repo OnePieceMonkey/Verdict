@@ -238,7 +238,7 @@ export function VoidedList({ result, pages }: { result: RunResultView; pages: re
                     <>
                       {at > 4 && "… "}
                       {words.slice(Math.max(0, at - 4), at).join(" ")}{" "}
-                      <mark className="bg-void-wash px-0.5 font-medium text-void line-through decoration-void decoration-[1.5px]">
+                      <mark className="bg-void-wash px-0.5 font-medium text-[#a32b20] line-through decoration-void decoration-[1.5px]">
                         {words[at]}
                       </mark>{" "}
                       {words.slice(at + 1, at + 4).join(" ")}

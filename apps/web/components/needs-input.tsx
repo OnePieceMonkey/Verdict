@@ -24,7 +24,7 @@ export function NeedsInput({
 
   if (asks.length === 0) {
     return (
-      <div className="border-l-0 bg-tab-wash p-4 text-sm text-tab-ink">
+      <div className="bg-tab-wash p-4 text-sm text-tab-ink">
         <p className="font-medium">The document contradicts itself here, so Verdict stopped instead of guessing.</p>
         <ul className="mt-2 list-disc pl-5">
           {result.openIssues.map((i) => (

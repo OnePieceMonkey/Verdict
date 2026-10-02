@@ -110,7 +110,10 @@ export function PdfSheet({ url, marks, focusPage }: { url: string; marks: readon
   );
 
   useEffect(() => {
-    if (focusPage) pageRefs.current[focusPage - 1]?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (focusPage) pageRefs.current[focusPage - 1]?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "nearest",
+    });
   }, [focusPage]);
 
   if (failed) {

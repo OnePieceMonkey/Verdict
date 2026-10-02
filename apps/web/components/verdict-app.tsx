@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import type { Provenance } from "@verdict/core";
+import { RULE_FIELDS } from "@verdict/core/rule-fields";
+import { labelFor } from "@/lib/field-groups.ts";
 import { ArrowLeft, Download } from "lucide-react";
 import { useRun } from "@/lib/use-run.ts";
 import { euro, FactsPanel, VoidedList, type FocusTarget } from "./facts-panel.tsx";
@@ -217,7 +219,14 @@ export function VerdictApp() {
                     .filter((e) => e.severity === "error")
                     .map((e) => (
                       <li key={e.ruleId + e.location} className="border-b border-void/20 py-1.5">
-                        <span className="font-mono text-2xs text-void">{e.ruleId}</span> {e.message}
+                        <div className="text-ink">
+                          <span className="mr-2 font-mono text-2xs text-void">{e.ruleId}</span>
+                          {RULE_FIELDS[e.ruleId]
+                            ? `${labelFor(RULE_FIELDS[e.ruleId]!).label} is required but not on the document. Asked above.`
+                            : "Rule violation reported by the KoSIT validator."}
+                        </div>
+                        {/* The validator's own wording stays as evidence, without its duplicated rule prefix. */}
+                        <p className="mt-0.5 text-2xs text-ink-3">{e.message.replace(/^\[[^\]]+\]\s*-?\s*/, "")}</p>
                       </li>
                     ))}
                 </ul>

@@ -16,7 +16,7 @@
   --color-rule-strong: #b6b9ae;
   --color-ink: #1c1f22;
   --color-ink-2: #4a4f54;
-  --color-ink-3: #6b7076;
+  --color-ink-3: #62676d;
   --color-office: #2f5d4a;
   --color-office-ink: #e8efe9;
   --color-office-2: #3c6f59;
@@ -106,7 +106,11 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .stamp-press,
-  .slip-in {
+  .slip-in,
+  .animate-pulse {
     animation: none;
+  }
+  html {
+    scroll-behavior: auto;
   }
 }
