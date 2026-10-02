@@ -20,3 +20,19 @@ export { readCii, type ReadResult } from "./cii/read.ts";
 export { buildCii } from "./cii/build.ts";
 export * from "./normalize/normalize.ts";
 export * from "./evidence/evidence-check.ts";
+export { EXTRACTION_SCHEMA, EXTRACTION_SYSTEM_PROMPT, type Ev, type EvValue, type RawExtraction } from "./extract/schema.ts";
+export { ExtractionError, extractRaw, pagesToPrompt, type ExtractionCall } from "./extract/extract.ts";
+export {
+  assembleInvoice,
+  btOf,
+  detectNumberFormat,
+  PATH_BT,
+  type Assembled,
+  type MissingFact,
+  type Provenance,
+  type RejectedFact,
+} from "./extract/assemble.ts";
+export * from "./repair/patch-guard.ts";
+export * from "./repair/repair.ts";
+export * from "./audit/audit-log.ts";
+export * from "./agent/run-invoice.ts";

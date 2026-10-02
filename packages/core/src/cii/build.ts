@@ -199,6 +199,8 @@ class XmlWriter {
     this.#out.push(`${this.#indent()}</${name}>`);
   }
   leaf(name: string, value: string, attrs: Attrs = []): void {
+    // An empty fact is an absent fact: never emit empty elements.
+    if (value === "") return;
     this.#out.push(`${this.#indent()}<${name}${fmtAttrs(attrs)}>${escapeXml(value)}</${name}>`);
   }
   empty(name: string): void {
