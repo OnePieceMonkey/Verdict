@@ -5,9 +5,10 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { Decimal } from "decimal.js";
+import { deriveAmounts, InvoiceInput } from "@verdict/core";
 import { CORPUS_DIR, type CorpusSet, type Manifest, type ManifestEntry } from "../src/corpus/manifest.ts";
 import { flattenFacts, termOf } from "../src/fields.ts";
-import { groundTruthPipeline, llmPipeline, loadGroundTruth, type Pipeline, type PipelineResult } from "../src/pipeline.ts";
+import { agentPipeline, groundTruthPipeline, llmPipeline, loadGroundTruth, type Pipeline, type PipelineResult } from "../src/pipeline.ts";
 
 const { values } = parseArgs({
   options: {
@@ -23,7 +24,7 @@ if (values.holdout && process.env.EVAL_ALLOW_HOLDOUT !== "1") {
   throw new Error("holdout is locked until phase 5 (set EVAL_ALLOW_HOLDOUT=1 deliberately)");
 }
 
-const PIPELINES: Record<string, () => Pipeline> = { "ground-truth": () => groundTruthPipeline, llm: () => llmPipeline() };
+const PIPELINES: Record<string, () => Pipeline> = { "ground-truth": () => groundTruthPipeline, llm: () => llmPipeline(), agent: () => agentPipeline() };
 const pipelineName = values.pipeline ?? "ground-truth";
 const makePipeline = PIPELINES[pipelineName];
 if (!makePipeline) throw new Error(`unknown pipeline ${pipelineName}`);
@@ -48,6 +49,12 @@ interface Row {
   readonly fieldsTotal: number;
   readonly fieldsCorrect: number;
   readonly fieldsInvented: number;
+  /** BT-112 and BT-115 of the output equal those of the ground truth (kill-gate criterion). */
+  readonly totalsCorrect: boolean;
+  readonly missingFields: readonly string[];
+  readonly inventedKeys: readonly string[];
+  readonly wrongKeys: readonly string[];
+  readonly openIssues: readonly string[];
   readonly error?: string;
 }
 
@@ -77,7 +84,18 @@ for (const entry of entries) {
     }
     perTerm.set(termOf(key), t);
   }
-  const invented = [...got.keys()].filter((k) => !truth.has(k)).length;
+  const inventedKeys = [...got.keys()].filter((k) => !truth.has(k));
+  const invented = inventedKeys.length;
+  const wrongKeys = [...truth.keys()].filter((k) => got.has(k) && got.get(k) !== truth.get(k));
+
+  const gtParsed = InvoiceInput.safeParse(loadGroundTruth(entry).invoice);
+  const outParsed = res.invoice ? InvoiceInput.safeParse(res.invoice) : undefined;
+  let totalsCorrect = false;
+  if (gtParsed.success && outParsed?.success && res.state === "OUTPUT") {
+    const a = deriveAmounts(gtParsed.data);
+    const b = deriveAmounts(outParsed.data);
+    totalsCorrect = a.grandTotal === b.grandTotal && a.duePayable === b.duePayable;
+  }
 
   const expected = expectedState(entry);
   rows.push({
@@ -93,6 +111,11 @@ for (const entry of entries) {
     fieldsTotal: truth.size,
     fieldsCorrect: correct,
     fieldsInvented: invented,
+    totalsCorrect,
+    missingFields: res.missingFields,
+    inventedKeys: inventedKeys.map((k) => `${k}=${got.get(k)}`),
+    wrongKeys: wrongKeys.map((k) => `${k}: ${got.get(k)} (truth ${truth.get(k)})`),
+    openIssues: res.openIssues ?? [],
     ...(res.error ? { error: res.error } : {}),
   });
 }
@@ -113,6 +136,8 @@ const summary = {
   holdout: values.holdout,
   documents: rows.length,
   validOutputs: rows.filter((r) => r.state === "OUTPUT" && r.valid).length,
+  /** Kill-gate count: valid, BT-112/BT-115 correct, no field without provenance. */
+  killGatePass: rows.filter((r) => r.state === "OUTPUT" && r.valid && r.totalsCorrect && r.fieldsWithoutProvenance === 0).length,
   asExpected: rows.filter((r) => r.asExpected).length,
   fieldAccuracy: pct(rows.reduce((s, r) => s + r.fieldsCorrect, 0), rows.reduce((s, r) => s + r.fieldsTotal, 0)),
   fieldsInvented: rows.reduce((s, r) => s + r.fieldsInvented, 0),
@@ -137,6 +162,7 @@ const md = [
   "|---|---|",
   `| Documents | ${summary.documents} |`,
   `| Valid XRechnung (verifier ACCEPTABLE) | ${summary.validOutputs} (${pct(summary.validOutputs, summary.documents)}) |`,
+  `| Kill-gate pass (valid, BT-112/115 correct, full provenance) | ${summary.killGatePass} (${pct(summary.killGatePass, summary.documents)}) |`,
   `| Outcome as expected | ${summary.asExpected} (${pct(summary.asExpected, summary.documents)}) |`,
   `| Field accuracy | ${summary.fieldAccuracy} |`,
   `| Invented fields | ${summary.fieldsInvented} |`,

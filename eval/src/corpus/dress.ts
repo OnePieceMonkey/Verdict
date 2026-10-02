@@ -38,7 +38,8 @@ const pick = <T>(pool: readonly T[], seed: number, salt: number): T => {
   return v;
 };
 
-const isPlaceholder = (s: string | undefined): boolean => s !== undefined && /^\[[^\]]*\]$|^…$|^\[…\]$/.test(s.trim());
+const isPlaceholder = (s: string | undefined): boolean =>
+  s !== undefined && /^\[[^\]]*\]$|^…$|^\[…\]$|^nicht vorhanden$|^-$/i.test(s.trim());
 
 /** Replaces inline placeholders inside free text ("Zeitschrift [...]", "bis zum …"). */
 function dressText(s: string, seed: number): string {
@@ -51,6 +52,8 @@ export function dressInvoice(invoice: InvoiceInput, seed: number): InvoiceInput 
   const d: InvoiceInput = structuredClone(invoice);
   const seller = pick(SELLERS, seed, 0);
 
+  // Some suite instances use the label itself as invoice number.
+  if (/^rechnungsnummer$/i.test(d.number.trim())) d.number = `RE-${d.issueDate.slice(0, 4)}-${1000 + seed}`;
   if (isPlaceholder(d.seller.name)) d.seller.name = seller;
   if (isPlaceholder(d.seller.legalRegistrationId)) d.seller.legalRegistrationId = pick(REGISTRATIONS, seed, 1);
   if (isPlaceholder(d.seller.address.line1)) d.seller.address.line1 = pick(STREETS, seed, 2);
@@ -66,9 +69,12 @@ export function dressInvoice(invoice: InvoiceInput, seed: number): InvoiceInput 
 
   if (d.payment && isPlaceholder(d.payment.accountName)) d.payment.accountName = d.seller.name;
   if (d.paymentTerms) d.paymentTerms = dressText(d.paymentTerms, seed);
-  for (const line of d.lines) {
-    line.id = dressText(line.id, seed);
+  d.lines.forEach((line, i) => {
     line.name = dressText(line.name, seed);
-  }
+    // Several suite instances use product names or 6–10 digit article numbers as line ID.
+    // Real invoices print a short position number in that column (article numbers get their
+    // own column, which the MVP model does not have), so longer IDs become the position.
+    line.id = /\s|\[|…/.test(line.id) || line.id.length > 4 ? String(i + 1) : line.id;
+  });
   return d;
 }

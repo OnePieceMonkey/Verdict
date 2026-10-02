@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
@@ -6,6 +7,7 @@ import {
   deriveAmounts,
   extractRaw,
   InvoiceInput,
+  runInvoice,
   TokenFactoryClient,
   type InvoiceInput as InvoiceInputT,
 } from "@verdict/core";
@@ -21,6 +23,8 @@ export interface PipelineResult {
   readonly invoice?: InvoiceInputT;
   readonly verifier?: VerifierResult;
   readonly missingFields: readonly string[];
+  /** Remaining validator/consistency issues when the run stopped, e.g. "LINE-MISMATCH". */
+  readonly openIssues?: readonly string[];
   readonly warnings: readonly string[];
   readonly iterations: number;
   readonly fieldsWithoutProvenance: number;
@@ -117,6 +121,36 @@ export function llmPipeline(model = process.env.MODEL_EXTRACT || "nvidia/nemotro
       verifier,
       missingFields: [],
       fieldsWithoutProvenance: withoutProvenance,
+    };
+  };
+}
+
+/** Full agent loop (extraction, evidence, normalization, repair, audit) as used by the app. */
+export function agentPipeline(): Pipeline {
+  const client = TokenFactoryClient.fromEnv();
+  const models = {
+    extract: process.env.MODEL_EXTRACT || "nvidia/nemotron-3-super-120b-a12b",
+    repair: process.env.MODEL_REPAIR || "nvidia/Nemotron-3-Ultra-550b-a55b",
+  };
+  return async (_entry, pdf) => {
+    const pages = await extractPageTexts(pdf);
+    const run = await runInvoice({
+      client,
+      models,
+      validate: validateXRechnung,
+      pages,
+      uploadHash: `sha256:${createHash("sha256").update(pdf).digest("hex")}`,
+    });
+    return {
+      state: run.state,
+      invoice: (run.invoice ?? run.partial) as InvoiceInputT,
+      ...(run.verifier ? { verifier: run.verifier as VerifierResult } : {}),
+      missingFields: run.missing.map((m) => m.bt),
+      openIssues: run.openIssues.map((i) => `${i.id}: ${i.message.slice(0, 160)}`),
+      warnings: run.warnings,
+      iterations: run.iterations,
+      fieldsWithoutProvenance: run.fieldsWithoutProvenance.length,
+      costUsd: run.costUsd,
     };
   };
 }
