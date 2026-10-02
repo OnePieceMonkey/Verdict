@@ -11,3 +11,4 @@ target/
 eval/corpus/generated/
 eval/.cache/
 coverage/
+eval/results/
