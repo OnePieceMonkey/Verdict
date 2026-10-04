@@ -45,6 +45,17 @@ fi
 gcloud artifacts repositories describe "$REPO" --location "$REGION" --project "$PROJECT" >/dev/null 2>&1 \
   || gcloud artifacts repositories create "$REPO" --repository-format docker \
        --location "$REGION" --project "$PROJECT" --quiet
+# Keep only the two newest images so storage stays inside the 0.5 GB free tier.
+policy="$(mktemp)"
+cat > "$policy" <<'JSON'
+[
+  {"name": "keep-newest-2", "action": {"type": "Keep"}, "mostRecentVersions": {"keepCount": 2}},
+  {"name": "delete-older", "action": {"type": "Delete"}, "condition": {"tagState": "any"}}
+]
+JSON
+gcloud artifacts repositories set-cleanup-policies "$REPO" --location "$REGION" \
+  --project "$PROJECT" --policy "$policy" --no-dry-run --quiet >/dev/null
+rm -f "$policy"
 gcloud auth configure-docker "$REGION-docker.pkg.dev" --quiet >/dev/null
 
 # Build from HEAD only, so uncommitted changes and local files never reach the image.

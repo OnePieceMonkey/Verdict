@@ -40,7 +40,7 @@ Fünf Phasen vom 17.09. bis 28.10.2026, ~50 h Gesamtaufwand. Die riskantesten Te
 - Verifier: KoSIT 1.6.3 + Konfiguration 2026-08-31 in Docker, ohne lokales Java. `pnpm verifier:check`: 41/41 CII-Instanzen der Testsuite valide, 4/4 Mutationen mit erwarteter Regel-ID abgelehnt. JDK-`HttpServer` statt Javalin (keine Klassenkonflikte mit dem KoSIT-Fat-Jar).
 - Befund: 2 Testsuite-Instanzen (04.05a, 02.01a-cvd) sind ACCEPTABLE trotz Codelisten-Meldungen der Stufe `error`. „Valid“ folgt deshalb ausschließlich der `acceptRecommendation`, nie der Fehlerzählung.
 - Cut-Gate ZUGFeRD: ohne Spike verstrichen → ZUGFeRD aus Phase 1 genommen, in Phase 4 verankert (VER-06 + CORE-05, nach Kill-Gate).
-- Offen in Phase 1: Koyeb-Deployment (OPS-05), erster CI-Lauf auf GitHub (OPS-01/02).
+- Offen in Phase 1: Deployment (OPS-05, seit 04.10. Google Cloud Run statt Koyeb), erster CI-Lauf auf GitHub (OPS-01/02).
 
 ### Phase 2: Korpus & Ground Truth
 **Goal**: Es gibt einen reproduzierbaren, gemessenen Maßstab, bevor irgendein Modell Rechnungen verarbeitet.
@@ -98,7 +98,7 @@ Fünf Phasen vom 17.09. bis 28.10.2026, ~50 h Gesamtaufwand. Die riskantesten Te
 - Next.js 16: `POST /api/run` (SSE, Limits, Rate-Limit, Tagesbudget, nichts gespeichert), `GET /api/budget`. Galerie: 7 aufgezeichnete echte Läufe (`pnpm --filter @verdict/web gallery:build`), funktioniert ohne Budget.
 - Unabhängiger Finish-Reviewer: Runde 1 „fix" (8 Punkte), Runde 2 „fix" (3 Regressionen), Runde 3 „ship". Dabei gefunden und im Kern behoben: Zitate mit wörtlichem `\n` wurden fälschlich abgelehnt; KoSIT-Ablehnungen wie BR-DE-1 werden jetzt zur gezielten Rückfrage.
 - Produktions-Build und `next start` mit echter PDF geprüft.
-- Offen: Koyeb-Deployment (OPS-05), Galerie-Lauf mit echter Ablehnung fürs Video (Reviewer N2), ZUGFeRD (VER-06/CORE-05, nach Kill-Gate erlaubt), README/Video (Phase 5).
+- Offen: Deployment auf Google Cloud Run (OPS-05, Skript fertig in PR #5, Konto-Einrichtung durch Patrick am 05.10.), Galerie-Lauf mit echter Ablehnung fürs Video (Reviewer N2), ZUGFeRD (VER-06/CORE-05, nach Kill-Gate erlaubt), README/Video (Phase 5).
 
 ### Phase 5: Einreichung
 **Goal**: Vollständige, regelkonforme Einreichung mit belastbaren Zahlen, zwei Tage vor Deadline.
