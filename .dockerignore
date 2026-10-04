@@ -1,0 +1,15 @@
+# Build context for deploy/hf-space/Dockerfile. Never ship secrets or local state into an image.
+.env
+.env.*
+!.env.example
+**/node_modules
+**/.next
+.git
+.claude
+.planning
+eval/.cache
+eval/corpus/generated
+eval/results
+apps/web/public/pdf.worker.min.mjs
+apps/web/.impeccable
+**/.DS_Store
