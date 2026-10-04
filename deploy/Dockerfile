@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.7
-# Hugging Face Space image: the Next.js app and the KoSIT verifier in one container.
-# The verifier listens on localhost only; the Space exposes nothing but the app port (7860).
-# Verifier pins must match services/verifier/Dockerfile (deploy/hf-space/push.sh checks this).
+# Demo image: the Next.js app and the KoSIT verifier in one container.
+# The verifier listens on localhost only; the host exposes nothing but the app port (7860).
+# Verifier pins must match services/verifier/Dockerfile (deploy/cloud-run.sh checks this).
 ARG KOSIT_VALIDATOR_VERSION=1.6.3
 ARG XRECHNUNG_CONFIG_VERSION=xrechnung-3.0.2-validator-configuration-2026-08-31
 
@@ -46,8 +46,8 @@ COPY --from=verifier /build/lib/validator.jar /opt/verifier/lib/validator.jar
 COPY --from=verifier /build/classes /opt/verifier/classes
 COPY --from=verifier /build/config /opt/xrechnung-config
 COPY --from=web /repo/apps/web/.next/standalone /app
-COPY --chmod=755 deploy/hf-space/start.sh /usr/local/bin/start-verdict
-# Spaces run the container as uid 1000.
+COPY --chmod=755 deploy/start.sh /usr/local/bin/start-verdict
+# Unprivileged user; no host needs root here.
 USER 1000
 WORKDIR /app/apps/web
 EXPOSE 7860
