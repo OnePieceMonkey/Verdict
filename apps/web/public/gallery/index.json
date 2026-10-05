@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-02",
+  "generatedAt": "2026-10-05",
   "cases": [
     {
       "id": "clean",
@@ -44,6 +44,19 @@
       "story": "Payment by transfer, but no IBAN on the page. Verdict stops and asks.",
       "state": "NEEDS_INPUT",
       "followUpState": "OUTPUT"
+    },
+    {
+      "id": "borrowed-city",
+      "title": "Seller city missing",
+      "story": "Seller and buyer share a postcode, but only the buyer's city is printed. Verdict refuses to borrow it and asks.",
+      "state": "NEEDS_INPUT",
+      "followUpState": "OUTPUT"
+    },
+    {
+      "id": "exempt-no-reason",
+      "title": "VAT-exempt, no reason given",
+      "story": "No VAT charged and no word on why. Only the seller can state that, so the validator rejects it and Verdict does not make one up.",
+      "state": "FAILED"
     }
   ]
 }
