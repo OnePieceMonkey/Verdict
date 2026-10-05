@@ -19,6 +19,7 @@ export const STATIONS: Readonly<Record<AuditEvent["type"], Station>> = {
   REPAIR_PLAN: { label: "Repaired by Nemotron Ultra", initials: "NEM·U", actor: "model" },
   PATCH_GUARD: { label: "Patch guard", initials: "PG", actor: "core" },
   NEEDS_INPUT: { label: "Returned for your input", initials: "RTN", actor: "core" },
+  REJECTED: { label: "Rejected", initials: "REJ", actor: "core" },
   USER_INPUT: { label: "Your answers recorded", initials: "YOU", actor: "user" },
   OUTPUT: { label: "Issued", initials: "OUT", actor: "core" },
 };
@@ -70,6 +71,10 @@ export function stationNote(e: AuditEvent): string | null {
     case "NEEDS_INPUT": {
       const m = (d.missing as unknown[] | undefined)?.length ?? 0;
       return m > 0 ? `${m} fact${m === 1 ? "" : "s"} not on the document` : "could not be resolved from the document";
+    }
+    case "REJECTED": {
+      const r = (d.rules as string[] | undefined) ?? [];
+      return r.length ? `${r.join(", ")} cannot be met from the document` : null;
     }
     case "USER_INPUT":
       return (d.fields as string[] | undefined)?.join(", ") ?? null;

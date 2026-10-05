@@ -6,13 +6,16 @@ import type { InvoiceInput } from "@verdict/core";
  *  - needs-input: the fact is not on the document, so the pipeline must ask, never invent
  *  - warning: the document is inconsistent, derived amounts win, a warning is shown
  *  - normalize: the fact is printed in a non-standard form and must be normalized
+ *  - rejected: the document lacks something only its issuer may state; the run must end
+ *    rejected, with no XRechnung and nothing asked or invented
  * `detectedBy` is the rule the verifier reports when the mutated model is built as-is
  * (checked against the real verifier on 2026-10-02, see corpus build).
  */
 export type Expectation =
   | { readonly kind: "needs-input"; readonly fields: readonly string[] }
   | { readonly kind: "warning"; readonly fields: readonly string[] }
-  | { readonly kind: "normalize"; readonly fields: readonly string[] };
+  | { readonly kind: "normalize"; readonly fields: readonly string[] }
+  | { readonly kind: "rejected"; readonly fields: readonly string[] };
 
 export interface Mutation {
   readonly id: string;
@@ -137,6 +140,21 @@ export const MUTATIONS: readonly Mutation[] = [
     apply: (i) => {
       const m = clone(i);
       m.buyer.address.city = "";
+      return m;
+    },
+  },
+  {
+    id: "exempt-without-reason",
+    description: "All lines VAT-exempt (category E, 0 %) but the document never says why",
+    expect: { kind: "rejected", fields: ["BT-120"] },
+    detectedBy: "BR-E-10",
+    applicable: (i) => i.lines.every((l) => l.vatCategory === "S") && i.vatExemptions.length === 0,
+    apply: (i) => {
+      const m = clone(i);
+      m.lines.forEach((l) => {
+        l.vatCategory = "E";
+        l.vatRate = "0";
+      });
       return m;
     },
   },

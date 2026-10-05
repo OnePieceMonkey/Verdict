@@ -76,7 +76,7 @@ export { RULE_FIELDS } from "./rule-fields.ts";
 /**
  * The agent loop (docs/SRS.md §4) for a document with a text layer:
  * EXTRACT → EVIDENCE_CHECK/NORMALIZE → DERIVE → CONSISTENCY_CHECK → BUILD_CII → VALIDATE,
- * with up to 3 REPAIR_PLAN/PATCH_GUARD rounds, ending in OUTPUT or NEEDS_INPUT.
+ * with up to 3 REPAIR_PLAN/PATCH_GUARD rounds, ending in OUTPUT, NEEDS_INPUT or FAILED.
  */
 export async function runInvoice(opts: RunOptions): Promise<RunResult> {
   const audit = new AuditLog(opts.now, opts.onAudit);
@@ -246,6 +246,15 @@ export async function runInvoice(opts: RunOptions): Promise<RunResult> {
       if (path && !missing.some((m) => m.path === path)) {
         missing.push({ path, bt: btOf(path), reason: `required by ${issue.id} but not on the document` });
       }
+    }
+    // Nothing to ask, but the validator still says no: the run ends rejected rather than
+    // pretending a question could fix it. Contradictions inside the document (LINE-MISMATCH)
+    // stay NEEDS_INPUT, because the user can read the page and correct the line.
+    const ruleIssues = issues.filter((i) => i.id !== "MISSING" && i.id !== "LINE-MISMATCH");
+    if (missing.length === 0 && ruleIssues.length > 0) {
+      audit.append({ type: "REJECTED", actor: core, data: { rules: ruleIssues.map((i) => i.id) } });
+      step("REJECTED", { rules: ruleIssues.length });
+      return result("FAILED", { missing: [], openIssues: issues, withoutProvenance: [] });
     }
     audit.append({
       type: "NEEDS_INPUT",

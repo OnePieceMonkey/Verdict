@@ -18,6 +18,7 @@ export type AuditEventType =
   | "REPAIR_PLAN"
   | "PATCH_GUARD"
   | "NEEDS_INPUT"
+  | "REJECTED"
   | "USER_INPUT"
   | "OUTPUT";
 

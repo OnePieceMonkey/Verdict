@@ -54,6 +54,7 @@ export function VerdictApp() {
   const stampDate = validateEvent?.ts.slice(0, 10) ?? "";
   const xrVersion = /xrechnung-(\d+\.\d+\.\d+)/i.exec(verifier?.versions.configuration ?? "")?.[1];
   const reportHash = verifier?.reportHash?.slice(0, 10);
+  const rejectedRules = new Set(verifier?.errors.filter((e) => e.severity === "error").map((e) => e.ruleId)).size;
   const printedTotal = result?.documentTotals.grandTotal;
   const totalDiffers = Boolean(result?.amounts && printedTotal && printedTotal !== result.amounts.grandTotal);
   const runCost = state.priorCostUsd + Number(result?.costUsd ?? 0);
@@ -146,7 +147,10 @@ export function VerdictApp() {
                         ? [`KoSIT ${verifier?.versions.validator}${xrVersion ? ` · XRechnung ${xrVersion}` : ""}`, stampDate]
                         : stampKind === "returned"
                           ? ["Input needed", `${result.missing.length || result.openIssues.length} open point${(result.missing.length || result.openIssues.length) === 1 ? "" : "s"}`]
-                          : ["See rule violations"]
+                          : [
+                              `KoSIT ${verifier?.versions.validator ?? ""}${xrVersion ? ` · XRechnung ${xrVersion}` : ""}`,
+                              `${rejectedRules} rule${rejectedRules === 1 ? "" : "s"} not met`,
+                            ]
                     }
                   />
                 ) : state.phase === "error" ? (
@@ -180,7 +184,7 @@ export function VerdictApp() {
                         ? "Every field is quoted from the page or computed. The official KoSIT validator accepted the XRechnung."
                         : result.state === "NEEDS_INPUT"
                           ? "Some required facts are not on the document. Verdict asks instead of inventing them."
-                          : "The validator rejected the result."}
+                          : "The official validator rejected the result, and nothing on the page can fix it. Verdict will not make anything up."}
                     </p>
                     <p className="text-sm text-ink-3">
                       {runIterations} repair round{runIterations === 1 ? "" : "s"} · model cost{" "}
