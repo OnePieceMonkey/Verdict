@@ -27,30 +27,37 @@ The demo has a gallery of nine recorded runs on synthetic invoices that replay w
 
 ## How it works
 
+```mermaid
+flowchart TD
+  pdf([PDF invoice, text layer]) --> extract["<b>Nemotron 3 Super</b><br/>reads the page and quotes every field"]
+  extract --> checks
+  subgraph core ["Deterministic core: no model, no guessing"]
+    checks["<b>Check</b><br/>quote is on the page · normalize codes<br/>shape and role rules · no borrowed lines"]
+    compute["<b>Compute</b><br/>amounts with decimal math · line cross-check<br/>deterministic CII builder"]
+    checks --> compute
+  end
+  compute --> kosit{{"<b>Official KoSIT validator</b><br/>XRechnung 3.0.2"}}
+  kosit -- accepted --> verified(["<b>VERIFIED</b><br/>XRechnung + audit log"])
+  kosit -- rule violations --> repair["<b>Nemotron 3 Ultra</b><br/>proposes patches with quotes"]
+  repair --> guard["<b>Patch guard</b><br/>drops patches without proof"]
+  guard -- "patched, max 3 rounds" --> compute
+  guard -- "fact not on the page" --> returned(["<b>RETURNED</b><br/>asks the user for that fact"])
+  guard -- "nothing on the page can fix it" --> rejected(["<b>REJECTED</b><br/>rule explained by Nemotron + Tavily"])
+  returned -. "user answers" .-> compute
+
+  classDef model fill:#e8efe9,stroke:#2f5d4a,color:#1c1f22
+  classDef judge fill:#fbfbf8,stroke:#1c1f22,stroke-width:2px,color:#1c1f22
+  classDef ok fill:#e7e4f6,stroke:#4536a8,stroke-width:2px,color:#4536a8
+  classDef ask fill:#f7eec4,stroke:#5a4708,stroke-width:2px,color:#5a4708
+  classDef no fill:#f6e3df,stroke:#c2382b,stroke-width:2px,color:#c2382b
+  class extract,repair model
+  class kosit judge
+  class verified ok
+  class returned ask
+  class rejected no
+  style core fill:#f2f3ee,stroke:#b6b9ae,color:#1c1f22
 ```
-PDF (text layer)
-  │
-  ├─ Nemotron 3 Super ── reads the page, returns JSON with a verbatim quote for every field
-  │
-  ├─ Evidence check ──── every quote must really be on the page, else the value is voided
-  ├─ Normalize ───────── units, countries, currency, dates, decimals to code lists
-  ├─ Shape and role ──── a postcode is not a city; a line printed once in the buyer's
-  │                      block cannot become the seller's address; a VAT ID needs digits
-  ├─ Derive ──────────── line amounts, VAT breakdown and totals computed with decimal
-  │                      arithmetic; the model never does math
-  ├─ Line cross-check ── quantity × price must equal the printed line amount
-  ├─ CII builder ─────── deterministic XML; the model never writes XML
-  │
-  ├─ KoSIT validator ─── official XRechnung 3.0.2 rules, the only judge of "valid"
-  │     │ rejected
-  │     ▼
-  │   Nemotron 3 Ultra ─ proposes JSON patches, each with a quote from the page
-  │   Patch guard ────── drops patches without evidence, on computed fields,
-  │                      or taken from the other party's address block
-  │   (at most 3 rounds, only while the error count goes down)
-  │
-  └─ Verified · Returned (ask the user) · Rejected (explained)
-```
+
 
 Every step is appended to a SHA-256 hash chain (RFC 8785 canonical JSON). Model events record the model ID, prompt hash, tokens and cost, never invoice contents. `pnpm audit:verify` detects any change to the log or the output file.
 
