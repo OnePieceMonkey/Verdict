@@ -80,7 +80,7 @@ fi
 # max-instances 1: the rate limit and the daily model budget live in memory, so a second
 # instance would double both. It also caps what a traffic spike can cost.
 gcloud run deploy "$SERVICE" --image "$IMAGE" --region "$REGION" --project "$PROJECT" \
-  --port 7860 --cpu 1 --memory 2Gi --cpu-boost --execution-environment gen2 \
+  --port 7860 --cpu 2 --memory 2Gi --cpu-boost --execution-environment gen2 \
   --min-instances 0 --max-instances 1 --concurrency 20 --timeout 300 \
   --set-secrets "$SECRETS" \
   --allow-unauthenticated --quiet

@@ -201,7 +201,12 @@ export function VerdictApp() {
                           <Download size={14} strokeWidth={2} aria-hidden /> XRechnung
                         </button>
                       )}
-                      {result.xml && <ZugferdButton xml={result.xml} />}
+                      {result.xml && (
+                        <ZugferdButton
+                          xml={result.xml}
+                          prebuiltUrl={state.source?.kind === "gallery" ? `/gallery/${state.source.id}.zugferd.pdf` : undefined}
+                        />
+                      )}
                       <button
                         type="button"
                         onClick={() => download("audit.jsonl", result.auditJsonl, "application/jsonl")}

@@ -6,7 +6,7 @@ import { Download, LoaderCircle } from "lucide-react";
  * CORE-05: builds a ZUGFeRD PDF/A-3 from the validated XRechnung on demand. The server checks
  * the XML with KoSIT again and validates the file with Mustang before it is handed out.
  */
-export function ZugferdButton({ xml }: { xml: string }) {
+export function ZugferdButton({ xml, prebuiltUrl }: { xml: string; prebuiltUrl?: string | undefined }) {
   const [state, setState] = useState<"idle" | "building" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -14,7 +14,10 @@ export function ZugferdButton({ xml }: { xml: string }) {
     setState("building");
     setError(null);
     try {
-      const res = await fetch("/api/zugferd", { method: "POST", headers: { "Content-Type": "application/xml" }, body: xml });
+      // Recorded gallery runs ship a ZUGFeRD file built the same way, so no wait for them.
+      const res = prebuiltUrl
+        ? await fetch(prebuiltUrl)
+        : await fetch("/api/zugferd", { method: "POST", headers: { "Content-Type": "application/xml" }, body: xml });
       if (!res.ok) {
         const body = (await res.json().catch(() => null)) as { error?: string } | null;
         throw new Error(body?.error ?? "The ZUGFeRD file could not be built.");
