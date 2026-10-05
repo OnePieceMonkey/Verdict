@@ -9,7 +9,8 @@
     "verifier:check": "tsx --env-file-if-exists=../.env scripts/verifier-check.ts",
     "roundtrip:check": "tsx --env-file-if-exists=../.env scripts/roundtrip-check.ts",
     "corpus:build": "tsx --env-file-if-exists=../.env scripts/corpus-build.ts",
-    "eval": "tsx --env-file-if-exists=../.env scripts/run-eval.ts"
+    "eval": "tsx --env-file-if-exists=../.env scripts/run-eval.ts",
+    "zugferd:check": "tsx --env-file-if-exists=../.env scripts/zugferd-check.ts"
   },
   "dependencies": {
     "@verdict/core": "workspace:*",

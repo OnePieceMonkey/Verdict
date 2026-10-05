@@ -57,6 +57,7 @@ jobs:
       - run: pnpm verifier:check
       - run: pnpm roundtrip:check
       - run: pnpm corpus:build
+      - run: pnpm zugferd:check
       - name: Rebuild corpus and compare hashes (EVAL-01 reproducibility)
         run: pnpm corpus:build --no-verify | tee rebuild.log && grep -q 'all hashes identical' rebuild.log
       - run: pnpm eval --set clean

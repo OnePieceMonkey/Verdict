@@ -19,7 +19,7 @@ Drop a PDF. Every run ends in exactly one of three stamps:
 
 | Stamp | Meaning |
 |---|---|
-| **Verified** | Every field is quoted from the page or computed. The official KoSIT validator accepted the XRechnung. Download it together with a verifiable audit log. |
+| **Verified** | Every field is quoted from the page or computed. The official KoSIT validator accepted the XRechnung. Download it as XML, as a ZUGFeRD PDF/A-3 with the same XML embedded, and with a verifiable audit log. |
 | **Returned** | A fact the XRechnung needs is not on the document (for example the Leitweg-ID or the IBAN). Verdict asks for exactly that fact instead of inventing it, then validates again. |
 | **Rejected** | The validator says no and nothing on the page can fix it. Verdict explains the rule in plain English and makes nothing up. |
 
@@ -104,7 +104,7 @@ Run it yourself: `pnpm eval --set clean|noisy|mutated --pipeline agent` (the hol
 
 - **Text-based PDFs only.** Token Factory offers no Nemotron vision model, so scanned invoices are refused with a clear message.
 - Commercial invoices (type 380) in EUR, payment by SEPA credit transfer or none. No document-level allowances or charges, prepayments or rounding amounts.
-- Output is XRechnung (UN/CEFACT CII). ZUGFeRD (PDF/A-3 with embedded XML) is planned.
+- Output is XRechnung (UN/CEFACT CII) and, on request, ZUGFeRD 2 (profile XRECHNUNG): a PDF/A-3 rendered from the validated XML with that XML embedded byte for byte. The ZUGFeRD file is built with Mustang only after KoSIT accepts the XML, and Mustang validates the result before it is handed out. The visual PDF is a standard rendering of the data, not a copy of the original layout.
 - The demo is a demo: one instance, a per-IP rate limit and a daily model budget. When the budget is used up, the gallery keeps working.
 
 ## Privacy and security
@@ -120,7 +120,8 @@ Run it yourself: `pnpm eval --set clean|noisy|mutated --pipeline agent` (the hol
 apps/web            Next.js app: upload, live run stream (SSE), routing slip, gallery
 packages/core       semantic model (zod), evidence check, normalization, derivation,
                     CII builder, patch guard, agent loop, explanations, audit chain
-services/verifier   Java 21 service around the KoSIT validator 1.6.3 (pinned, checksum-verified)
+services/verifier   Java 21 service around the KoSIT validator 1.6.3 and Mustang 2.26.0 for ZUGFeRD
+                    (both pinned, checksum-verified)
 eval/               corpus builder, mutations, benchmark harness
 deploy/             one-container image (app + validator) and the Cloud Run deploy script
 docs/               PRD and SRS (German), benchmark reports
@@ -136,6 +137,7 @@ pnpm install
 docker compose up -d --build verifier
 pnpm testsuite:fetch          # pinned KoSIT XRechnung test suite, checksum-verified
 pnpm verifier:check           # all CII suite instances valid, mutations rejected with rule IDs
+pnpm corpus:build && pnpm zugferd:check   # ZUGFeRD files pass Mustang, a plain PDF does not
 pnpm --filter @verdict/web dev
 ```
 
@@ -143,4 +145,4 @@ Tests: `pnpm typecheck && pnpm test`. Deploy: `deploy/cloud-run.sh` (one Cloud R
 
 ## License
 
-Apache License 2.0. Third-party components (KoSIT Validator, KoSIT XRechnung configuration and test suite) are used under their own licenses.
+Apache License 2.0. Third-party components (KoSIT Validator, KoSIT XRechnung configuration and test suite, Mustangproject) are used under their own licenses.
