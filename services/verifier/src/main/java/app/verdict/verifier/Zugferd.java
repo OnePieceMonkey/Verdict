@@ -105,7 +105,10 @@ final class Zugferd {
   }
 
   private void execute(Path dir, String... args) throws IOException, InterruptedException {
-    List<String> cmd = new ArrayList<>(List.of(javaBin, "-Xmx512m", "-jar", jar.toString()));
+    // Each step is a short-lived JVM: the C1 compiler and serial GC start about twice as fast.
+    List<String> cmd =
+        new ArrayList<>(
+            List.of(javaBin, "-Xmx512m", "-XX:TieredStopAtLevel=1", "-XX:+UseSerialGC", "-jar", jar.toString()));
     cmd.addAll(List.of(args));
     cmd.add("--disable-file-logging");
     Process p =
