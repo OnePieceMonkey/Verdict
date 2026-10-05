@@ -10,7 +10,7 @@
 - [ ] **OPS-02** *(02.10.: Hook + CI-Job angelegt, GitHub-Lauf und Lizenz-Erkennung stehen aus)*: gitleaks in CI und pre-commit; Apache-2.0-LICENSE im Repo-Root, auf GitHub im About-Bereich erkannt
 - [x] **OPS-03**: Credits eingelöst (Event-Code, Builder Program, Tavily); Smoke-Test ruft je ein Modell für Extraktion und Reparatur über Token Factory auf
 - [x] **OPS-04**: Zentraler LLM-Client zählt Tokens und Kosten je Aufruf und bricht bei Überschreitung von `DAILY_BUDGET_USD` ab
-- [ ] **OPS-05** *(04.10.: Ziel geändert auf Google Cloud Run Free Tier, weil Patrick 0 € will; Koyeb ~8 $/Monat, Hugging Face Docker-Spaces nur mit PRO. Ein Container mit App + Verifier (`deploy/Dockerfile`), Verifier nur auf localhost; `deploy/cloud-run.sh` fertig, PR #5. Offen: GCP-Projekt + Billing + Login durch Patrick, dann erster Deploy)*: Deployment `web` (öffentlich) und `verifier` (intern oder Secret-geschützt); `docker compose up` startet den Verifier lokal
+- [x] **OPS-05** *(05.10.: live auf Google Cloud Run, https://verdict-678224659019.europe-west1.run.app — ein Container mit App + Verifier, Verifier nur auf localhost; `deploy/cloud-run.sh`. Koyeb verworfen (Kosten), Hugging Face Docker-Spaces nur mit PRO)*: Deployment `web` (öffentlich) und `verifier` (intern oder Secret-geschützt); `docker compose up` startet den Verifier lokal
 
 ### Verifier (VER)
 - [x] **VER-01**: `POST /v1/validate/xrechnung` liefert für jede valide Testsuite-Datei `valid: true` und für mutierte Dateien Fehler mit Regel-ID, Meldung und Fundstelle
