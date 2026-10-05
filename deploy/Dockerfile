@@ -4,10 +4,12 @@
 # Verifier pins must match services/verifier/Dockerfile (deploy/cloud-run.sh checks this).
 ARG KOSIT_VALIDATOR_VERSION=1.6.3
 ARG XRECHNUNG_CONFIG_VERSION=xrechnung-3.0.2-validator-configuration-2026-08-31
+ARG MUSTANG_VERSION=2.26.0
 
 FROM eclipse-temurin:21-jdk AS verifier
 ARG KOSIT_VALIDATOR_VERSION
 ARG XRECHNUNG_CONFIG_VERSION
+ARG MUSTANG_VERSION
 WORKDIR /build
 ADD --chmod=644 --checksum=sha256:799e64befca97d4080e03608c80b85dd5a5ecc5f4ae4f35d1116ec2855b9a7c9 \
     https://github.com/itplr-kosit/validator/releases/download/v${KOSIT_VALIDATOR_VERSION}/validator-${KOSIT_VALIDATOR_VERSION}-standalone.jar \
@@ -15,6 +17,9 @@ ADD --chmod=644 --checksum=sha256:799e64befca97d4080e03608c80b85dd5a5ecc5f4ae4f3
 ADD --checksum=sha256:2530cd107c414511c5d0462ec10f886910395abfca820db82e83d70bf01221a8 \
     https://github.com/itplr-kosit/validator-configuration-xrechnung/releases/download/v2026-08-31/${XRECHNUNG_CONFIG_VERSION}.zip \
     config.zip
+ADD --chmod=644 --checksum=sha256:42d7868cb68264874a7b8cab4c3587b03b23ccc7cd72373da917f66758bb9736 \
+    https://github.com/ZUGFeRD/mustangproject/releases/download/core-${MUSTANG_VERSION}/Mustang-CLI-${MUSTANG_VERSION}.jar \
+    lib/mustang.jar
 RUN mkdir config && cd config && jar xf ../config.zip
 COPY services/verifier/src ./src
 RUN javac --release 21 -cp lib/validator.jar -d classes $(find src -name '*.java')
@@ -43,6 +48,7 @@ ENV KOSIT_VALIDATOR_VERSION=${KOSIT_VALIDATOR_VERSION} \
     NEXT_TELEMETRY_DISABLED=1
 COPY --from=web /usr/local/bin/node /usr/local/bin/node
 COPY --from=verifier /build/lib/validator.jar /opt/verifier/lib/validator.jar
+COPY --from=verifier /build/lib/mustang.jar /opt/verifier/lib/mustang.jar
 COPY --from=verifier /build/classes /opt/verifier/classes
 COPY --from=verifier /build/config /opt/xrechnung-config
 COPY --from=web /repo/apps/web/.next/standalone /app

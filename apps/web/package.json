@@ -10,7 +10,8 @@
     "test": "vitest run --passWithNoTests",
     "gallery:build": "tsx --env-file-if-exists=../../.env scripts/build-gallery.ts",
     "predev": "node scripts/copy-pdf-worker.mjs",
-    "prebuild": "node scripts/copy-pdf-worker.mjs"
+    "prebuild": "node scripts/copy-pdf-worker.mjs",
+    "gallery:zugferd": "tsx --env-file-if-exists=../../.env scripts/build-gallery-zugferd.ts"
   },
   "dependencies": {
     "@fontsource/barlow": "^5.3.0",

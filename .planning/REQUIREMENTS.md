@@ -18,7 +18,7 @@
 - [x] **VER-03**: Report-Hash (SHA-256) in jeder Validierungsantwort
 - [x] **VER-04** *(02.10.: Cut-Gate 23.09. ohne Spike verstrichen. ZUGFeRD aus Phase 1 genommen und als VER-06 + CORE-05 in Phase 4 verankert)*: Spike PDF/A-3: Aus einer Testsuite-XML entsteht eine ZUGFeRD-Datei, die `POST /v1/zugferd/validate` als valide meldet — oder dokumentierte Cut-Entscheidung bis 23.09.
 - [x] **VER-05**: Alle Endpunkte verlangen `X-Verifier-Secret`; KoSIT-Daemon-GUI ist deaktiviert
-- [ ] **VER-06** *(Phase 4, nur nach bestandenem Kill-Gate, Timebox 5 h)*: `POST /v1/zugferd/combine` (PDF/A + CII → ZUGFeRD PDF/A-3 via Mustang) und `POST /v1/zugferd/validate` (Mustang, gleiches Fehlerformat wie VER-01); die erzeugte Datei besteht die unabhängige Mustang-CLI-Prüfung
+- [x] **VER-06** *(05.10.: Mustang 2.26.0 als Kindprozess im Verifier (eigene JVM, kein Klassenpfad-Konflikt mit KoSIT). `combine` nimmt CII statt PDF/A: KoSIT-Vorprüfung, Visualisierung → PDF/A-3, Einbettung als ZUGFeRD 2 Profil XRECHNUNG, Mustang-Prüfung vor Auslieferung; eingebettete XML byte-gleich. `pnpm zugferd:check` in CI)*: `POST /v1/zugferd/combine` (PDF/A + CII → ZUGFeRD PDF/A-3 via Mustang) und `POST /v1/zugferd/validate` (Mustang, gleiches Fehlerformat wie VER-01); die erzeugte Datei besteht die unabhängige Mustang-CLI-Prüfung
 
 ### Korpus & Evaluation (EVAL)
 - [x] **EVAL-01**: `pnpm corpus:build` lädt die Testsuite in gepinnter Version und erzeugt reproduzierbar PDFs in den Sets clean, noisy, mutated mit Ground-Truth-Zuordnung
@@ -40,7 +40,7 @@
 - [x] **CORE-02**: CII-Builder erzeugt aus Ground-Truth-Modellen XML, das VER-01 als valide meldet (Roundtrip-Test ohne LLM)
 - [x] **CORE-03**: Konsistenzprüfung meldet Abweichung zwischen gedruckten und berechneten Summen als Warnung
 - [x] **CORE-04**: Ausgabe XRechnung-CII als Download
-- [ ] **CORE-05** *(Phase 4, nur nach bestandenem Kill-Gate)*: Ausgabe ZUGFeRD PDF/A-3 (Profil EN16931) als Download
+- [x] **CORE-05** *(05.10.: Download-Knopf „ZUGFeRD PDF“, `/api/zugferd`, Profil XRECHNUNG statt EN16931, weil die CII die XRechnung-Kennung trägt)*: Ausgabe ZUGFeRD PDF/A-3 (Profil EN16931) als Download
 
 ### Reparatur (REP)
 - [x] **REP-01** *(Textlayer statt Seitenbilder)*: Ultra erhält Regelverletzungen, aktuelles Modell und Seitenbilder und liefert RFC-6902-Patches mit Provenance oder die Kennzeichnung "nicht aus Dokument lösbar"
@@ -62,7 +62,7 @@
 - [x] **UI-02**: Live-Stream der Zustände per SSE mit Dauer je Schritt
 - [x] **UI-03**: Ergebnisansicht: Validator-Status, Regelverletzungen mit Erklärung, angewandte Patches mit Beleg, Konsistenzwarnungen
 - [x] **UI-04**: Formular für NEEDS_INPUT
-- [x] **UI-05** *(XML + Audit-Log; ZUGFeRD-PDF folgt mit CORE-05)*: Downloads: XRechnung-XML, ZUGFeRD-PDF, Audit-Log
+- [x] **UI-05** *(XML, ZUGFeRD-PDF, Audit-Log)*: Downloads: XRechnung-XML, ZUGFeRD-PDF, Audit-Log
 - [x] **UI-06**: Beispielgalerie mit mindestens 6 vorberechneten Läufen (clean, noisy, mutated), funktioniert auch bei erschöpftem Budget
 - [x] **UI-07**: Rate-Limit pro IP, Tagesbudget-Anzeige, Fallback auf Galerie
 

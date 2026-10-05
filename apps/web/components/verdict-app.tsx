@@ -10,6 +10,7 @@ import { PdfSheet, type QuoteMark } from "./pdf-sheet.tsx";
 import { RoutingSlip } from "./routing-slip.tsx";
 import { RuleViolations } from "./rule-violations.tsx";
 import { VerdictStamp, VoidMark } from "./verdict-stamp.tsx";
+import { ZugferdButton } from "./zugferd-button.tsx";
 
 interface Budget {
   readonly live: boolean;
@@ -199,6 +200,12 @@ export function VerdictApp() {
                         >
                           <Download size={14} strokeWidth={2} aria-hidden /> XRechnung
                         </button>
+                      )}
+                      {result.xml && (
+                        <ZugferdButton
+                          xml={result.xml}
+                          prebuiltUrl={state.source?.kind === "gallery" ? `/gallery/${state.source.id}.zugferd.pdf` : undefined}
+                        />
                       )}
                       <button
                         type="button"

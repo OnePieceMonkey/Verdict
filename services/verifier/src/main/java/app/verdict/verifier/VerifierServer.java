@@ -48,11 +48,13 @@ public final class VerifierServer {
   private final Check check;
   private final byte[] secret;
   private final String versionsJson;
+  private final Zugferd zugferd;
 
-  private VerifierServer(Check check, byte[] secret, String versionsJson) {
+  private VerifierServer(Check check, byte[] secret, String versionsJson, Zugferd zugferd) {
     this.check = check;
     this.secret = secret;
     this.versionsJson = versionsJson;
+    this.zugferd = zugferd;
   }
 
   public static void main(String[] args) throws Exception {
@@ -79,11 +81,14 @@ public final class VerifierServer {
     Check check = new DefaultCheck(config);
     System.out.printf("KoSIT configuration loaded in %d ms%n", (System.nanoTime() - t0) / 1_000_000);
 
-    VerifierServer app = new VerifierServer(check, secret.getBytes(StandardCharsets.UTF_8), versions);
+    Zugferd zugferd = new Zugferd(Path.of(env("MUSTANG_JAR", "/opt/verifier/lib/mustang.jar")));
+    VerifierServer app = new VerifierServer(check, secret.getBytes(StandardCharsets.UTF_8), versions, zugferd);
     HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
     server.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
     server.createContext("/health", app::health);
     server.createContext("/v1/validate/xrechnung", app::validateXRechnung);
+    server.createContext("/v1/zugferd/combine", app::zugferdCombine);
+    server.createContext("/v1/zugferd/validate", app::zugferdValidate);
     server.start();
     System.out.printf("verifier listening on :%d%n", port);
   }
@@ -118,6 +123,79 @@ public final class VerifierServer {
     } catch (Exception e) {
       send(ex, 500, Json.error("validation failed: " + e.getClass().getSimpleName()));
     }
+  }
+
+  /**
+   * VER-06: CII in, ZUGFeRD PDF/A-3 out. The XML must be ACCEPTABLE for KoSIT first, and the
+   * produced file must pass Mustang's own validation; otherwise nothing is returned.
+   */
+  private void zugferdCombine(HttpExchange ex) throws IOException {
+    try (ex) {
+      byte[] body = guardedBody(ex);
+      if (body == null) return;
+      if (!zugferd.available()) {
+        send(ex, 503, Json.error("zugferd not available"));
+        return;
+      }
+      Result result = check.checkInput(InputFactory.read(body, "invoice.xml"));
+      if (result.getAcceptRecommendation() != AcceptRecommendation.ACCEPTABLE) {
+        send(ex, 422, toJson(result));
+        return;
+      }
+      byte[] pdf = zugferd.combine(body);
+      Zugferd.Validation v = zugferd.validate(pdf);
+      if (!v.valid()) {
+        send(ex, 500, "{\"error\":\"generated file failed validation\",\"messages\":" + Json.list(v.messages()) + "}");
+        return;
+      }
+      ex.getResponseHeaders().set("Content-Type", "application/pdf");
+      ex.getResponseHeaders().set("X-Zugferd-Validation", "valid");
+      ex.getResponseHeaders().set("X-Zugferd-Sha256", sha256Hex(pdf));
+      ex.sendResponseHeaders(200, pdf.length);
+      try (OutputStream os = ex.getResponseBody()) {
+        os.write(pdf);
+      }
+    } catch (Exception e) {
+      send(ex, 500, Json.error("zugferd failed: " + e.getClass().getSimpleName()));
+    }
+  }
+
+  /** VER-06: Mustang validation of a ZUGFeRD PDF (PDF/A, XMP metadata, embedded XML). */
+  private void zugferdValidate(HttpExchange ex) throws IOException {
+    try (ex) {
+      byte[] body = guardedBody(ex);
+      if (body == null) return;
+      if (!zugferd.available()) {
+        send(ex, 503, Json.error("zugferd not available"));
+        return;
+      }
+      Zugferd.Validation v = zugferd.validate(body);
+      send(ex, 200, "{\"valid\":" + v.valid() + ",\"messages\":" + Json.list(v.messages()) + "}");
+    } catch (Exception e) {
+      send(ex, 500, Json.error("zugferd validation failed: " + e.getClass().getSimpleName()));
+    }
+  }
+
+  /** POST + secret + size checks shared by the endpoints; null means a response was sent. */
+  private byte[] guardedBody(HttpExchange ex) throws IOException {
+    if (!"POST".equals(ex.getRequestMethod())) {
+      send(ex, 405, Json.error("method not allowed"));
+      return null;
+    }
+    if (!authorized(ex)) {
+      send(ex, 401, Json.error("unauthorized"));
+      return null;
+    }
+    byte[] body = readLimited(ex.getRequestBody());
+    if (body == null) {
+      send(ex, 413, Json.error("payload too large"));
+      return null;
+    }
+    if (body.length == 0) {
+      send(ex, 400, Json.error("empty body"));
+      return null;
+    }
+    return body;
   }
 
   private String toJson(Result result) throws Exception {
@@ -249,6 +327,12 @@ public final class VerifierServer {
 
     static String error(String msg) {
       return "{\"error\":" + str(msg) + "}";
+    }
+
+    static String list(List<String> items) {
+      List<String> quoted = new ArrayList<>();
+      for (String i : items) quoted.add(str(i));
+      return "[" + String.join(",", quoted) + "]";
     }
   }
 }
