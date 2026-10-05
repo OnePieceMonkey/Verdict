@@ -1,4 +1,4 @@
-import type { AuditEvent, MissingFact, Provenance, RejectedFact, RawExtraction, RunState } from "@verdict/core";
+import type { AuditEvent, Explanation, MissingFact, Provenance, RejectedFact, RawExtraction, RunState } from "@verdict/core";
 
 /**
  * Server-sent events of one run. The UI draws the run sheet from `audit` events (each carries
@@ -34,4 +34,6 @@ export interface RunResultView {
   readonly costUsd: string;
   readonly extraction: RawExtraction;
   readonly models: { readonly extract: string; readonly repair: string };
+  /** Generated explanations for rejections outside the local rule table. Absent in older recordings. */
+  readonly explanations?: readonly Explanation[];
 }

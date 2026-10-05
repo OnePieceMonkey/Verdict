@@ -1,5 +1,5 @@
 import "server-only";
-import { TokenFactoryClient } from "@verdict/core";
+import { createExplainer, tavilySearch, TokenFactoryClient, type Explainer } from "@verdict/core";
 
 /** One client per server process, so the daily budget ledger is shared by all requests. */
 let client: TokenFactoryClient | undefined;
@@ -14,3 +14,15 @@ export const MODELS = {
 };
 
 export const DAILY_BUDGET_USD = process.env.DAILY_BUDGET_USD || "2.00";
+
+/** EXP-02: one explainer per process, so its per-rule cache is shared by all requests. */
+let explainer: Explainer | undefined;
+export function engineExplainer(): Explainer {
+  const tavilyKey = process.env.TAVILY_API_KEY;
+  explainer ??= createExplainer({
+    client: engineClient(),
+    model: process.env.MODEL_EXPLAIN || "nvidia/nemotron-3-super-120b-a12b",
+    search: tavilyKey ? tavilySearch(tavilyKey) : undefined,
+  });
+  return explainer;
+}

@@ -3,7 +3,7 @@
 //   pnpm --filter @verdict/web gallery:build   (needs NEBIUS_API_KEY and a running verifier)
 import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { TokenFactoryClient, type UserInput } from "@verdict/core";
+import { createExplainer, tavilySearch, TokenFactoryClient, type UserInput } from "@verdict/core";
 import { executeRun } from "../lib/run-core.ts";
 import type { RunEvent, RunResultView } from "../lib/run-protocol.ts";
 
@@ -61,13 +61,19 @@ async function record(deps: Parameters<typeof executeRun>[0], pdf: Uint8Array, r
   return { events, result: result?.result };
 }
 
+const galleryClient = TokenFactoryClient.fromEnv();
 const deps = {
-  client: TokenFactoryClient.fromEnv(),
+  client: galleryClient,
   models: {
     extract: process.env.MODEL_EXTRACT || "nvidia/nemotron-3-super-120b-a12b",
     repair: process.env.MODEL_REPAIR || "nvidia/Nemotron-3-Ultra-550b-a55b",
   },
   validate,
+  explain: createExplainer({
+    client: galleryClient,
+    model: process.env.MODEL_EXPLAIN || "nvidia/nemotron-3-super-120b-a12b",
+    search: process.env.TAVILY_API_KEY ? tavilySearch(process.env.TAVILY_API_KEY) : undefined,
+  }),
 };
 
 // --only <id> re-records one case and keeps the others.

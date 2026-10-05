@@ -4,7 +4,8 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./rule-fields": "./src/agent/rule-fields.ts"
+    "./rule-fields": "./src/agent/rule-fields.ts",
+    "./rule-explanations": "./src/explain/rule-explanations.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",

@@ -37,3 +37,5 @@ export * from "./repair/repair.ts";
 export * from "./audit/audit-log.ts";
 export * from "./agent/run-invoice.ts";
 export { extractPageTexts } from "./pdf/extract-text.ts";
+export * from "./explain/explain-rule.ts";
+export { RULE_EXPLANATIONS, RULE_SOURCE, type RuleExplanation } from "./explain/rule-explanations.ts";

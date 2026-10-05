@@ -54,8 +54,8 @@
 - [x] **AUD-03**: `pnpm audit:verify` erkennt jede Manipulation an Events oder Ausgabedateien (Tests mit manipulierten Logs)
 
 ### Erklärung (EXP)
-- [ ] **EXP-01**: Lokale Erklärungstabelle für die im Korpus auftretenden Regel-IDs (EN/DE)
-- [ ] **EXP-02**: Fehlt ein Eintrag, erzeugt Nano/Super eine Erklärung; bei Bedarf Tavily-Aufruf mit angezeigter Quelle; Cache pro Regel-ID
+- [x] **EXP-01** *(05.10.: 29 Regeln EN/DE in `packages/core/src/explain/rule-explanations.ts`, aus den Regeltexten der XRechnung-3.0.2-Konfiguration; UI zeigt Erklärung, Abhilfe und den Originaltext des Validators)*: Lokale Erklärungstabelle für die im Korpus auftretenden Regel-IDs (EN/DE)
+- [x] **EXP-02** *(05.10.: `createExplainer`, Modell Nemotron Super — Nano hat im Test „Payee“ mit dem Käufer verwechselt; Cache pro Regel-ID, höchstens 3 Aufrufe pro Lauf, Fehler lassen die Regel nur unerklärt. Tavily optional, Server-Schlüssel fehlt noch)*: Fehlt ein Eintrag, erzeugt Nano/Super eine Erklärung; bei Bedarf Tavily-Aufruf mit angezeigter Quelle; Cache pro Regel-ID
 
 ### Web-UI (UI)
 - [x] **UI-01**: Upload mit Limits laut NFR-04 und klaren Fehlermeldungen
