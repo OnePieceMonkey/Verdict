@@ -12,7 +12,7 @@ Maßgebliche Dokumente: `docs/PRD.md`, `docs/SRS.md`, `.planning/ROADMAP.md`, `.
 - `services/verifier`: Java 21, JDK-`HttpServer` (kein Javalin, um Klassenkonflikte mit dem KoSIT-Fat-Jar zu vermeiden), KoSIT Validator 1.6.3 + validator-configuration-xrechnung 2026-08-31 (im Dockerfile mit SHA-256 gepinnt), Build nur in Docker
 - `eval/`: Korpus-Builder (Playwright für PDF-Rendering), Mutationen, Benchmark-Harness
 - LLM: Nebius Token Factory, OpenAI-kompatibel, `https://api.tokenfactory.nebius.com/v1` (verifiziert 02.10.). Nemotron gibt es dort nur als Textmodell, kein Nano Omni. Preise gepinnt in `packages/core/src/llm/pricing.ts`. Tavily
-- Tests: vitest (TS), JUnit (Java). Hosting: Koyeb (web + verifier, verifier nur intern)
+- Tests: vitest (TS), JUnit (Java). Hosting: Google Cloud Run Free Tier, ein Container mit web + verifier (verifier nur auf localhost), `deploy/cloud-run.sh` (seit 04.10., vorher Koyeb geplant)
 
 ## Architektur
 PDF → Rasterisierung + Textlayer → EXTRACT (Nano Omni, JSON mit Evidenz) → EVIDENCE_CHECK → NORMALIZE → DERIVE (Beträge, USt-Aufschlüsselung) → BUILD_CII → VALIDATE (KoSIT) → bei Fehlern REPAIR (Ultra, JSON Patch mit Evidenz) → max. 3 Iterationen → NEEDS_INPUT oder OUTPUT (XRechnung XML, ZUGFeRD PDF/A-3, Audit-Log). Details: `docs/SRS.md`.

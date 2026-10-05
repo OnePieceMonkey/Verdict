@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Start the verifier on localhost, wait until it is healthy, then run the app.
-# If either process exits, the container exits and the Space restarts it.
+# If either process exits, the container exits and the host restarts it.
 set -euo pipefail
 
 # The secret only guards localhost traffic inside this container, so a fresh one per boot is enough.
