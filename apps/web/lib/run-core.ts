@@ -4,6 +4,7 @@ import {
   deriveAmounts,
   extractPageTexts,
   runInvoice,
+  type Explainer,
   type RawExtraction,
   type TokenFactoryClient,
   type UserInput,
@@ -23,6 +24,8 @@ export interface RunDeps {
   readonly client: TokenFactoryClient;
   readonly models: { readonly extract: string; readonly repair: string };
   readonly validate: (xml: string) => Promise<VerifierVerdict>;
+  /** Explains rejections the local rule table does not cover (EXP-02). Optional. */
+  readonly explain?: Explainer;
 }
 
 /** Shared by the API route and the gallery builder, so both produce identical event streams. */
@@ -58,6 +61,8 @@ export async function executeRun(
       ...(resume ? { extraction: resume.extraction, userInputs: resume.userInputs } : {}),
     });
     const amounts = run.invoice ? deriveAmounts(run.invoice) : null;
+    const explanations =
+      deps.explain && run.verifier && !run.verifier.valid ? await deps.explain(run.verifier.errors) : [];
     const view: RunResultView = {
       state: run.state,
       invoice: run.invoice ?? run.partial,
@@ -84,6 +89,7 @@ export async function executeRun(
       costUsd: run.costUsd,
       extraction: run.extraction,
       models: deps.models,
+      explanations,
     };
     emit({ type: "result", result: view });
   } catch (e) {

@@ -3,7 +3,7 @@
 # Needs `gcloud auth login` and a project with billing enabled (the demo stays inside the
 # free tier: request-based billing, scale to zero, at most one instance).
 #   deploy/cloud-run.sh            build, push, deploy
-#   deploy/cloud-run.sh --secret   (re)store NEBIUS_API_KEY from .env in Secret Manager first
+#   deploy/cloud-run.sh --secret   (re)store NEBIUS_API_KEY and TAVILY_API_KEY from .env first
 set -euo pipefail
 
 PROJECT="${GCP_PROJECT:-$(gcloud config get-value project 2>/dev/null)}"
@@ -25,21 +25,26 @@ fi
 gcloud services enable run.googleapis.com artifactregistry.googleapis.com \
   secretmanager.googleapis.com --project "$PROJECT" --quiet
 
-if [ "${1:-}" = "--secret" ]; then
-  # The key goes from .env straight into Secret Manager; it is never echoed or logged.
-  key="$(grep -E '^NEBIUS_API_KEY=' .env | head -1 | cut -d= -f2-)"
-  [ -n "$key" ] || { echo "NEBIUS_API_KEY is empty in .env" >&2; exit 1; }
-  if gcloud secrets describe nebius-api-key --project "$PROJECT" >/dev/null 2>&1; then
-    printf '%s' "$key" | gcloud secrets versions add nebius-api-key --data-file=- --project "$PROJECT" >/dev/null
+# store_secret <name> <ENV_KEY>: moves one key from .env into Secret Manager without echoing it.
+store_secret() {
+  local value sa
+  value="$(grep -E "^$2=" .env | head -1 | cut -d= -f2-)"
+  [ -n "$value" ] || { echo "$2 is empty in .env, skipped"; return 0; }
+  if gcloud secrets describe "$1" --project "$PROJECT" >/dev/null 2>&1; then
+    printf '%s' "$value" | gcloud secrets versions add "$1" --data-file=- --project "$PROJECT" >/dev/null
   else
-    printf '%s' "$key" | gcloud secrets create nebius-api-key --data-file=- \
+    printf '%s' "$value" | gcloud secrets create "$1" --data-file=- \
       --replication-policy=automatic --project "$PROJECT" >/dev/null
   fi
-  unset key
   sa="$(gcloud projects describe "$PROJECT" --format='value(projectNumber)')-compute@developer.gserviceaccount.com"
-  gcloud secrets add-iam-policy-binding nebius-api-key --project "$PROJECT" \
+  gcloud secrets add-iam-policy-binding "$1" --project "$PROJECT" \
     --member "serviceAccount:$sa" --role roles/secretmanager.secretAccessor >/dev/null
-  echo "Secret nebius-api-key stored."
+  echo "Secret $1 stored."
+}
+
+if [ "${1:-}" = "--secret" ]; then
+  store_secret nebius-api-key NEBIUS_API_KEY
+  store_secret tavily-api-key TAVILY_API_KEY
 fi
 
 gcloud artifacts repositories describe "$REPO" --location "$REGION" --project "$PROJECT" >/dev/null 2>&1 \
@@ -65,11 +70,17 @@ git archive HEAD | tar -x -C "$STAGE"
 IMAGE="$REGION-docker.pkg.dev/$PROJECT/$REPO/$SERVICE:$(git rev-parse --short HEAD)"
 docker buildx build --platform linux/amd64 -f "$STAGE/deploy/Dockerfile" -t "$IMAGE" --push "$STAGE"
 
+# Tavily is optional: without its secret, rule explanations run without web sources.
+SECRETS="NEBIUS_API_KEY=nebius-api-key:latest"
+if gcloud secrets describe tavily-api-key --project "$PROJECT" >/dev/null 2>&1; then
+  SECRETS="$SECRETS,TAVILY_API_KEY=tavily-api-key:latest"
+fi
+
 # max-instances 1: the rate limit and the daily model budget live in memory, so a second
 # instance would double both. It also caps what a traffic spike can cost.
 gcloud run deploy "$SERVICE" --image "$IMAGE" --region "$REGION" --project "$PROJECT" \
   --port 7860 --cpu 1 --memory 2Gi --cpu-boost \
   --min-instances 0 --max-instances 1 --concurrency 20 --timeout 300 \
-  --set-secrets NEBIUS_API_KEY=nebius-api-key:latest \
+  --set-secrets "$SECRETS" \
   --allow-unauthenticated --quiet
 gcloud run services describe "$SERVICE" --region "$REGION" --project "$PROJECT" --format 'value(status.url)'

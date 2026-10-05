@@ -1,8 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import type { Provenance } from "@verdict/core";
-import { RULE_FIELDS } from "@verdict/core/rule-fields";
-import { labelFor } from "@/lib/field-groups.ts";
 import { ArrowLeft, Download } from "lucide-react";
 import { useRun } from "@/lib/use-run.ts";
 import { euro, FactsPanel, VoidedList, type FocusTarget } from "./facts-panel.tsx";
@@ -10,6 +8,7 @@ import { Intake } from "./intake.tsx";
 import { NeedsInput } from "./needs-input.tsx";
 import { PdfSheet, type QuoteMark } from "./pdf-sheet.tsx";
 import { RoutingSlip } from "./routing-slip.tsx";
+import { RuleViolations } from "./rule-violations.tsx";
 import { VerdictStamp, VoidMark } from "./verdict-stamp.tsx";
 
 interface Budget {
@@ -213,24 +212,7 @@ export function VerdictApp() {
                 <NeedsInput result={result} prefill={galleryAnswer()} onSubmit={answer} />
               )}
               {result && <VoidedList result={result} pages={state.pages} />}
-              {result?.verifier && !result.verifier.valid && (
-                <ul className="border-t border-void/40 text-sm">
-                  {result.verifier.errors
-                    .filter((e) => e.severity === "error")
-                    .map((e) => (
-                      <li key={e.ruleId + e.location} className="border-b border-void/20 py-1.5">
-                        <div className="text-ink">
-                          <span className="mr-2 font-mono text-2xs text-void">{e.ruleId}</span>
-                          {RULE_FIELDS[e.ruleId]
-                            ? `${labelFor(RULE_FIELDS[e.ruleId]!).label} is required but not on the document. Asked above.`
-                            : "Rule violation reported by the KoSIT validator."}
-                        </div>
-                        {/* The validator's own wording stays as evidence, without its duplicated rule prefix. */}
-                        <p className="mt-0.5 text-2xs text-ink-3">{e.message.replace(/^\[[^\]]+\]\s*-?\s*/, "")}</p>
-                      </li>
-                    ))}
-                </ul>
-              )}
+              {result && <RuleViolations result={result} />}
               {result ? (
                 <FactsPanel result={result} partial={result.invoice} provenance={provenance} onFocus={setFocus} />
               ) : (
