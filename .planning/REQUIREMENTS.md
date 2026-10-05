@@ -6,7 +6,7 @@
 ## v1 Requirements
 
 ### Setup & Betrieb (OPS)
-- [ ] **OPS-01** *(02.10.: lokal grün, CI-Lauf auf GitHub steht aus)*: pnpm-Monorepo mit `apps/web`, `packages/core`, `services/verifier`, `eval`; TypeScript strict; `pnpm typecheck` und `pnpm test` laufen grün in CI
+- [x] **OPS-01** *(05.10.: CI auf GitHub grün für PR #3–#8)*: pnpm-Monorepo mit `apps/web`, `packages/core`, `services/verifier`, `eval`; TypeScript strict; `pnpm typecheck` und `pnpm test` laufen grün in CI
 - [ ] **OPS-02** *(02.10.: Hook + CI-Job angelegt, GitHub-Lauf und Lizenz-Erkennung stehen aus)*: gitleaks in CI und pre-commit; Apache-2.0-LICENSE im Repo-Root, auf GitHub im About-Bereich erkannt
 - [x] **OPS-03**: Credits eingelöst (Event-Code, Builder Program, Tavily); Smoke-Test ruft je ein Modell für Extraktion und Reparatur über Token Factory auf
 - [x] **OPS-04**: Zentraler LLM-Client zählt Tokens und Kosten je Aufruf und bricht bei Überschreitung von `DAILY_BUDGET_USD` ab
@@ -67,7 +67,7 @@
 - [x] **UI-07**: Rate-Limit pro IP, Tagesbudget-Anzeige, Fallback auf Galerie
 
 ### Einreichung (SUB)
-- [ ] **SUB-01**: README (EN) mit Setup, Architektur, Nemotron-/Token-Factory-Nutzung, Benchmark-Zahlen inkl. Holdout
+- [x] **SUB-01** *(05.10.: README neu; Holdout einmalig auf `2555b8d` gemessen und unverändert berichtet, Berichte in `docs/benchmark/2026-10-05/`. Video-Link fehlt noch)*: README (EN) mit Setup, Architektur, Nemotron-/Token-Factory-Nutzung, Benchmark-Zahlen inkl. Holdout
 - [ ] **SUB-02**: Video ≤ 3 min auf YouTube (öffentlich), Token-Factory-Nutzung im Audio, keine fremde Musik
 - [ ] **SUB-03**: Devpost-Beschreibung, Track-Wahl, Feedback-Abschnitt, Stadt Berlin angegeben
 - [ ] **SUB-04**: Einreichung abgeschlossen bis 28.10.2026

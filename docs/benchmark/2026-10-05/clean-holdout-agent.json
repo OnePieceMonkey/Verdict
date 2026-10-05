@@ -1,0 +1,492 @@
+{
+  "summary": {
+    "set": "clean",
+    "pipeline": "agent",
+    "holdout": true,
+    "documents": 12,
+    "validOutputs": 8,
+    "killGatePass": 8,
+    "asExpected": 8,
+    "fieldAccuracy": "98.0 %",
+    "fieldsInvented": 8,
+    "fieldsWithoutProvenance": 0,
+    "meanIterations": "0.58",
+    "totalCostUsd": "0.0507",
+    "medianMs": 6404
+  },
+  "terms": [
+    {
+      "term": "BT-1",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-2",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-5",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-9",
+      "total": 6,
+      "correct": 6,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-10",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-13",
+      "total": 3,
+      "correct": 3,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-20",
+      "total": 6,
+      "correct": 6,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-27",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-30",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-31",
+      "total": 12,
+      "correct": 10,
+      "accuracy": "83.3 %"
+    },
+    {
+      "term": "BT-32",
+      "total": 6,
+      "correct": 6,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-34",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-35",
+      "total": 9,
+      "correct": 9,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-37",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-38",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-40",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-41",
+      "total": 12,
+      "correct": 10,
+      "accuracy": "83.3 %"
+    },
+    {
+      "term": "BT-42",
+      "total": 12,
+      "correct": 10,
+      "accuracy": "83.3 %"
+    },
+    {
+      "term": "BT-43",
+      "total": 12,
+      "correct": 10,
+      "accuracy": "83.3 %"
+    },
+    {
+      "term": "BT-44",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-49",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-50",
+      "total": 9,
+      "correct": 9,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-51",
+      "total": 3,
+      "correct": 3,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-52",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-53",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-55",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-84",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-126",
+      "total": 18,
+      "correct": 18,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-129",
+      "total": 18,
+      "correct": 18,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-130",
+      "total": 18,
+      "correct": 18,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-146",
+      "total": 18,
+      "correct": 18,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-151",
+      "total": 18,
+      "correct": 18,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-152",
+      "total": 18,
+      "correct": 18,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-153",
+      "total": 18,
+      "correct": 18,
+      "accuracy": "100.0 %"
+    }
+  ],
+  "rows": [
+    {
+      "id": "clean/01.03a-classic",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003321",
+      "ms": 7739,
+      "fieldsTotal": 39,
+      "fieldsCorrect": 39,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "clean/01.03a-compact",
+      "state": "NEEDS_INPUT",
+      "expected": "OUTPUT",
+      "asExpected": false,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.011945",
+      "ms": 12037,
+      "fieldsTotal": 39,
+      "fieldsCorrect": 36,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-41",
+        "BT-42",
+        "BT-43"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-41 is required but not found on the document",
+        "MISSING: BT-42 is required but not found on the document",
+        "MISSING: BT-43 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "clean/01.03a-modern",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001663",
+      "ms": 5746,
+      "fieldsTotal": 39,
+      "fieldsCorrect": 39,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "clean/01.09a-classic",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001753",
+      "ms": 6123,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 30,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "clean/01.09a-compact",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001713",
+      "ms": 6372,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 30,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "clean/01.09a-modern",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001706",
+      "ms": 6306,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 30,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "clean/01.10a-classic",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003656",
+      "ms": 6404,
+      "fieldsTotal": 31,
+      "fieldsCorrect": 31,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "clean/01.10a-compact",
+      "state": "NEEDS_INPUT",
+      "expected": "OUTPUT",
+      "asExpected": false,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.011896",
+      "ms": 11322,
+      "fieldsTotal": 31,
+      "fieldsCorrect": 28,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-41",
+        "BT-42",
+        "BT-43"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-41 is required but not found on the document",
+        "MISSING: BT-42 is required but not found on the document",
+        "MISSING: BT-43 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "clean/01.10a-modern",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003433",
+      "ms": 6475,
+      "fieldsTotal": 31,
+      "fieldsCorrect": 31,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "clean/01.14a-classic",
+      "state": "NEEDS_INPUT",
+      "expected": "OUTPUT",
+      "asExpected": false,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003877",
+      "ms": 6962,
+      "fieldsTotal": 36,
+      "fieldsCorrect": 35,
+      "fieldsInvented": 3,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-31"
+      ],
+      "inventedKeys": [
+        "BT-29=ATU123456789",
+        "BT-36=DE",
+        "BT-51=DE"
+      ],
+      "wrongKeys": [],
+      "openIssues": [
+        "BR-S-02: [BR-S-02]-An Invoice that contains an Invoice line (BG-25) where the Invoiced item VAT category code (BT-151) is \"Standard rated\" shall contain the Seller VAT I",
+        "BR-S-02: [BR-S-02]-An Invoice that contains an Invoice line (BG-25) where the Invoiced item VAT category code (BT-151) is \"Standard rated\" shall contain the Seller VAT I",
+        "BR-DE-16: [BR-DE-16] Wenn in einer Rechnung die Steuercodes S, Z, E, AE, K, G, L oder M verwendet werden, muss mindestens eines der Elemente \"Seller VAT identifier\" (BT-3"
+      ]
+    },
+    {
+      "id": "clean/01.14a-compact",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001776",
+      "ms": 6105,
+      "fieldsTotal": 36,
+      "fieldsCorrect": 36,
+      "fieldsInvented": 2,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [
+        "BT-36=DE",
+        "BT-51=DE"
+      ],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "clean/01.14a-modern",
+      "state": "NEEDS_INPUT",
+      "expected": "OUTPUT",
+      "asExpected": false,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003937",
+      "ms": 7017,
+      "fieldsTotal": 36,
+      "fieldsCorrect": 35,
+      "fieldsInvented": 3,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-31"
+      ],
+      "inventedKeys": [
+        "BT-29=ATU123456789",
+        "BT-36=DE",
+        "BT-51=DE"
+      ],
+      "wrongKeys": [],
+      "openIssues": [
+        "BR-S-02: [BR-S-02]-An Invoice that contains an Invoice line (BG-25) where the Invoiced item VAT category code (BT-151) is \"Standard rated\" shall contain the Seller VAT I",
+        "BR-S-02: [BR-S-02]-An Invoice that contains an Invoice line (BG-25) where the Invoiced item VAT category code (BT-151) is \"Standard rated\" shall contain the Seller VAT I",
+        "BR-DE-16: [BR-DE-16] Wenn in einer Rechnung die Steuercodes S, Z, E, AE, K, G, L oder M verwendet werden, muss mindestens eines der Elemente \"Seller VAT identifier\" (BT-3"
+      ]
+    }
+  ]
+}

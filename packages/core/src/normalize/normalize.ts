@@ -79,6 +79,17 @@ export function normalizeVatCategory(raw: string | undefined, rate?: string): No
   return fail(`unknown VAT category "${raw ?? ""}"`);
 }
 
+/**
+ * Electronic address (BT-34/BT-49): the bare address only. Documents often print a scheme note
+ * next to it ("seller@email.de (Schema: EM)"); the scheme is derived separately, never copied.
+ */
+export function normalizeElectronicAddress(raw: string): Normalized {
+  const email = /[^\s@()<>,;:"]+@[^\s@()<>,;:"]+\.[A-Za-z]{2,}/.exec(raw);
+  if (email) return ok(email[0]);
+  const bare = raw.replace(/\(?\s*Schema\s*:?\s*[A-Z0-9]+\s*\)?\s*$/i, "").trim();
+  return bare ? ok(bare) : fail("empty electronic address");
+}
+
 export function normalizeCurrency(raw: string): Normalized {
   const t = raw.trim();
   if (/^(eur|€|euro)$/i.test(t)) return ok("EUR");

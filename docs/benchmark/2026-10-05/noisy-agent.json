@@ -1,0 +1,861 @@
+{
+  "summary": {
+    "set": "noisy",
+    "pipeline": "agent",
+    "holdout": false,
+    "documents": 30,
+    "validOutputs": 25,
+    "killGatePass": 25,
+    "asExpected": 25,
+    "fieldAccuracy": "99.1 %",
+    "fieldsInvented": 3,
+    "fieldsWithoutProvenance": 0,
+    "meanIterations": "0.50",
+    "totalCostUsd": "0.1325",
+    "medianMs": 7353
+  },
+  "terms": [
+    {
+      "term": "BT-1",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-2",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-5",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-9",
+      "total": 20,
+      "correct": 20,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-10",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-13",
+      "total": 2,
+      "correct": 2,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-20",
+      "total": 20,
+      "correct": 18,
+      "accuracy": "90.0 %"
+    },
+    {
+      "term": "BT-27",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-29",
+      "total": 6,
+      "correct": 6,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-30",
+      "total": 20,
+      "correct": 20,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-31",
+      "total": 26,
+      "correct": 26,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-32",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-34",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-35",
+      "total": 26,
+      "correct": 25,
+      "accuracy": "96.2 %"
+    },
+    {
+      "term": "BT-36",
+      "total": 4,
+      "correct": 4,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-37",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-38",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-40",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-41",
+      "total": 30,
+      "correct": 29,
+      "accuracy": "96.7 %"
+    },
+    {
+      "term": "BT-42",
+      "total": 30,
+      "correct": 28,
+      "accuracy": "93.3 %"
+    },
+    {
+      "term": "BT-43",
+      "total": 30,
+      "correct": 29,
+      "accuracy": "96.7 %"
+    },
+    {
+      "term": "BT-44",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-49",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-50",
+      "total": 26,
+      "correct": 25,
+      "accuracy": "96.2 %"
+    },
+    {
+      "term": "BT-51",
+      "total": 4,
+      "correct": 4,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-52",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-53",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-55",
+      "total": 30,
+      "correct": 29,
+      "accuracy": "96.7 %"
+    },
+    {
+      "term": "BT-84",
+      "total": 30,
+      "correct": 30,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-85",
+      "total": 6,
+      "correct": 6,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-120",
+      "total": 2,
+      "correct": 2,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-121",
+      "total": 2,
+      "correct": 2,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-126",
+      "total": 96,
+      "correct": 96,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-129",
+      "total": 96,
+      "correct": 96,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-130",
+      "total": 96,
+      "correct": 96,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-146",
+      "total": 96,
+      "correct": 96,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-151",
+      "total": 96,
+      "correct": 96,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-152",
+      "total": 92,
+      "correct": 92,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-153",
+      "total": 96,
+      "correct": 92,
+      "accuracy": "95.8 %"
+    }
+  ],
+  "rows": [
+    {
+      "id": "noisy/01.01a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003117",
+      "ms": 6323,
+      "fieldsTotal": 37,
+      "fieldsCorrect": 37,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.01a-noisy-b",
+      "state": "NEEDS_INPUT",
+      "expected": "OUTPUT",
+      "asExpected": false,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.012083",
+      "ms": 11300,
+      "fieldsTotal": 37,
+      "fieldsCorrect": 36,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-42"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-42 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "noisy/01.02a-noisy-a",
+      "state": "NEEDS_INPUT",
+      "expected": "OUTPUT",
+      "asExpected": false,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.011560",
+      "ms": 11228,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 28,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-42",
+        "BT-43"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-42 is required but not found on the document",
+        "MISSING: BT-43 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "noisy/01.02a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003287",
+      "ms": 5714,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 30,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.04a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003361",
+      "ms": 6393,
+      "fieldsTotal": 32,
+      "fieldsCorrect": 32,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.04a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001742",
+      "ms": 6143,
+      "fieldsTotal": 32,
+      "fieldsCorrect": 32,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.05_minimal-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003715",
+      "ms": 6769,
+      "fieldsTotal": 27,
+      "fieldsCorrect": 27,
+      "fieldsInvented": 1,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [
+        "BT-120[O]=nicht steuerbar"
+      ],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.05_minimal-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001730",
+      "ms": 5945,
+      "fieldsTotal": 27,
+      "fieldsCorrect": 27,
+      "fieldsInvented": 1,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [
+        "BT-120[O]=Grund der Steuerbefreiung (O): (VATEX-EU-O)"
+      ],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.05a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003827",
+      "ms": 7353,
+      "fieldsTotal": 51,
+      "fieldsCorrect": 51,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.05a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001913",
+      "ms": 6308,
+      "fieldsTotal": 51,
+      "fieldsCorrect": 51,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.06_minimal-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001622",
+      "ms": 5720,
+      "fieldsTotal": 28,
+      "fieldsCorrect": 28,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.06_minimal-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001774",
+      "ms": 6101,
+      "fieldsTotal": 28,
+      "fieldsCorrect": 28,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.06a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.004817",
+      "ms": 8907,
+      "fieldsTotal": 72,
+      "fieldsCorrect": 72,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.06a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.005085",
+      "ms": 9086,
+      "fieldsTotal": 72,
+      "fieldsCorrect": 72,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.07a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001552",
+      "ms": 5771,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 27,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [
+        "BT-153#0: Miete X 1 Monat (MON) (truth Miete X)"
+      ],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.07a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001621",
+      "ms": 5456,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 29,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [
+        "BT-153#0: Miete X 1 Monat (MON) (truth Miete X)"
+      ],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.08a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003344",
+      "ms": 7025,
+      "fieldsTotal": 31,
+      "fieldsCorrect": 31,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.08a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001810",
+      "ms": 6258,
+      "fieldsTotal": 31,
+      "fieldsCorrect": 31,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.11a-noisy-a",
+      "state": "NEEDS_INPUT",
+      "expected": "OUTPUT",
+      "asExpected": false,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.012374",
+      "ms": 13335,
+      "fieldsTotal": 44,
+      "fieldsCorrect": 43,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-41"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-41 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "noisy/01.11a-noisy-b",
+      "state": "NEEDS_INPUT",
+      "expected": "OUTPUT",
+      "asExpected": false,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.012411",
+      "ms": 12584,
+      "fieldsTotal": 44,
+      "fieldsCorrect": 43,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-55"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-55 is required but quote-not-on-page"
+      ]
+    },
+    {
+      "id": "noisy/01.12a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.004149",
+      "ms": 8515,
+      "fieldsTotal": 58,
+      "fieldsCorrect": 58,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.12a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.002235",
+      "ms": 8293,
+      "fieldsTotal": 58,
+      "fieldsCorrect": 58,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.13a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003055",
+      "ms": 11240,
+      "fieldsTotal": 102,
+      "fieldsCorrect": 102,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.13a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.006059",
+      "ms": 12287,
+      "fieldsTotal": 102,
+      "fieldsCorrect": 102,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.15a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.002078",
+      "ms": 7438,
+      "fieldsTotal": 53,
+      "fieldsCorrect": 53,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.15a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.002832",
+      "ms": 10092,
+      "fieldsTotal": 53,
+      "fieldsCorrect": 53,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/02.06a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001905",
+      "ms": 6684,
+      "fieldsTotal": 42,
+      "fieldsCorrect": 40,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [
+        "BT-20: Bitte überweisen Sie bis zum Jahresabo Umsatzsteuer-ID: ATU123456789 St.-Nr.: 123/456/789 Registereintrag: 3688088306671 (truth Bitte überweisen Sie bis zum Jahresabo)",
+        "BT-153#0: Abschlag Monat 1 (truth Abschlag Monat)"
+      ],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/02.06a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.002207",
+      "ms": 8207,
+      "fieldsTotal": 42,
+      "fieldsCorrect": 40,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [
+        "BT-20: Bitte überweisen Sie bis zum Jahresabo Brückner & Söhne Haustechnik KG Bahnhofstraße 5a Gebäude B 12345 Ahornhain DE Ansprechpartner: Tim Tester Telefon: 012 3456789 E-Mail: tim.tester@test.com Elektronische Adresse: rechnungsausgang@test.com (Schema: EM) IBAN: DE79000000001234567890 Kontoinhaber: Brückner & Söhne Haustechnik KG USt-IdNr.: ATU123456789 Steuernummer: 123/456/789 Handelsregister: 3688088306671 Seite 2 von 2 (truth Bitte überweisen Sie bis zum Jahresabo)",
+        "BT-153#0: Abschlag Monat 1 (truth Abschlag Monat)"
+      ],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/03.06a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.002109",
+      "ms": 8064,
+      "fieldsTotal": 53,
+      "fieldsCorrect": 53,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/03.06a-noisy-b",
+      "state": "FAILED",
+      "expected": "OUTPUT",
+      "asExpected": false,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.013145",
+      "ms": 13256,
+      "fieldsTotal": 53,
+      "fieldsCorrect": 53,
+      "fieldsInvented": 1,
+      "totalsCorrect": false,
+      "missingFields": [],
+      "inventedKeys": [
+        "BT-120[Z]=-100,00 €"
+      ],
+      "wrongKeys": [],
+      "openIssues": [
+        "BR-Z-10: [BR-Z-10]-A VAT Breakdown (BG-23) with VAT Category code (BT-118) \"Zero rated\" shall not have a VAT exemption reason code (BT-121) or VAT exemption reason text "
+      ]
+    }
+  ]
+}

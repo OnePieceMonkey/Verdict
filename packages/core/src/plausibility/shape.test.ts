@@ -40,6 +40,20 @@ describe("EvidenceRoles", () => {
   });
 });
 
+describe("shapeProblem for address lines and seller IDs", () => {
+  it("rejects a country printed as an address line and a VAT ID as seller identifier", () => {
+    expect(shapeProblem("buyer.address.line2", "DE")).toBe("country printed as an address line");
+    expect(shapeProblem("seller.address.line2", "Gebäude B")).toBeUndefined();
+    expect(shapeProblem("seller.id", "ATU123456789")).toBe("a VAT ID is not a seller identifier");
+    expect(shapeProblem("seller.id", "4000001123452")).toBeUndefined();
+    expect(shapeProblem("buyerReference", "Elektronische Adresse: buyer@info.de (Schema: EM)")).toBe(
+      "an e-mail address is not a buyer reference",
+    );
+    expect(shapeProblem("buyerReference", "04011000-12345-03")).toBeUndefined();
+    expect(shapeProblem("seller.address.city", "DE")).toBe("a country is not a city");
+  });
+});
+
 describe("shapeProblem for VAT identifiers", () => {
   it("accepts real VAT IDs and rejects a bare country code or a name", () => {
     expect(shapeProblem("seller.vatId", "DE 123456789")).toBeUndefined();

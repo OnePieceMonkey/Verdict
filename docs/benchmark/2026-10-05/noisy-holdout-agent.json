@@ -1,0 +1,400 @@
+{
+  "summary": {
+    "set": "noisy",
+    "pipeline": "agent",
+    "holdout": true,
+    "documents": 8,
+    "validOutputs": 6,
+    "killGatePass": 6,
+    "asExpected": 6,
+    "fieldAccuracy": "96.7 %",
+    "fieldsInvented": 2,
+    "fieldsWithoutProvenance": 0,
+    "meanIterations": "0.38",
+    "totalCostUsd": "0.0363",
+    "medianMs": 6864
+  },
+  "terms": [
+    {
+      "term": "BT-1",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-2",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-5",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-9",
+      "total": 4,
+      "correct": 4,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-10",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-13",
+      "total": 2,
+      "correct": 2,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-20",
+      "total": 4,
+      "correct": 4,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-27",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-30",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-31",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-32",
+      "total": 4,
+      "correct": 4,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-34",
+      "total": 8,
+      "correct": 6,
+      "accuracy": "75.0 %"
+    },
+    {
+      "term": "BT-35",
+      "total": 6,
+      "correct": 6,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-37",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-38",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-40",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-41",
+      "total": 8,
+      "correct": 6,
+      "accuracy": "75.0 %"
+    },
+    {
+      "term": "BT-42",
+      "total": 8,
+      "correct": 6,
+      "accuracy": "75.0 %"
+    },
+    {
+      "term": "BT-43",
+      "total": 8,
+      "correct": 7,
+      "accuracy": "87.5 %"
+    },
+    {
+      "term": "BT-44",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-49",
+      "total": 8,
+      "correct": 6,
+      "accuracy": "75.0 %"
+    },
+    {
+      "term": "BT-50",
+      "total": 6,
+      "correct": 6,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-51",
+      "total": 2,
+      "correct": 2,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-52",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-53",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-55",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-84",
+      "total": 8,
+      "correct": 8,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-126",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-129",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-130",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-146",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-151",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-152",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-153",
+      "total": 12,
+      "correct": 12,
+      "accuracy": "100.0 %"
+    }
+  ],
+  "rows": [
+    {
+      "id": "noisy/01.03a-noisy-a",
+      "state": "NEEDS_INPUT",
+      "expected": "OUTPUT",
+      "asExpected": false,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.011895",
+      "ms": 11359,
+      "fieldsTotal": 39,
+      "fieldsCorrect": 36,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-41",
+        "BT-42",
+        "BT-43"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-41 is required but not found on the document",
+        "MISSING: BT-42 is required but not found on the document",
+        "MISSING: BT-43 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "noisy/01.03a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001873",
+      "ms": 6868,
+      "fieldsTotal": 39,
+      "fieldsCorrect": 37,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [
+        "BT-34: seller@email.de (Schema: EM) (truth seller@email.de)",
+        "BT-49: buyer@info.de (Schema: EM) (truth buyer@info.de)"
+      ],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.09a-noisy-a",
+      "state": "NEEDS_INPUT",
+      "expected": "OUTPUT",
+      "asExpected": false,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.011829",
+      "ms": 11767,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 28,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-41",
+        "BT-42"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-41 is required but not found on the document",
+        "MISSING: BT-42 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "noisy/01.09a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001835",
+      "ms": 6312,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 30,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.10a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003496",
+      "ms": 6308,
+      "fieldsTotal": 31,
+      "fieldsCorrect": 31,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.10a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001694",
+      "ms": 5726,
+      "fieldsTotal": 31,
+      "fieldsCorrect": 31,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.14a-noisy-a",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001784",
+      "ms": 6887,
+      "fieldsTotal": 36,
+      "fieldsCorrect": 36,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "noisy/01.14a-noisy-b",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001930",
+      "ms": 6864,
+      "fieldsTotal": 36,
+      "fieldsCorrect": 34,
+      "fieldsInvented": 2,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [
+        "BT-36=DE",
+        "BT-51=DE"
+      ],
+      "wrongKeys": [
+        "BT-34: seller@email.de (Schema: EM) (truth seller@email.de)",
+        "BT-49: buyer@info.de (Schema: EM) (truth buyer@info.de)"
+      ],
+      "openIssues": []
+    }
+  ]
+}

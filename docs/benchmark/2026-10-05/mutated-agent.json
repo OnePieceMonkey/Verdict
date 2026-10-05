@@ -1,0 +1,884 @@
+{
+  "summary": {
+    "set": "mutated",
+    "pipeline": "agent",
+    "holdout": false,
+    "documents": 28,
+    "validOutputs": 8,
+    "killGatePass": 8,
+    "asExpected": 27,
+    "fieldAccuracy": "99.2 %",
+    "fieldsInvented": 5,
+    "fieldsWithoutProvenance": 0,
+    "meanIterations": "1.07",
+    "totalCostUsd": "0.1604",
+    "medianMs": 7882
+  },
+  "terms": [
+    {
+      "term": "BT-1",
+      "total": 28,
+      "correct": 28,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-2",
+      "total": 28,
+      "correct": 28,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-5",
+      "total": 28,
+      "correct": 26,
+      "accuracy": "92.9 %"
+    },
+    {
+      "term": "BT-9",
+      "total": 16,
+      "correct": 16,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-10",
+      "total": 26,
+      "correct": 26,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-13",
+      "total": 3,
+      "correct": 3,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-20",
+      "total": 23,
+      "correct": 23,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-27",
+      "total": 28,
+      "correct": 28,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-29",
+      "total": 2,
+      "correct": 2,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-30",
+      "total": 20,
+      "correct": 20,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-31",
+      "total": 25,
+      "correct": 25,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-32",
+      "total": 4,
+      "correct": 4,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-34",
+      "total": 26,
+      "correct": 26,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-35",
+      "total": 27,
+      "correct": 27,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-37",
+      "total": 26,
+      "correct": 26,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-38",
+      "total": 28,
+      "correct": 28,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-40",
+      "total": 28,
+      "correct": 28,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-41",
+      "total": 28,
+      "correct": 28,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-42",
+      "total": 26,
+      "correct": 26,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-43",
+      "total": 26,
+      "correct": 26,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-44",
+      "total": 28,
+      "correct": 28,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-49",
+      "total": 26,
+      "correct": 24,
+      "accuracy": "92.3 %"
+    },
+    {
+      "term": "BT-50",
+      "total": 27,
+      "correct": 27,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-52",
+      "total": 26,
+      "correct": 26,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-53",
+      "total": 28,
+      "correct": 28,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-55",
+      "total": 28,
+      "correct": 27,
+      "accuracy": "96.4 %"
+    },
+    {
+      "term": "BT-84",
+      "total": 26,
+      "correct": 26,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-85",
+      "total": 4,
+      "correct": 4,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-121",
+      "total": 1,
+      "correct": 1,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-126",
+      "total": 109,
+      "correct": 109,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-129",
+      "total": 109,
+      "correct": 109,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-130",
+      "total": 109,
+      "correct": 105,
+      "accuracy": "96.3 %"
+    },
+    {
+      "term": "BT-146",
+      "total": 109,
+      "correct": 109,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-151",
+      "total": 109,
+      "correct": 109,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-152",
+      "total": 108,
+      "correct": 108,
+      "accuracy": "100.0 %"
+    },
+    {
+      "term": "BT-153",
+      "total": 109,
+      "correct": 107,
+      "accuracy": "98.2 %"
+    }
+  ],
+  "rows": [
+    {
+      "id": "mutated/01.01a-grand-total-off",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003206",
+      "ms": 6937,
+      "fieldsTotal": 37,
+      "fieldsCorrect": 37,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "mutated/01.01a-missing-buyer-electronic-address",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003145",
+      "ms": 7007,
+      "fieldsTotal": 36,
+      "fieldsCorrect": 36,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "buyer.electronicAddress"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: buyer.electronicAddress is required but not found on the document"
+      ]
+    },
+    {
+      "id": "mutated/01.01a-missing-buyer-reference",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003058",
+      "ms": 6394,
+      "fieldsTotal": 36,
+      "fieldsCorrect": 36,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-10"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-10 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "mutated/01.02a-grand-total-off",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001661",
+      "ms": 6214,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 30,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "mutated/01.02a-missing-buyer-electronic-address",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003150",
+      "ms": 6616,
+      "fieldsTotal": 29,
+      "fieldsCorrect": 29,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "buyer.electronicAddress"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: buyer.electronicAddress is required but not found on the document"
+      ]
+    },
+    {
+      "id": "mutated/01.02a-missing-buyer-reference",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 2,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.004732",
+      "ms": 7304,
+      "fieldsTotal": 29,
+      "fieldsCorrect": 29,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-10"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-10 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "mutated/01.05_minimal-missing-seller-email",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 2,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.014500",
+      "ms": 13306,
+      "fieldsTotal": 26,
+      "fieldsCorrect": 26,
+      "fieldsInvented": 1,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-43"
+      ],
+      "inventedKeys": [
+        "BT-120[O]=Grund der Steuerbefreiung (O): (VATEX-EU-O)"
+      ],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-43 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "mutated/01.05a-missing-seller-electronic-address",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003748",
+      "ms": 7882,
+      "fieldsTotal": 50,
+      "fieldsCorrect": 49,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "seller.electronicAddress",
+        "buyer.electronicAddress"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: seller.electronicAddress is required but not found on the document",
+        "MISSING: buyer.electronicAddress is required but not found on the document"
+      ]
+    },
+    {
+      "id": "mutated/01.05a-vat-amount-off",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003809",
+      "ms": 7683,
+      "fieldsTotal": 51,
+      "fieldsCorrect": 51,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "mutated/01.06a-exempt-without-reason",
+      "state": "FAILED",
+      "expected": "FAILED",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 2,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.016055",
+      "ms": 14709,
+      "fieldsTotal": 72,
+      "fieldsCorrect": 72,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "BR-E-10: [BR-E-10]-A VAT Breakdown (BG-23) with VAT Category code (BT-118) \"Exempt from VAT\" shall have a VAT exemption reason code (BT-121) or a VAT exemption reason te"
+      ]
+    },
+    {
+      "id": "mutated/01.06a-missing-seller-electronic-address",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 2,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.007550",
+      "ms": 9965,
+      "fieldsTotal": 71,
+      "fieldsCorrect": 70,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "seller.electronicAddress",
+        "buyer.electronicAddress"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: seller.electronicAddress is required but not found on the document",
+        "MISSING: buyer.electronicAddress is required but not found on the document"
+      ]
+    },
+    {
+      "id": "mutated/01.06a-missing-seller-tax-ids",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.004831",
+      "ms": 8662,
+      "fieldsTotal": 70,
+      "fieldsCorrect": 70,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-31"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "BR-S-02: [BR-S-02]-An Invoice that contains an Invoice line (BG-25) where the Invoiced item VAT category code (BT-151) is \"Standard rated\" shall contain the Seller VAT I",
+        "BR-S-02: [BR-S-02]-An Invoice that contains an Invoice line (BG-25) where the Invoiced item VAT category code (BT-151) is \"Standard rated\" shall contain the Seller VAT I",
+        "BR-S-02: [BR-S-02]-An Invoice that contains an Invoice line (BG-25) where the Invoiced item VAT category code (BT-151) is \"Standard rated\" shall contain the Seller VAT I",
+        "BR-S-02: [BR-S-02]-An Invoice that contains an Invoice line (BG-25) where the Invoiced item VAT category code (BT-151) is \"Standard rated\" shall contain the Seller VAT I",
+        "BR-S-02: [BR-S-02]-An Invoice that contains an Invoice line (BG-25) where the Invoiced item VAT category code (BT-151) is \"Standard rated\" shall contain the Seller VAT I",
+        "BR-S-02: [BR-S-02]-An Invoice that contains an Invoice line (BG-25) where the Invoiced item VAT category code (BT-151) is \"Standard rated\" shall contain the Seller VAT I",
+        "BR-S-02: [BR-S-02]-An Invoice that contains an Invoice line (BG-25) where the Invoiced item VAT category code (BT-151) is \"Standard rated\" shall contain the Seller VAT I",
+        "BR-CO-26: [BR-CO-26]-In order for the buyer to automatically identify a supplier, the Seller identifier (BT-29), the Seller legal registration identifier (BT-30) and/or t",
+        "BR-DE-16: [BR-DE-16] Wenn in einer Rechnung die Steuercodes S, Z, E, AE, K, G, L oder M verwendet werden, muss mindestens eines der Elemente \"Seller VAT identifier\" (BT-3"
+      ]
+    },
+    {
+      "id": "mutated/01.06a-vat-amount-off",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.004857",
+      "ms": 8489,
+      "fieldsTotal": 72,
+      "fieldsCorrect": 72,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": []
+    },
+    {
+      "id": "mutated/01.07a-exempt-without-reason",
+      "state": "NEEDS_INPUT",
+      "expected": "FAILED",
+      "asExpected": false,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.011662",
+      "ms": 11007,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 28,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-55"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [
+        "BT-153#0: Miete X 1 Monat (MON) (truth Miete X)"
+      ],
+      "openIssues": [
+        "MISSING: BT-55 is required but quote-not-on-page"
+      ]
+    },
+    {
+      "id": "mutated/01.07a-missing-seller-tax-ids",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 2,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.006964",
+      "ms": 8463,
+      "fieldsTotal": 29,
+      "fieldsCorrect": 28,
+      "fieldsInvented": 1,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-31"
+      ],
+      "inventedKeys": [
+        "BT-29=Lindenhof Seminare e. V."
+      ],
+      "wrongKeys": [
+        "BT-153#0: Miete X 1 Monat (MON) (truth Miete X)"
+      ],
+      "openIssues": [
+        "BR-S-02: [BR-S-02]-An Invoice that contains an Invoice line (BG-25) where the Invoiced item VAT category code (BT-151) is \"Standard rated\" shall contain the Seller VAT I",
+        "BR-DE-16: [BR-DE-16] Wenn in einer Rechnung die Steuercodes S, Z, E, AE, K, G, L oder M verwendet werden, muss mindestens eines der Elemente \"Seller VAT identifier\" (BT-3"
+      ]
+    },
+    {
+      "id": "mutated/01.08a-missing-iban",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003314",
+      "ms": 6579,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 30,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-84"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "BR-DE-1: [BR-DE-1] Eine Rechnung (INVOICE) muss Angaben zu \"PAYMENT INSTRUCTIONS\" (BG-16) enthalten."
+      ]
+    },
+    {
+      "id": "mutated/01.08a-missing-seller-city",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 2,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.005059",
+      "ms": 7141,
+      "fieldsTotal": 30,
+      "fieldsCorrect": 30,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-37"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-37 is required but the quoted line belongs to the buyer's address"
+      ]
+    },
+    {
+      "id": "mutated/01.08a-unit-as-german-word",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001827",
+      "ms": 6523,
+      "fieldsTotal": 31,
+      "fieldsCorrect": 30,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [
+        "BT-130#0: H87 (truth Stück)"
+      ],
+      "openIssues": []
+    },
+    {
+      "id": "mutated/01.11a-missing-iban",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 2,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.005336",
+      "ms": 7698,
+      "fieldsTotal": 43,
+      "fieldsCorrect": 43,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-84"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "BR-DE-1: [BR-DE-1] Eine Rechnung (INVOICE) muss Angaben zu \"PAYMENT INSTRUCTIONS\" (BG-16) enthalten."
+      ]
+    },
+    {
+      "id": "mutated/01.11a-missing-seller-city",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.012216",
+      "ms": 11918,
+      "fieldsTotal": 43,
+      "fieldsCorrect": 43,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-37"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-37 is required but city without letters"
+      ]
+    },
+    {
+      "id": "mutated/01.11a-unit-as-german-word",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.001811",
+      "ms": 6044,
+      "fieldsTotal": 44,
+      "fieldsCorrect": 41,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [
+        "BT-130#0: H87 (truth Stück)",
+        "BT-130#1: HUR (truth Stunde)",
+        "BT-130#2: H87 (truth Stück)"
+      ],
+      "openIssues": []
+    },
+    {
+      "id": "mutated/01.13a-invalid-currency-symbol",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003353",
+      "ms": 11566,
+      "fieldsTotal": 102,
+      "fieldsCorrect": 101,
+      "fieldsInvented": 1,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [
+        "BT-85=Elbtal Medienservice UG"
+      ],
+      "wrongKeys": [
+        "BT-5: EUR (truth €)"
+      ],
+      "openIssues": []
+    },
+    {
+      "id": "mutated/01.13a-missing-buyer-city",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.005887",
+      "ms": 11311,
+      "fieldsTotal": 101,
+      "fieldsCorrect": 101,
+      "fieldsInvented": 1,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-52"
+      ],
+      "inventedKeys": [
+        "BT-85=Elbtal Medienservice UG"
+      ],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-52 is required but city is not printed next to the postcode"
+      ]
+    },
+    {
+      "id": "mutated/01.13a-missing-seller-phone",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.005779",
+      "ms": 11342,
+      "fieldsTotal": 101,
+      "fieldsCorrect": 101,
+      "fieldsInvented": 1,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-42"
+      ],
+      "inventedKeys": [
+        "BT-85=Elbtal Medienservice UG"
+      ],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-42 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "mutated/01.15a-invalid-currency-symbol",
+      "state": "OUTPUT",
+      "expected": "OUTPUT",
+      "asExpected": true,
+      "valid": true,
+      "iterations": 0,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.002234",
+      "ms": 7580,
+      "fieldsTotal": 53,
+      "fieldsCorrect": 52,
+      "fieldsInvented": 0,
+      "totalsCorrect": true,
+      "missingFields": [],
+      "inventedKeys": [],
+      "wrongKeys": [
+        "BT-5: EUR (truth €)"
+      ],
+      "openIssues": []
+    },
+    {
+      "id": "mutated/01.15a-missing-buyer-city",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.004007",
+      "ms": 8382,
+      "fieldsTotal": 52,
+      "fieldsCorrect": 52,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-52"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-52 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "mutated/01.15a-missing-seller-phone",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.003978",
+      "ms": 8356,
+      "fieldsTotal": 52,
+      "fieldsCorrect": 52,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-42"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-42 is required but not found on the document"
+      ]
+    },
+    {
+      "id": "mutated/03.06a-missing-seller-email",
+      "state": "NEEDS_INPUT",
+      "expected": "NEEDS_INPUT",
+      "asExpected": true,
+      "valid": false,
+      "iterations": 1,
+      "fieldsWithoutProvenance": 0,
+      "costUsd": "0.012623",
+      "ms": 12877,
+      "fieldsTotal": 52,
+      "fieldsCorrect": 52,
+      "fieldsInvented": 0,
+      "totalsCorrect": false,
+      "missingFields": [
+        "BT-43"
+      ],
+      "inventedKeys": [],
+      "wrongKeys": [],
+      "openIssues": [
+        "MISSING: BT-43 is required but not found on the document"
+      ]
+    }
+  ]
+}
