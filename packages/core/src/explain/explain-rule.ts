@@ -53,7 +53,11 @@ export const EXPLAIN_SCHEMA = {
 export const EXPLAIN_SYSTEM_PROMPT = `You explain e-invoice validation rules (EN 16931, German XRechnung) to the owner of a small business.
 Use only the validator message and the numbered sources you are given. If the sources do not cover the rule, explain from the validator message alone.
 Never invent business term numbers (BT-, BG-) that do not appear in the message or the sources.
+Do not give example codes or values unless the validator message itself names them; sources often describe neighbouring rules.
 Plain English, no jargon beyond the business term names. "meaning": at most two short sentences. "fix": one sentence.`;
+
+/** Trims stray JSON punctuation that constrained decoding sometimes leaves inside a string. */
+const tidy = (s: string) => s.trim().replace(/[\s}\]]+$/, "").trim();
 
 export interface ExplainerOptions {
   readonly client: TokenFactoryClient;
@@ -97,8 +101,8 @@ export function createExplainer(opts: ExplainerOptions): Explainer {
     if (typeof parsed.meaning !== "string" || typeof parsed.fix !== "string" || !parsed.meaning.trim()) return null;
     return {
       ruleId,
-      text: parsed.meaning.trim().slice(0, 400),
-      fix: parsed.fix.trim().slice(0, 300),
+      text: tidy(parsed.meaning).slice(0, 400),
+      fix: tidy(parsed.fix).slice(0, 300),
       model: res.model,
       costUsd: res.costUsd,
       sources: results.map(({ title, url }) => ({ title, url })),

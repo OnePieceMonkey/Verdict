@@ -1,5 +1,5 @@
-import { checkEvidence } from "../evidence/evidence-check.ts";
-import { cityFollowsPostcode, EvidenceRoles, shapeProblem } from "../plausibility/shape.ts";
+import { canonical, checkEvidence } from "../evidence/evidence-check.ts";
+import { cityFollowsPostcode, EvidenceRoles, shapeProblem, sharedAddressLosers, type AddressKey } from "../plausibility/shape.ts";
 import { InvoiceInput, type InvoiceInput as InvoiceInputT } from "../model/invoice.ts";
 import {
   normalizeCountry,
@@ -149,12 +149,20 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
   };
 
   const { header: h, seller: s, buyer: b } = raw;
+  const lost = new Set(sharedAddressLosers(pages, s, b).map(([party, key]) => `${party}.${key}`));
+  const other = (prefix: string) => (prefix === "seller" ? "buyer" : "seller");
+  /** Address evidence, unless the same printed line belongs to the other party. */
+  const own = (prefix: string, key: AddressKey, path: string, ev: Ev): Ev => {
+    if (!ev || !lost.has(`${prefix}.${key}`)) return ev;
+    rejected.push({ path, value: ev.value, reason: `the quoted line belongs to the ${other(prefix)}'s address` });
+    return null;
+  };
   const address = (prefix: string, p: RawExtraction["buyer"]) => {
     const a = {
-      line1: text(`${prefix}.address.line1`, p.street),
-      line2: text(`${prefix}.address.line2`, p.addressLine2),
-      city: text(`${prefix}.address.city`, p.city),
-      postcode: text(`${prefix}.address.postcode`, p.postcode),
+      line1: text(`${prefix}.address.line1`, own(prefix, "street", `${prefix}.address.line1`, p.street)),
+      line2: text(`${prefix}.address.line2`, own(prefix, "addressLine2", `${prefix}.address.line2`, p.addressLine2)),
+      city: text(`${prefix}.address.city`, own(prefix, "city", `${prefix}.address.city`, p.city)),
+      postcode: text(`${prefix}.address.postcode`, own(prefix, "postcode", `${prefix}.address.postcode`, p.postcode)),
       countryCode: norm(`${prefix}.address.countryCode`, p.country, normalizeCountry),
     };
     if (a.city && a.postcode && (a.countryCode ?? "DE") === "DE" && !cityFollowsPostcode(pages, a.postcode, a.city)) {
@@ -196,9 +204,16 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
   // Claim evidence for the primary fields first, so a value printed as a name or an
   // electronic address cannot be taken over by a secondary field (reference, account holder).
   const sellerName = text("seller.name", s.name);
+  /** A seller identifier (BT-29) that only repeats the company name is not an identifier. */
+  const notTheName = (id: string | undefined): string | undefined => {
+    if (!id || !sellerName || canonical(id) !== canonical(sellerName)) return id;
+    rejected.push({ path: "seller.id", value: id, reason: "repeats the seller name" });
+    provenance.delete("seller.id");
+    return undefined;
+  };
   const buyerName = text("buyer.name", b.name);
-  const sellerEa = electronic("seller.electronicAddress.value", s.electronicAddress, false);
-  const buyerEa = electronic("buyer.electronicAddress.value", b.electronicAddress, true);
+  const sellerEa = electronic("seller.electronicAddress.value", own("seller", "electronicAddress", "seller.electronicAddress.value", s.electronicAddress), false);
+  const buyerEa = electronic("buyer.electronicAddress.value", own("buyer", "electronicAddress", "buyer.electronicAddress.value", b.electronicAddress), true);
   const ibanValue = norm("payment.iban", raw.payment.iban, iban);
   const partial = {
     number: text("number", h.invoiceNumber),
@@ -210,7 +225,7 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
     orderReference: text("orderReference", h.orderReference),
     paymentTerms: text("paymentTerms", h.paymentTerms)?.replace(/\\n/g, "\n"),
     seller: {
-      id: text("seller.id", s.sellerId),
+      id: notTheName(text("seller.id", s.sellerId)),
       name: sellerName,
       legalRegistrationId: text("seller.legalRegistrationId", s.legalRegistrationId),
       vatId: text("seller.vatId", s.vatId),
@@ -234,7 +249,13 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
     vatExemptions: raw.vatExemptions.flatMap((e, i) => {
       const category = norm(`vatExemptions.${i}.category`, e.category, (v) => normalizeVatCategory(v));
       const reason = text(`vatExemptions.${i}.reason`, e.reason);
-      const reasonCode = text(`vatExemptions.${i}.reasonCode`, e.reasonCode)?.replace(/[()]/g, "");
+      let reasonCode = text(`vatExemptions.${i}.reasonCode`, e.reasonCode)?.replace(/[()]/g, "");
+      // BT-121 is a VATEX code; a bare category letter or label is not one.
+      if (reasonCode && !/^VATEX-[A-Z0-9-]+$/i.test(reasonCode)) {
+        rejected.push({ path: `vatExemptions.${i}.reasonCode`, value: reasonCode, reason: "not a VATEX exemption code" });
+        provenance.delete(`vatExemptions.${i}.reasonCode`);
+        reasonCode = undefined;
+      }
       if (!reason && !reasonCode) return [];
       const fromLines = lines.find((l) => l.vatCategory && l.vatCategory !== "S")?.vatCategory;
       const cat = category ?? fromLines;
@@ -246,6 +267,14 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
     }),
     lines,
   };
+  // BR-O-10: category O ("not subject to VAT") carries its own exemption code, VATEX-EU-O.
+  // It follows from the category alone, so it is derived rather than asked for.
+  if (lines.some((l) => l.vatCategory === "O") && !partial.vatExemptions.some((e) => e.category === "O")) {
+    const i = partial.vatExemptions.length;
+    partial.vatExemptions.push({ category: "O", reasonCode: "VATEX-EU-O" });
+    provenance.set(`vatExemptions.${i}.category`, { kind: "derived", rule: "exemption-category-from-lines", inputs: ["lines"] });
+    provenance.set(`vatExemptions.${i}.reasonCode`, { kind: "derived", rule: "category-o-exemption-code", inputs: ["lines"] });
+  }
   if (partial.payment) provenance.set("payment.meansCode", { kind: "derived", rule: "credit-transfer-from-iban", inputs: ["payment.iban"] });
   provenance.set("typeCode", { kind: "derived", rule: "mvp-commercial-invoice", inputs: [] });
 

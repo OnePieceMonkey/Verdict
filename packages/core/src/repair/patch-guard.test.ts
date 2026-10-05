@@ -45,6 +45,25 @@ describe("guardPatches", () => {
   });
 });
 
+describe("guardPatches across parties", () => {
+  const page = ["Stadtwerke Birkenfeld", "Am Markt 3", "54321 Birkenfeld", "Elektronische Adresse: buyer@info.de (Schema: EM)"].join("\n");
+  const existing = {
+    provenance: new Map([["buyer.electronicAddress.value", { kind: "evidence" as const, page: 1, quote: "Elektronische Adresse: buyer@info.de" }]]),
+    valueOf: (path: string) => (path === "buyer.electronicAddress.value" ? "buyer@info.de" : undefined),
+  };
+
+  it("does not give the buyer's once-printed electronic address to the seller", () => {
+    const { accepted, rejected } = guardPatches(
+      [p("/seller/electronicAddress/value", "buyer@info.de", "buyer@info.de")],
+      [page],
+      "de",
+      existing,
+    );
+    expect(accepted).toEqual([]);
+    expect(rejected[0]?.reason).toBe("printed once and already used for the buyer");
+  });
+});
+
 describe("applyPatches", () => {
   it("writes normalized values and creates missing objects", () => {
     const model = { seller: { name: "X" }, lines: [{ id: "1" }] };

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cityFollowsPostcode, EvidenceRoles, shapeProblem } from "./shape.ts";
+import { cityFollowsPostcode, EvidenceRoles, shapeProblem, sharedAddressLosers } from "./shape.ts";
 
 describe("shapeProblem", () => {
   it("rejects a postcode extracted as city and a 'postcode city' line as street", () => {
@@ -37,5 +37,105 @@ describe("EvidenceRoles", () => {
     expect(roles.claim("buyer.address.city", "Testhausen", "12345 Testhausen")).toBeUndefined();
     expect(roles.claim("buyerReference", "Stadtverwaltung Birkenfeld", "Stadtverwaltung Birkenfeld")).toBeUndefined();
     expect(roles.claim("buyer.name", "Stadtverwaltung Birkenfeld", "Stadtverwaltung Birkenfeld")).toBe("buyerReference");
+  });
+});
+
+describe("shapeProblem for VAT identifiers", () => {
+  it("accepts real VAT IDs and rejects a bare country code or a name", () => {
+    expect(shapeProblem("seller.vatId", "DE 123456789")).toBeUndefined();
+    expect(shapeProblem("seller.vatId", "ATU123456789")).toBeUndefined();
+    expect(shapeProblem("seller.vatId", "DE")).toBe("not a VAT identifier");
+    expect(shapeProblem("seller.vatId", "Lindenhof Seminare e. V.")).toBe("not a VAT identifier");
+  });
+});
+
+describe("sharedAddressLosers", () => {
+  const ev = (value: string, quote: string) => ({ value, quote, page: 1 });
+  const party = (
+    o: Partial<Record<"name" | "street" | "addressLine2" | "city" | "postcode" | "electronicAddress", ReturnType<typeof ev> | null>>,
+  ) => ({ name: null, street: null, addressLine2: null, city: null, postcode: null, electronicAddress: null, ...o });
+
+  it("gives a line printed once to the party whose street sits right above it", () => {
+    // The seller's city is not printed; both parties share postcode 12345.
+    const page = [
+      "Brückner KG",
+      "Brückner KG · Postfach 123456 · 12345 · DE",
+      "Landesamt für Statistik",
+      "Lindenallee 47",
+      "12345 Tannenberg",
+      "DE",
+    ].join("\n");
+    const seller = party({
+      street: ev("Postfach 123456", "Brückner KG · Postfach 123456 · 12345 · DE"),
+      city: ev("Tannenberg", "12345 Tannenberg"),
+      postcode: ev("12345", "12345 Tannenberg"),
+    });
+    const buyer = party({
+      street: ev("Lindenallee 47", "Lindenallee 47"),
+      city: ev("Tannenberg", "12345 Tannenberg"),
+      postcode: ev("12345", "12345 Tannenberg"),
+    });
+    expect(sharedAddressLosers([page], seller, buyer)).toEqual([
+      ["seller", "city"],
+      ["seller", "postcode"],
+    ]);
+  });
+
+  it("lets both parties keep a city that is printed in both address blocks", () => {
+    const page = ["Muster GmbH", "Industriestr. 1", "12345 Musterstadt", "Stadtwerke", "Am Markt 3", "12345 Musterstadt"].join("\n");
+    const seller = party({ street: ev("Industriestr. 1", "Industriestr. 1"), city: ev("Musterstadt", "12345 Musterstadt") });
+    const buyer = party({ street: ev("Am Markt 3", "Am Markt 3"), city: ev("Musterstadt", "12345 Musterstadt") });
+    expect(sharedAddressLosers([page], seller, buyer)).toEqual([]);
+  });
+
+  it("takes the line from both parties when it cannot tell whose it is", () => {
+    const page = ["12345 Musterstadt"].join("\n");
+    const seller = party({ city: ev("Musterstadt", "12345 Musterstadt") });
+    const buyer = party({ city: ev("Musterstadt", "12345 Musterstadt") });
+    expect(sharedAddressLosers([page], seller, buyer)).toEqual([
+      ["seller", "city"],
+      ["buyer", "city"],
+    ]);
+  });
+
+  it("does not hand the buyer's electronic address to the seller", () => {
+    const page = [
+      "Muster GmbH · Industriestr. 1 · 12345 Musterstadt",
+      "Stadtwerke Birkenfeld",
+      "Am Markt 3",
+      "54321 Birkenfeld",
+      "Elektronische Adresse: buyer@info.de (Schema: EM)",
+    ].join("\n");
+    const seller = party({ street: ev("Industriestr. 1", "Muster GmbH · Industriestr. 1 · 12345 Musterstadt"), electronicAddress: ev("buyer@info.de", "buyer@info.de") });
+    const buyer = party({ street: ev("Am Markt 3", "Am Markt 3"), electronicAddress: ev("buyer@info.de", "Elektronische Adresse: buyer@info.de (Schema: EM)") });
+    expect(sharedAddressLosers([page], seller, buyer)).toEqual([["seller", "electronicAddress"]]);
+  });
+
+  it("takes a once-printed line from the party that claims it when it sits in the other's block", () => {
+    const page = [
+      "Brückner KG · Postfach 123456 · 12345 · DE",
+      "Landesamt für Statistik",
+      "Lindenallee 47",
+      "12345 Tannenberg",
+      "Elektronische Adresse: buyer@info.de (Schema: EM)",
+      "Rechnungsnummer R1",
+      "Rechnungsdatum 18.01.2016",
+      "Pos. Bezeichnung Menge Einheit Einzelpreis USt Betrag",
+      "1 Wartung 2 Stk. 10,00 € 19 % (S) 20,00 €",
+      "Rechnungsbetrag 23,80 €",
+      "Brückner KG",
+      "Postfach 123456",
+      "Elektronische Adresse: seller@firma.de (Schema: EM)",
+    ].join("\n");
+    const seller = party({
+      name: ev("Brückner KG", "Brückner KG"),
+      street: ev("Postfach 123456", "Postfach 123456"),
+      electronicAddress: ev("buyer@info.de", "Elektronische Adresse: buyer@info.de (Schema: EM)"),
+    });
+    const buyer = party({ name: ev("Landesamt für Statistik", "Landesamt für Statistik"), street: ev("Lindenallee 47", "Lindenallee 47") });
+    expect(sharedAddressLosers([page], seller, buyer)).toEqual([["seller", "electronicAddress"]]);
+    // The seller's own address in the footer stays the seller's.
+    const own = party({ ...seller, electronicAddress: ev("seller@firma.de", "Elektronische Adresse: seller@firma.de (Schema: EM)") });
+    expect(sharedAddressLosers([page], own, buyer)).toEqual([]);
   });
 });

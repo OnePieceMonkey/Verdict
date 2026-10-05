@@ -11,6 +11,7 @@ function toneOf(e: AuditEvent): Tone {
   const d = e.data as { valid?: boolean; lineMismatches?: number };
   if (e.type === "VALIDATE") return d.valid ? "stamp" : "void";
   if (e.type === "NEEDS_INPUT") return "tab";
+  if (e.type === "REJECTED") return "void";
   if (e.type === "USER_INPUT") return "tab";
   if (e.type === "CONSISTENCY_CHECK" && Number(d.lineMismatches ?? 0) > 0) return "void";
   return STATIONS[e.type].actor === "model" ? "office" : "ink";

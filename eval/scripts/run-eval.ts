@@ -102,7 +102,8 @@ for (const entry of entries) {
     id: entry.id,
     state: res.state,
     expected,
-    asExpected: res.state === expected,
+    // A crash also reports FAILED; it must never count as an expected rejection.
+    asExpected: res.state === expected && !res.error,
     valid: res.verifier?.valid ?? false,
     iterations: res.iterations,
     fieldsWithoutProvenance: res.fieldsWithoutProvenance,
@@ -122,7 +123,7 @@ for (const entry of entries) {
 
 function expectedState(entry: ManifestEntry): PipelineResult["state"] {
   const kind = entry.mutation?.expect.kind;
-  return kind === "needs-input" ? "NEEDS_INPUT" : "OUTPUT";
+  return kind === "needs-input" ? "NEEDS_INPUT" : kind === "rejected" ? "FAILED" : "OUTPUT";
 }
 
 const pct = (a: number, b: number) => (b === 0 ? "–" : `${((100 * a) / b).toFixed(1)} %`);

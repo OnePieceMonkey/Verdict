@@ -157,6 +157,40 @@ describe("runInvoice", () => {
   });
 });
 
+describe("runInvoice end states", () => {
+  const rejecting = (ruleId: string) => async (): Promise<VerifierVerdict> => ({
+    valid: false,
+    errors: [{ ruleId, severity: "error", message: `[${ruleId}] rule text`, location: "/rsm:CrossIndustryInvoice" }],
+    reportHash: "def",
+    versions: { validator: "1.6.3", configuration: "test" },
+  });
+
+  it("ends rejected when the validator says no and there is nothing to ask", async () => {
+    const run = await runInvoice({
+      ...base(),
+      validate: rejecting("BR-O-10"),
+      userInputs: [{ path: "buyerReference", value: "04011000-12345-03" }],
+    });
+    expect(run.state).toBe("FAILED");
+    expect(run.missing).toEqual([]);
+    expect(run.openIssues.map((i) => i.id)).toEqual(["BR-O-10"]);
+    const last = run.audit.events.at(-1);
+    expect(last?.type).toBe("REJECTED");
+    expect(last?.data).toEqual({ rules: ["BR-O-10"] });
+    expect(run.xml).toBeUndefined();
+  });
+
+  it("still asks when the rejection means a fact is not printed", async () => {
+    const run = await runInvoice({
+      ...base(),
+      validate: rejecting("BR-DE-1"),
+      userInputs: [{ path: "buyerReference", value: "04011000-12345-03" }],
+    });
+    expect(run.state).toBe("NEEDS_INPUT");
+    expect(run.missing.map((m) => m.path)).toEqual(["payment.iban"]);
+  });
+});
+
 function fakeRepairNone(): Response {
   const content = JSON.stringify({ patches: [], unresolvable: [{ issue: "LINE-MISMATCH", reason: "cannot decide" }] });
   return new Response(JSON.stringify({ choices: [{ message: { content } }], usage: { prompt_tokens: 1, completion_tokens: 1 } }));

@@ -1,4 +1,4 @@
-import { checkEvidence } from "../evidence/evidence-check.ts";
+import { canonical, checkEvidence } from "../evidence/evidence-check.ts";
 import {
   normalizeCountry,
   normalizeCurrency,
@@ -9,7 +9,7 @@ import {
   type Normalized,
 } from "../normalize/normalize.ts";
 import { PATH_BT, type Provenance } from "../extract/assemble.ts";
-import { cityFollowsPostcode, EvidenceRoles, shapeProblem } from "../plausibility/shape.ts";
+import { cityFollowsPostcode, EvidenceRoles, occurrences, shapeProblem } from "../plausibility/shape.ts";
 
 /** One proposed change from the repair model (RFC 6902 subset: add / replace). */
 export interface ProposedPatch {
@@ -129,6 +129,22 @@ export function guardPatches(
     if (cityOf && postcode && !cityFollowsPostcode(pages, postcode, n.value)) {
       reject("city is not printed next to the postcode");
       continue;
+    }
+    // The other party's address or electronic address, printed only once, is not this party's.
+    const party = /^(seller|buyer)\.(address\.(line1|line2|city|postcode)|electronicAddress\.value)$/.exec(modelPath);
+    if (party) {
+      const other = party[1] === "seller" ? "buyer" : "seller";
+      const otherPath = `${other}${modelPath.slice(party[1]!.length)}`;
+      const otherValue = existing?.valueOf(otherPath);
+      if (
+        existing?.provenance.get(otherPath)?.kind === "evidence" &&
+        otherValue !== undefined &&
+        canonical(otherValue) === canonical(n.value) &&
+        occurrences(pages, n.value) === 1
+      ) {
+        reject(`printed once and already used for the ${other}`);
+        continue;
+      }
     }
     if (!modelPath.startsWith("lines.")) {
       const owner = roles.claim(modelPath, patch.value, patch.quote);

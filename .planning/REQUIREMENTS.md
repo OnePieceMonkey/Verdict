@@ -46,7 +46,7 @@
 - [x] **REP-01** *(Textlayer statt Seitenbilder)*: Ultra erhält Regelverletzungen, aktuelles Modell und Seitenbilder und liefert RFC-6902-Patches mit Provenance oder die Kennzeichnung "nicht aus Dokument lösbar"
 - [x] **REP-02**: Patch-Guard verwirft Patches auf derived-Felder, ohne Provenance oder mit nicht nachweisbarem Zitat; jede Verwerfung im Audit-Log
 - [x] **REP-03**: Maximal 3 Iterationen; Abbruch, wenn die Fehlerzahl nicht sinkt
-- [x] **REP-04**: NEEDS_INPUT listet nur tatsächlich fehlende Felder mit Erklärung; Nutzereingabe erhält Provenance `user` und löst neue Validierung aus
+- [x] **REP-04** *(05.10.: Lehnt der Validator ab und gibt es nichts zu fragen, endet der Lauf als FAILED mit Audit-Event `REJECTED` und Stempel „Rejected“, statt fälschlich „Dokument widerspricht sich“ zu melden. Mutation `exempt-without-reason` (BR-E-10) prüft das, Korpus jetzt 28 Mutationen / 14 Typen)*: NEEDS_INPUT listet nur tatsächlich fehlende Felder mit Erklärung; Nutzereingabe erhält Provenance `user` und löst neue Validierung aus
 
 ### Audit (AUD)
 - [x] **AUD-01**: JSONL-Hash-Kette nach SRS §6 (JCS, SHA-256, prevHash) für jeden Zustandsübergang
