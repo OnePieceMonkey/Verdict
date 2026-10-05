@@ -6,6 +6,7 @@ import {
   normalizeCurrency,
   normalizeDate,
   normalizeDecimal,
+  normalizeElectronicAddress,
   normalizeUnit,
   normalizeVatCategory,
   type Normalized,
@@ -135,8 +136,15 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
     return /^[A-Z]{2}\d{2}[A-Z0-9]{10,30}$/.test(t) ? { ok: true, value: t } : { ok: false, reason: "not an IBAN" };
   };
   const electronic = (path: string, ev: Ev, leitwegAllowed: boolean) => {
-    const value = text(path, ev);
-    if (value === undefined) return undefined;
+    const printed = text(path, ev);
+    if (printed === undefined) return undefined;
+    const n = normalizeElectronicAddress(printed);
+    if (!n.ok) {
+      rejected.push({ path, value: printed, reason: n.reason });
+      provenance.delete(path);
+      return undefined;
+    }
+    const value = n.value;
     // Scheme is derived from the value's shape, not extracted.
     const scheme = /@/.test(value) ? "EM" : leitwegAllowed && /^\d{2,12}(-[A-Z0-9]{1,30})?-\d{2}$/i.test(value) ? "0204" : undefined;
     if (!scheme) {
@@ -204,6 +212,14 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
   // Claim evidence for the primary fields first, so a value printed as a name or an
   // electronic address cannot be taken over by a secondary field (reference, account holder).
   const sellerName = text("seller.name", s.name);
+  /** A buyer reference (BT-10) that only repeats a party name routes nowhere. */
+  const notAPartyName = (ref: string | undefined): string | undefined => {
+    const names = [sellerName, b.name?.value].filter((x): x is string => !!x);
+    if (!ref || !names.some((nm) => canonical(nm) === canonical(ref))) return ref;
+    rejected.push({ path: "buyerReference", value: ref, reason: "a party name is not a buyer reference" });
+    provenance.delete("buyerReference");
+    return undefined;
+  };
   /** A seller identifier (BT-29) that only repeats the company name is not an identifier. */
   const notTheName = (id: string | undefined): string | undefined => {
     if (!id || !sellerName || canonical(id) !== canonical(sellerName)) return id;
@@ -221,7 +237,7 @@ export function assembleInvoice(raw: RawExtraction, pages: readonly string[]): A
     typeCode: "380",
     currency: norm("currency", h.currency, normalizeCurrency) ?? currencyFromAmounts(pages, provenance),
     dueDate: norm("dueDate", h.dueDate, normalizeDate),
-    buyerReference: text("buyerReference", h.buyerReference),
+    buyerReference: notAPartyName(text("buyerReference", h.buyerReference)),
     orderReference: text("orderReference", h.orderReference),
     paymentTerms: text("paymentTerms", h.paymentTerms)?.replace(/\\n/g, "\n"),
     seller: {

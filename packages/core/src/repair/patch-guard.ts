@@ -4,12 +4,21 @@ import {
   normalizeCurrency,
   normalizeDate,
   normalizeDecimal,
+  normalizeElectronicAddress,
   normalizeUnit,
   normalizeVatCategory,
   type Normalized,
 } from "../normalize/normalize.ts";
 import { PATH_BT, type Provenance } from "../extract/assemble.ts";
-import { cityFollowsPostcode, EvidenceRoles, occurrences, shapeProblem } from "../plausibility/shape.ts";
+import {
+  cityFollowsPostcode,
+  EvidenceRoles,
+  occurrences,
+  shapeProblem,
+  sharedAddressLosers,
+  type AddressKey,
+  type PartyAddressRaw,
+} from "../plausibility/shape.ts";
 
 /** One proposed change from the repair model (RFC 6902 subset: add / replace). */
 export interface ProposedPatch {
@@ -60,6 +69,7 @@ function normalizerFor(path: string, numberFormat: "de" | "plain"): (v: string) 
   if (/^\/(issueDate|dueDate)$/.test(path)) return normalizeDate;
   if (path === "/currency") return normalizeCurrency;
   if (/\/address\/countryCode$/.test(path)) return normalizeCountry;
+  if (/\/electronicAddress\/value$/.test(path)) return normalizeElectronicAddress;
   if (path === "/payment/iban") {
     return (v) => {
       const t = v.replace(/\s/g, "").toUpperCase();
@@ -67,6 +77,46 @@ function normalizerFor(path: string, numberFormat: "de" | "plain"): (v: string) 
     };
   }
   return (v) => (v.trim() ? { ok: true, value: v.trim() } : { ok: false, reason: "empty value" });
+}
+
+const KEY_OF: Readonly<Record<string, AddressKey>> = {
+  "address.line1": "street",
+  "address.line2": "addressLine2",
+  "address.city": "city",
+  "address.postcode": "postcode",
+  "electronicAddress.value": "electronicAddress",
+};
+
+/** Builds both parties' address evidence from the current model and asks the assembly rule. */
+function inOtherBlock(
+  pages: readonly string[],
+  existing: { readonly provenance: ReadonlyMap<string, Provenance>; readonly valueOf: (path: string) => string | undefined },
+  party: "seller" | "buyer",
+  modelPath: string,
+  value: string,
+  patch: ProposedPatch,
+): boolean {
+  const key = KEY_OF[modelPath.slice(party.length + 1)];
+  if (!key) return false;
+  const evAt = (path: string) => {
+    const prov = existing.provenance.get(path);
+    const v = existing.valueOf(path);
+    return prov?.kind === "evidence" && v !== undefined ? { value: v, quote: prov.quote, page: prov.page } : null;
+  };
+  const partyRaw = (p: "seller" | "buyer"): PartyAddressRaw => ({
+    name: evAt(`${p}.name`),
+    street: evAt(`${p}.address.line1`),
+    addressLine2: evAt(`${p}.address.line2`),
+    city: evAt(`${p}.address.city`),
+    postcode: evAt(`${p}.address.postcode`),
+    electronicAddress: evAt(`${p}.electronicAddress.value`),
+  });
+  const seller = partyRaw("seller");
+  const buyer = partyRaw("buyer");
+  const target = party === "seller" ? seller : buyer;
+  const patched = { ...target, [key]: { value, quote: patch.quote, page: patch.page } };
+  const losers = party === "seller" ? sharedAddressLosers(pages, patched, buyer) : sharedAddressLosers(pages, seller, patched);
+  return losers.some(([p, k]) => p === party && k === key);
 }
 
 const pointerToPath = (pointer: string) => pointer.replace(/^\//, "").replaceAll("/", ".");
@@ -143,6 +193,19 @@ export function guardPatches(
         occurrences(pages, n.value) === 1
       ) {
         reject(`printed once and already used for the ${other}`);
+        continue;
+      }
+      // Same rule as in assembly: a line printed once inside the other party's block is theirs.
+      if (existing && inOtherBlock(pages, existing, party[1] as "seller" | "buyer", modelPath, n.value, patch)) {
+        reject(`printed inside the ${other}'s address block`);
+        continue;
+      }
+    }
+    // A buyer reference that only repeats a party name routes nowhere; it was taken from the wrong line.
+    if (modelPath === "buyerReference") {
+      const names = [existing?.valueOf("buyer.name"), existing?.valueOf("seller.name")].filter((x): x is string => !!x);
+      if (names.some((nm) => canonical(nm) === canonical(n.value))) {
+        reject("a party name is not a buyer reference");
         continue;
       }
     }

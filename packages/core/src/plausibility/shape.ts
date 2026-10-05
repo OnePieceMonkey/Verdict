@@ -6,15 +6,23 @@ import { canonical } from "../evidence/evidence-check.ts";
  */
 const LETTER = /[A-Za-zÄÖÜäöüß]/;
 const POSTCODE_CITY_LINE = /^\d{4,5}\s+\S/;
+const COUNTRY_ONLY = /^(DE|AT|CH|Deutschland|Germany|Österreich|Austria|Schweiz|Switzerland)$/i;
 
 export function shapeProblem(path: string, value: string): string | undefined {
   const v = value.trim();
   if (/\.address\.city$/.test(path)) {
     if (!LETTER.test(v)) return "city without letters";
+    if (COUNTRY_ONLY.test(v)) return "a country is not a city";
   } else if (/\.address\.postcode$/.test(path)) {
     if (!/\d/.test(v) || v.length > 10) return "postcode without digits";
   } else if (/\.address\.line[12]$/.test(path)) {
     if (POSTCODE_CITY_LINE.test(v)) return "street line looks like 'postcode city'";
+    if (COUNTRY_ONLY.test(v)) return "country printed as an address line";
+  } else if (path === "buyerReference") {
+    // Any text passes the validator here, so a whole copied line would go through unnoticed.
+    if (/@/.test(v)) return "an e-mail address is not a buyer reference";
+  } else if (/^seller\.id$/.test(path)) {
+    if (/^[A-Z]{2}U?\d{8,12}$/.test(v.replace(/[\s.-]/g, ""))) return "a VAT ID is not a seller identifier";
   } else if (/\.vatId$/.test(path)) {
     const id = v.replace(/[\s.-]/g, "");
     if (!/^[A-Z]{2}[0-9A-Z+*]{2,13}$/i.test(id) || !/\d/.test(id)) return "not a VAT identifier";

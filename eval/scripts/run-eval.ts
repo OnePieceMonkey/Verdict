@@ -5,7 +5,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { Decimal } from "decimal.js";
-import { deriveAmounts, InvoiceInput } from "@verdict/core";
+import { deriveAmounts, InvoiceInput, normalizeCurrency } from "@verdict/core";
 import { CORPUS_DIR, type CorpusSet, type Manifest, type ManifestEntry } from "../src/corpus/manifest.ts";
 import { flattenFacts, termOf } from "../src/fields.ts";
 import { agentPipeline, groundTruthPipeline, llmPipeline, loadGroundTruth, type Pipeline, type PipelineResult } from "../src/pipeline.ts";
@@ -88,11 +88,16 @@ for (const entry of entries) {
   const invented = inventedKeys.length;
   const wrongKeys = [...truth.keys()].filter((k) => got.has(k) && got.get(k) !== truth.get(k));
 
-  const gtParsed = InvoiceInput.safeParse(loadGroundTruth(entry).invoice);
+  // The currency mutation prints "€" in the ground truth; its amounts are still EUR amounts.
+  const gtInvoice = loadGroundTruth(entry).invoice as { currency?: string };
+  const gtCurrency = gtInvoice.currency !== undefined ? normalizeCurrency(gtInvoice.currency) : undefined;
+  // Mutations remove required facts from the ground truth (that is the point), so its amounts are
+  // derived from its lines without requiring the whole model to be complete.
+  const gtForAmounts = { ...gtInvoice, ...(gtCurrency?.ok ? { currency: gtCurrency.value } : {}) } as InvoiceInput;
   const outParsed = res.invoice ? InvoiceInput.safeParse(res.invoice) : undefined;
   let totalsCorrect = false;
-  if (gtParsed.success && outParsed?.success && res.state === "OUTPUT") {
-    const a = deriveAmounts(gtParsed.data);
+  if (outParsed?.success && res.state === "OUTPUT") {
+    const a = deriveAmounts(gtForAmounts);
     const b = deriveAmounts(outParsed.data);
     totalsCorrect = a.grandTotal === b.grandTotal && a.duePayable === b.duePayable;
   }

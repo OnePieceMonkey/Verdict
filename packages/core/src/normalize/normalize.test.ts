@@ -4,6 +4,7 @@ import {
   normalizeCurrency,
   normalizeDate,
   normalizeDecimal,
+  normalizeElectronicAddress,
   normalizeUnit,
   normalizeVatCategory,
   type Normalized,
@@ -78,3 +79,12 @@ describe("country and currency", () => {
     expect(normalizeCountry("Atlantis").ok).toBe(false);
   });
 });
+
+describe("normalizeElectronicAddress", () => {
+  it("keeps the bare address and drops a printed scheme note", () => {
+    expect(normalizeElectronicAddress("seller@email.de (Schema: EM)")).toEqual({ ok: true, value: "seller@email.de" });
+    expect(normalizeElectronicAddress("Elektronische Adresse: buyer@info.de")).toEqual({ ok: true, value: "buyer@info.de" });
+    expect(normalizeElectronicAddress("04011000-12345-03 (Schema: 0204)")).toEqual({ ok: true, value: "04011000-12345-03" });
+  });
+});
+
