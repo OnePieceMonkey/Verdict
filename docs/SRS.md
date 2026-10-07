@@ -202,5 +202,5 @@ Alle Endpunkte verlangen den Header `X-Verifier-Secret`. Der Dienst ist nicht ö
 | Token Factory Rate-Limits oder Modellverfügbarkeit | Demo hängt | Retry mit Backoff, vorberechnete Galerie |
 | Credits reichen nicht | Entwicklung stockt | Kostenzählung ab erstem Aufruf, Eval-Läufe budgetieren |
 | Lizenz der KoSIT-Testsuite erlaubt keine Weitergabe | Korpus nicht im Repo | Nur Download-Script im Repo, generierte Dateien in `.gitignore` |
-| Zeitbudget überschritten | Konflikt mit Labrechner-Deal und Bewerbungen | Kill-Gate 10.10., Stunden pro Phase tracken |
+| Zeitbudget überschritten | Konflikt mit anderen Projekten | Kill-Gate 10.10., Stunden pro Phase tracken |
 | Öffentliche Demo wird missbraucht | Credits verbrannt | Rate-Limit, Tagesbudget, Größenlimits |

@@ -22,7 +22,7 @@ PDF → Rasterisierung + Textlayer → EXTRACT (Nano Omni, JSON mit Evidenz) →
 2. **Das LLM rechnet nie.** Alle Beträge, Summen und USt-Aufschlüsselungen berechnet `packages/core` mit Decimal-Arithmetik. Keine `number`-Floats für Geld.
 3. **Keine erfundenen Fakten.** Jedes Feld hat genau eine Herkunft: `evidence` (Zitat + Seite aus dem Dokument), `derived` (benannte deterministische Regel) oder `user` (Eingabe). Sonst bleibt es leer und landet in NEEDS_INPUT. Ein Repair-Patch ohne Herkunft wird verworfen.
 4. **Der Validator hat das letzte Wort.** "Valid" wird nur angezeigt, wenn ein Verifier-Report mit Hash im Audit-Log steht.
-5. **IP-Trennung zu Labrechner.** Kein Code, keine Regeln, keine Datenmodelle, keine Audit-Chain-Implementierung aus Labrechner oder anderen privaten Repos kopieren oder aus Erinnerung nachbauen. Alles hier ist neu geschrieben.
+5. **IP-Trennung zu anderen Projekten.** Kein Code, keine Regeln, keine Datenmodelle, keine Audit-Chain-Implementierung aus anderen privaten Repos kopieren oder aus Erinnerung nachbauen. Alles hier ist neu geschrieben.
 6. **Nur synthetische Daten.** Keine echten Rechnungen, keine personenbezogenen Daten im Repo, in Logs oder Fixtures.
 7. **Öffentliches Repo.** Secrets nur über ENV. gitleaks läuft in CI und pre-commit. Nie Keys in Code, Tests, Screenshots oder Eval-Reports.
 8. **Kosten-Guard.** Jeder Modellaufruf läuft über einen zentralen Client, der Tokens und Kosten zählt und das Tagesbudget (`DAILY_BUDGET_USD`) durchsetzt.
