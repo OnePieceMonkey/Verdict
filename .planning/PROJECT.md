@@ -22,7 +22,7 @@ Siehe `.planning/REQUIREMENTS.md` (v1).
 - Eingangsrechnungen — anderes Produkt
 - UBL, Gutschriften-Sonderfälle, Fremdwährung — Korpus- und Zeitbudget
 - Nutzerkonten, Datenbank, Payment — nicht nötig für Demo, erhöht Datenschutzaufwand
-- Wiederverwendung von Labrechner-Code oder -Regeln — IP gehört zum laufenden Asset-Deal
+- Wiederverwendung von Code oder Regeln aus anderen, privaten Projekten — fremdes geistiges Eigentum
 
 ## Context
 
@@ -35,7 +35,7 @@ Siehe `.planning/REQUIREMENTS.md` (v1).
 ## Constraints
 
 - **Deadline:** 30.10.2026, 10:00 PDT = 18:00 MEZ. Ziel-Einreichung 28.10.
-- **Zeit:** ~50 h Gesamtaufwand. Labrechner-Deal und Bewerbungen haben Vorrang.
+- **Zeit:** ~50 h Gesamtaufwand neben anderen Projekten.
 - **Tech:** TypeScript/Node, Java nur im Verifier. Keine Datenbank.
 - **Daten:** ausschließlich synthetisch.
 - **Verfügbarkeit:** Demo online bis 15.12.2026.

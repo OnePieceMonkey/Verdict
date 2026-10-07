@@ -69,7 +69,7 @@
 ### Einreichung (SUB)
 - [x] **SUB-01** *(05.10.: README neu; Holdout einmalig auf `2555b8d` gemessen und unverändert berichtet, Berichte in `docs/benchmark/2026-10-05/`. Video-Link fehlt noch)*: README (EN) mit Setup, Architektur, Nemotron-/Token-Factory-Nutzung, Benchmark-Zahlen inkl. Holdout
 - [ ] **SUB-02**: Video ≤ 3 min auf YouTube (öffentlich), Token-Factory-Nutzung im Audio, keine fremde Musik
-- [ ] **SUB-03**: Devpost-Beschreibung, Track-Wahl, Feedback-Abschnitt, Stadt Berlin angegeben
+- [ ] **SUB-03**: Devpost-Beschreibung, Track-Wahl, Feedback-Abschnitt, Stadt Minden angegeben (07.10. Patrick)
 - [ ] **SUB-04**: Einreichung abgeschlossen bis 28.10.2026
 
 ## v2 Requirements (nicht im Hackathon)
@@ -88,7 +88,7 @@
 | ERP-Integrationen | Zeitbudget |
 | Nutzerkonten, Datenbank | Nicht nötig, Datenschutzaufwand |
 | Handschrift | Korpus nicht vorhanden |
-| Labrechner-Code/-Regeln | IP im Asset-Deal |
+| Code/Regeln aus anderen privaten Projekten | fremdes geistiges Eigentum |
 
 ## Traceability
 
