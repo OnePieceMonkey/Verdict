@@ -3,6 +3,7 @@
 **PDF invoice in, valid German e-invoice (XRechnung) out. NVIDIA Nemotron proposes, the official KoSIT validator decides, and every value has to be on the page or computed.**
 
 **Live demo:** https://verdict-678224659019.europe-west1.run.app  
+**Demo video (2:21):** https://www.youtube.com/watch?v=70ZLlFSrppc  
 Built for the **Nebius × NVIDIA Global AI Hackathon** (Best Apps and Agents). Runs on **Nebius Token Factory**.
 
 ---
